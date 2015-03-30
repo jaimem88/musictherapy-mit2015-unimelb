@@ -16,4 +16,8 @@
   },
   "author": "Akila",
   "license": "ISC"
+ "repository": {
+  "type": "git",
+  "url": "git:https://jmartinez1@bitbucket.org/jmartinez1/mit2015_jaime_musictherapy.git"
+ }
 }
