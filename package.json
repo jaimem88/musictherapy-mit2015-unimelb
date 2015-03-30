@@ -15,7 +15,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Akila",
-  "license": "ISC"
+  "license": "ISC",
  "repository": {
   "type": "git",
   "url": "git:https://jmartinez1@bitbucket.org/jmartinez1/mit2015_jaime_musictherapy.git"
