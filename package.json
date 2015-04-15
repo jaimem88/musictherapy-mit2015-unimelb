@@ -1,21 +1,18 @@
 {
-  "name": "video_conference",
-  "version": "0.0.3",
-  "description": "This is a video conference app",
-  "main": "app.js",
+  "name": "MusicTherapyVC",
+  "private": "true",
+  "version": "0.0.1",
+  "description": "This is a video conference app for online singing sessions.",
   "dependencies": {
     "express": "4.10.6",
     "jade": "*",
     "mongoose": "4.0.1",
     "socket.io": "1.2.1",
     "stylus": "*",
-    "underscore-node": "^0.1.2"
+    "underscore-node": "^0.1.2",
+	"passport" : "*"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Akila",
-  "license": "ISC",
+  "author": "Jaime Martinez",
  "repository": {
   "type": "git",
   "url": "git:https://jmartinez1@bitbucket.org/jmartinez1/mit2015_jaime_musictherapy.git"
