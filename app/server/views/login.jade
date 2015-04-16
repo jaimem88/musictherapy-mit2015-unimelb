@@ -1,0 +1,22 @@
+extend layout
+block content
+	.container
+		.col-sm-6.col-sm-offset-3
+			h1
+				span.fa.fa-sign-in
+				|  Login
+			if message.length>0
+				.alert.alert-danger= message
+          
+			// LOGIN FORM
+			form(action="/login", method="post")
+				.form-group
+					label Username
+					input.form-control(type="text", name="email")
+				.form-group
+					label Password
+					input.form-control(type="password", name="password")
+				button.btn.btn-warning.btn-lg(type="submit") Login
+			p
+				| Forgot password? 
+				a(href="/forgotpass") Click here!

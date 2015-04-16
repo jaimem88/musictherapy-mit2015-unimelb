@@ -4,13 +4,22 @@
   "version": "0.0.1",
   "description": "This is a video conference app for online singing sessions.",
   "dependencies": {
-    "express": "4.10.6",
+    "express": "*",
     "jade": "*",
-    "mongoose": "4.0.1",
+    "mongoose": "*",
     "socket.io": "1.2.1",
     "stylus": "*",
     "underscore-node": "^0.1.2",
-	"passport" : "*"
+	"passport" : "*",
+	"passport-local" : "~0.1.6",
+	"connect-flash" : "~0.1.1",     
+    "bcrypt-nodejs" : "latest",
+
+    "morgan": "~1.0.0",
+    "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.0",
+    "method-override": "~1.0.0",
+    "express-session": "~1.0.0"     
   },
   "author": "Jaime Martinez",
  "repository": {
