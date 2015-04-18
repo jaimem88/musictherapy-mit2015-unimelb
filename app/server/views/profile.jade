@@ -1,1 +1,19 @@
 extend layout
+block content
+	.container
+		.page-header.text-center
+			h1
+				span.fa.fa-cog.fa-spin
+				|  My Profile
+			a.btn.btn-default.btn-sm(href="/logout") Logout
+		.row
+			// LOCAL INFORMATION
+			.col-sm-6
+				.well
+					h3
+						span.fa.fa-home
+						|  My details
+					p
+						strong Name: #{user.fname} #{user.lname}
+					p
+						strong Email: #{user.email}
