@@ -17,3 +17,9 @@ block content
 						strong Name: #{user.fname} #{user.lname}
 					p
 						strong Email: #{user.email}
+
+		.column
+			h4
+				- if (user.admin)
+					span.fa.fa-users
+					a(href="/signup")  Create new acount

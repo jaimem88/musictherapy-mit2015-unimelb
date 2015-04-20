@@ -1,35 +1,59 @@
 extends layout
 block scripts
-
+	script(src='/js/controllers/connection.js')
+	script(src='/js/controllers/lib/adapter.js')
+	script(src='/js/controllers/remote_media_functions.js')
+	script(src='/js/controllers/webRTC_API_functions.js')
+	script(src='/js/controllers/Opus.js')
 block content
-	div.navbar.navbar-fixed-top
-		div.navbar-inner
-			div.container-fluid
-				ul#global-nav.nav.pull-left
-					a(href='#').brand Control Panel
-				button#btn-logout.btn.btn-primary
-					i.icon-lock.icon-white
-					| Sign Out
-	p
-		|FASFsdffjkwefh wefh jksfkwaklfjsk jfs fksjfkl s
-		| fjksdkflsdkfl; sdklf;ksd;lfksdl;fksdfsdl;fk;sdlf;l
-		|		kfsdlfk
-		|FASFsdffjkwefh wefh jksfkwaklfjsk jfs fksjfkl s
-		| fjksdkflsdkfl; sdklf;ksd;lfksdl;fksdfsdl;fk;sdlf;l
-		|		kfsdlfk
-	p
-	p
-	p
-	p
-	p
+	#mediaPage(style="display: none")
+		center#userHeading.headingStyle
+		#mediaSelection.textStyle
+			label(for="quality") Select the video quality:
+			select#quality(name="quality", onchange="selectionMade()")
+				option(value="")
+				option(value="qvga") QVGA
+				option(value="vga") VGA
+				option(value="hd") HD
+				option(value="audio") AUDIO ONLY
+		#contactInfo(style="float:right")
+			p#contactHeading.textStyle(align="right")
+			br
+			br
+			br
+			br
+			| Online Contacts
+			p#contacts(align="right") no contacts
+	#media
+		video#localVideo(width="320", height="240", autoplay="true", muted="true")
+		audio#localAudio(controls="", autoplay="true", muted="false", style="display: none")
+	.callingDisplay
+		#callerDisplay.textStyle(style="display: none")
+			p#callerName(align="center") no caller&#62;
+			p#calling(align="center") calling
+			audio#ringingSound(src="ringing_sound.mp3", type="audio/mpeg")
+		#calleeDisplay.textStyle(style="display: none")
+			p#calleeName no callee
+			img(src="/img/calling-icon.png", align="center", alt="calling", height="40", width="40")
+		#acceptButtons(style="display: none")
+			button#accept(type="button", onclick="accept()")
+			img(src="/img/Accept-icon.jpg", height="40", width="100", alt="Accept")
+			button#reject(type="button", onclick="reject()")
+			img(src="/img/Reject-icon.jpg", height="40", width="100", alt="Reject")
+		#addToConferenceButtons(align="right", style="display: none")
+			button#addToConference(type="button", onclick="addToConference()")
+			img(src="/img/add-button.png", height="40", width="100", alt="add")
+			button#reject(type="button", onclick="reject()")
+			img(src="/img/Reject-icon.jpg", height="40", width="100", alt="Reject")
+		#endConference(align="right", style="display: none")
+			button#hangupButton(type="button", onclick="endConference()")
+			img(src="/img/end-call.jpg", height="60", width="80", alt="Hangup")
 
-	include index.html
+
 block scripts
-	script(src='/vendor/jquery.min.js')
-	script(src='/vendor/jquery.form.js')
-	script(src='/vendor/bootstrap-modal.js')
-	script(src='/vendor/bootstrap-transition.js')
-	script(src='/js/views/controlpanel.js')
-	script(src='/js/controllers/controlpanelController.js')
-	script(src='/js/form-validators/accountValidator.js')
+	script(src='/js/views/home.js')
+	script(src='/js/controllers/get_media_functions.js')
+	script(src='/js/controllers/remote_media_functions.js')
+	script(src='/js/controllers/webRTC_API_functions.js')
+	script(src='/js/on_event_functions.js')
 	

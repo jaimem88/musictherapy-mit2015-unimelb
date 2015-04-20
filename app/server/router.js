@@ -1,4 +1,5 @@
 // app/router.js
+var User = require('./models/user');
 module.exports = function(app, passport) {
 
 	//app.get('/*', function(req, res, next){ 
@@ -6,12 +7,19 @@ module.exports = function(app, passport) {
 	//  next(); 
 	//});
     // =====================================
-    // HOME PAGE (with login links) ========
+    // INDEX PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
         res.render('index.jade'); // load the index.jade file
     });
-
+    // =====================================
+    // HOME PAGE (with login links) ========
+    // =====================================
+	app.get('/home', isLoggedIn, function(req, res) {
+        res.render('home.jade', {
+            user : req.user // get the user out of session and pass to template
+        }); 
+    });
     // =====================================
     // LOGIN ===============================
     // =====================================
@@ -39,10 +47,14 @@ module.exports = function(app, passport) {
     // SIGNUP ==============================
     // =====================================
     // show the signup form
-    app.get('/signup', function(req, res) {
-
+    app.get('/signup',isLoggedIn, function(req, res) {
+		console.log(req.user);
+		if(req.user.admin){	
         // render the page and pass in any flash data if it exists
-        res.render('signup.jade', { message: req.flash('signupMessage') });
+        	res.render('signup.jade', { message: req.flash('signupMessage') });
+		}else{
+				res.redirect('/profile');
+		}
     });
 	
     // process the signup form
@@ -79,5 +91,5 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/');
+    res.redirect('/login');
 };
