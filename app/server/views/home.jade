@@ -1,11 +1,11 @@
 extends layout
 block scripts
-	script(src='/js/controllers/connection.js')
-	script(src='/js/controllers/lib/adapter.js')
-	script(src='/js/controllers/remote_media_functions.js')
-	script(src='/js/controllers/webRTC_API_functions.js')
-	script(src='/js/controllers/Opus.js')
+	//script(src='/js/controllers/connection.js')
+	//script(src='/js/controllers/lib/adapter.js')
+	//script(src='/js/controllers/Opus.js')
+	//script(src='/js/views/home.js')
 block content
+	script(src='/js/views/home.js')
 	#mediaPage(style="display: none")
 		center#userHeading.headingStyle
 		#mediaSelection.textStyle
@@ -14,8 +14,8 @@ block content
 				option(value="")
 				option(value="qvga") QVGA
 				option(value="vga") VGA
-				option(value="hd") HD
-				option(value="audio") AUDIO ONLY
+				//option(value="hd") HD
+				//option(value="audio") AUDIO ONLY
 		#contactInfo(style="float:right")
 			p#contactHeading.textStyle(align="right")
 			br
@@ -50,10 +50,11 @@ block content
 			img(src="/img/end-call.jpg", height="60", width="80", alt="Hangup")
 
 
-block scripts
-	script(src='/js/views/home.js')
-	script(src='/js/controllers/get_media_functions.js')
-	script(src='/js/controllers/remote_media_functions.js')
-	script(src='/js/controllers/webRTC_API_functions.js')
-	script(src='/js/on_event_functions.js')
+//block scripts
+//	script(src='/js/views/home.js')
+//	script(src='/js/controllers/home_controller.js')
+//	script(src='/js/controllers/get_media_functions.js')
+//	script(src='/js/controllers/remote_media_functions.js')
+//	script(src='/js/controllers/webRTC_API_functions.js')
+//	script(src='/js/on_event_functions.js')
 	

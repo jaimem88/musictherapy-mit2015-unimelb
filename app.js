@@ -23,6 +23,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
+//Database config
 var configDB = require( __dirname + '/app/server/config/database.js');
 
 // configuration ===============================================================
@@ -31,12 +32,16 @@ mongoose.connect(configDB.url); // connect to our database
 require(__dirname + '/app/server/config/passport')(passport); // pass passport for configuration
 
 // set up our express application
-app.use(morgan('dev')); // log every request to the console
+//app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 app.set('views', __dirname + '/app/server/views');
 app.set('view engine', 'jade'); // set up jade for templating
 
+//socket io connection
+var server = require('http').createServer(app);
+io = require('socket.io').listen(server);	
+require(__dirname + '/app/server/config/connection')(io);
 
 // required for passport
 app.use(session({ secret: 'mymommakesmemashmyminimandmsonamondaymorningoohah',cookie: { maxAge : 1200000 } })); // session secret

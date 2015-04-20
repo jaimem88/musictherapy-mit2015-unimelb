@@ -2,10 +2,10 @@
 var User = require('./models/user');
 module.exports = function(app, passport) {
 
-	//app.get('/*', function(req, res, next){ 
-	//  res.setHeader('Last-Modified', (new Date()).toUTCString());
-	//  next(); 
-	//});
+	app.get('/*', function(req, res, next){ 
+		res.setHeader('Last-Modified', (new Date()).toUTCString());
+		next(); 
+	});
     // =====================================
     // INDEX PAGE (with login links) ========
     // =====================================
@@ -19,6 +19,7 @@ module.exports = function(app, passport) {
         res.render('home.jade', {
             user : req.user // get the user out of session and pass to template
         }); 
+
     });
     // =====================================
     // LOGIN ===============================
@@ -39,7 +40,7 @@ module.exports = function(app, passport) {
     // app.post('/login', do all our passport stuff here);
  // process the login form
     app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/profile', // redirect to the secure profile section
+        successRedirect : '/home', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
