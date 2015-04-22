@@ -3,6 +3,8 @@ block scripts
 	script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.js")
 	script(src='/js/controllers/lib/adapter.js')
 	script(src='/js/controllers/Opus.js')
+	script.
+		username = "#{user.fname}"
 block content
 	h4
 		a(href="/profile")

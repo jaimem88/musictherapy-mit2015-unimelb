@@ -1,10 +1,10 @@
 /*************************************************************************************/		
 								/****On event functions****/		
 /*************************************************************************************/						
-						
+					;	
 //On receiving contact list from server, 
 //display it on the screen and store the length of the contact list
-		
+var user = username
 socket.on('contacts', function(data){
 	console.log('received contacts from server');
 	numberOfOnlineContacts = data.length;

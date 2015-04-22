@@ -30,22 +30,22 @@ module.exports = function(socket) {
 	//Validating the new user and storing the user details in the server
 		
 		socket.on('new user',function(newUser,callback){
-			Users.findOne({name:newUser},{contacts:1}).exec( function(err,jsonContacts){
-				if(jsonContacts){
-					console.log('username is valid');
+		//	Users.findOne({fname:newUser},{contacts:1}).exec( function(err,jsonContacts){
+			//	if(jsonContacts){
+				//	console.log('username is valid');
 					socket.username = newUser;
 				
 					//store the new user details in server
 				
 					createClientObject(newUser,socket);
-					sendOnlineContacts(jsonContacts.contacts,newUser);
-					callback(true);
-				}
-				else{
-					console.log('user not in db');
-					callback(false);
-				}
-			});
+					sendOnlineContacts(["John","Jaime"],newUser);
+					//callback(true);
+				//}
+				//else{
+				//	console.log('user not in db');
+				//	callback(false);
+				//}
+			//});
 		});
 		
 	//Send a connect request or add to conference request to the callee according to callee's room status

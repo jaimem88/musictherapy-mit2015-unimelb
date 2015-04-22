@@ -17,11 +17,13 @@ console.log("This is home.js");
 console.log(window.location.host);
 //Start call mode
 function startCallMode(){
+	console.log(username);
 	socket = io.connect("http://" + window.location.host);
 	 	$.getScript("js/controllers/get_media_functions.js");
 		$.getScript("js/controllers/remote_media_functions.js");
 		$.getScript("js/controllers/webRTC_API_functions.js");
 		$.getScript("js/controllers/on_event_functions.js");
+		socket.emit('new user',username);
 		$startCallButton.style.display = 'none';
 		$stopCallButton.style.display = "block";
 		displayContent();
