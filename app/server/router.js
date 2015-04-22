@@ -2,10 +2,10 @@
 var User = require('./models/user');
 module.exports = function(app, passport) {
 
-	app.get('/*', function(req, res, next){ 
-		res.setHeader('Last-Modified', (new Date()).toUTCString());
-		next(); 
-	});
+	//app.get('/*', function(req, res, next){ 
+	//	res.setHeader('Last-Modified', (new Date()).toUTCString());
+	//	next(); 
+//	});
     // =====================================
     // INDEX PAGE (with login links) ========
     // =====================================

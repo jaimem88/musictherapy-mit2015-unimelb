@@ -3,7 +3,7 @@
 /*************************************************************************************************/
 
 						/****Declarations****/
-						
+				
 				
 var localStream;
 var remoteStream;
@@ -34,20 +34,11 @@ var $mediaSelection = document.getElementById('mediaSelection');
 var sdpConstraints = {'mandatory': {
 	'OfferToReceiveAudio':true,
 	'OfferToReceiveVideo':true }};				
-
-/*******LOGIN LISTEN TO SERVER****************/
-
-console.log(window.location.host);
-var socket = io.connect("http://" + window.location.host);
-
 /*************************************************************************************/
 console.log("Home loaded");
+
 //Creating a new HTML button for each contact in the contact list
 
-function displayContent(){
-	console.log("displaying media page");
-	document.getElementById("mediaPage").style.display = "block";
-}
 		
 function displayContacts(contacts){
 	var contactString='';
@@ -153,7 +144,7 @@ function deleteAllConnections(){
 function hangupUser(hangupUser) {
 	console.log('Hanging up user '+hangupUser);
 	if(isInitiator){
-		socket.emit('remove from room',hangupUser);
+					socket.emit('remove from room',hangupUser);
 	}
 	else{
 		socket.emit('hangup',hangupUser);
@@ -203,17 +194,5 @@ function checkNumberOfConnections(){
 function sendMessage(message){
 		console.log('Client sending message: ', message);
 		socket.emit('message', message);
-}
-
-//Display initial home
-
-function displayContent(){
-	var $startConference = document.getElementById('startConference');
-	console.log("username valid");
-	$startConference.style.display="block";
-	var userHeading = document.getElementById("userHeading");
-	userHeading.innerHTML = "Welcome "+	user;
-	console.log("displaying media page");
-	document.getElementById("mediaPage").style.display = "block";
 }
 

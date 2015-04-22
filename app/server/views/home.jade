@@ -1,28 +1,36 @@
 extends layout
 block scripts
-	//script(src='/js/controllers/connection.js')
-	//script(src='/js/controllers/lib/adapter.js')
-	//script(src='/js/controllers/Opus.js')
-	//script(src='/js/views/home.js')
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.js")
+	script(src='/js/controllers/lib/adapter.js')
+	script(src='/js/controllers/Opus.js')
 block content
-	script(src='/js/views/home.js')
+	h4
+		a(href="/profile")
+			button#profile(style = "display:block" type="button")
+				span.fa.fa-user
+				|  Profile
+		button#startCallModeButton(style = "display:block" type="button", onclick="startCallMode()")
+			span.fa.fa-phone
+			|  Start session
+		button#stopCallModeButton(style = "display: none" type="button", onclick="stopCallMode()")
+			span.fa.fa-stop
+			|  Stop session
+	h1
+		center Welcome #{user.fname}!
 	#mediaPage(style="display: none")
-		center#userHeading.headingStyle
 		#mediaSelection.textStyle
 			label(for="quality") Select the video quality:
 			select#quality(name="quality", onchange="selectionMade()")
 				option(value="")
 				option(value="qvga") QVGA
 				option(value="vga") VGA
-				//option(value="hd") HD
-				//option(value="audio") AUDIO ONLY
 		#contactInfo(style="float:right")
 			p#contactHeading.textStyle(align="right")
 			br
 			br
 			br
 			br
-			| Online Contacts
+			strong Online Contacts
 			p#contacts(align="right") no contacts
 	#media
 		video#localVideo(width="320", height="240", autoplay="true", muted="true")
@@ -48,13 +56,6 @@ block content
 		#endConference(align="right", style="display: none")
 			button#hangupButton(type="button", onclick="endConference()")
 			img(src="/img/end-call.jpg", height="60", width="80", alt="Hangup")
-
-
-//block scripts
-//	script(src='/js/views/home.js')
-//	script(src='/js/controllers/home_controller.js')
-//	script(src='/js/controllers/get_media_functions.js')
-//	script(src='/js/controllers/remote_media_functions.js')
-//	script(src='/js/controllers/webRTC_API_functions.js')
-//	script(src='/js/on_event_functions.js')
+	script(src='/js/controllers/home_controller.js')
+	script(src='/js/views/home.js')
 	

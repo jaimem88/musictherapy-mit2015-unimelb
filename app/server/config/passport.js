@@ -54,8 +54,8 @@ module.exports = function(passport) {
                 // set the user's local credentials
                 newUser.email    = email;
                 newUser.password = newUser.generateHash(password); // use the generateHash function in our user model
-				newUser.fname = req.body.fname;
-				newUser.lname = req.body.lname;
+				newUser.fname = req.body.fname.capitalize();
+				newUser.lname = req.body.lname.capitalize();
 				if(req.body.admin){
 					newUser.admin = true;
 				}
@@ -110,3 +110,6 @@ module.exports = function(passport) {
 
     }));
 };
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}

@@ -6,7 +6,7 @@ Subject:	ISYS90080
 University:	The University of Melbourne
 Institution:	Melbourne Networked Society Institue
 Date Created:	April 1, 2015
-Last Modified:	
+Last Modified:	April 22
 **/
 
 // set up ======================================================================
@@ -38,11 +38,6 @@ app.use(bodyParser()); // get information from html forms
 app.set('views', __dirname + '/app/server/views');
 app.set('view engine', 'jade'); // set up jade for templating
 
-//socket io connection
-var server = require('http').createServer(app);
-io = require('socket.io').listen(server);	
-require(__dirname + '/app/server/config/connection')(io);
-
 // required for passport
 app.use(session({ secret: 'mymommakesmemashmyminimandmsonamondaymorningoohah',cookie: { maxAge : 1200000 } })); // session secret
 app.use(passport.initialize());
@@ -53,7 +48,17 @@ require('./app/server/router.js')(app, passport); // load our routes and pass in
 //Static content
 app.use(express.static(__dirname + '/app/public'));
 
+//app.listen(port);
+//console.log('Server listening on port ' + port);
 
+//socket io connection
+var server = require('http').createServer(app);
+io = require('socket.io').listen(server);	
 // launch ======================================================================
-app.listen(port);
-console.log('Server listening on port ' + port);
+server.listen(port,function(){
+	console.log('Server listening on port ' + port);
+});
+io.sockets.on('connection', function (socket){
+	console.log("new client connected");
+	require(__dirname + '/app/server/config/connection')(socket);
+});

@@ -1,10 +1,13 @@
 
 var _ = require('underscore-node');
+var rooms={};
+var clients={};
+var clientsNameArray =[];
 
-module.exports = function(io) {
+module.exports = function(socket) {
 /*************************************************************************************/
 /****On event functions****/
-	io.sockets.on('connection', function (socket){
+
 		socket.on('message', function (message) {
 			console.log('Got message: ', message);
 			if (message === 'goodbye'){
@@ -119,8 +122,8 @@ module.exports = function(io) {
 		socket.on('remove from room',function(hangupUser){
 			sendMessageToRoom('remove',hangupUser);
 		});
-	});
-};
+
+//};
 	/************************************************************************************************/
 									/****helper functions****/
 								
@@ -249,4 +252,4 @@ function sendMessageToClient(message){
 	function formClientsNameArray(){
 		clientsNameArray = Object.keys(clients);
 	}
-
+};
