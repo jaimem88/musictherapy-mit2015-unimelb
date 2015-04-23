@@ -3,6 +3,7 @@
 
 var $startCallButton = document.getElementById('startCallModeButton');
 var $stopCallButton = document.getElementById('stopCallModeButton');
+var $videoWindow = document.getElementById('localVideo');
 var script = document.createElement('script');
 	script.src = 'http://somesite.com/somescript.js';
 	script.type = 'text/javascript';
@@ -26,14 +27,17 @@ function startCallMode(){
 		socket.emit('new user',username);
 		$startCallButton.style.display = 'none';
 		$stopCallButton.style.display = "block";
+		$videoWindow.style.display = "block";
 		displayContent();
-	
 }
 
 function stopCallMode(){
 	$startCallButton.style.display = 'block';
 	$stopCallButton.style.display = "none";
+	$videoWindow.style.display = "none";
+	stopVideo();
 	stopDisplayContent();
+	window.location.reload();
 }
 
 //Display initial home

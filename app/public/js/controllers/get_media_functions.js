@@ -101,6 +101,12 @@
 			}
 			
 		}
+		function stopVideo(){
+			console.log("in stopVideo()");
+			$localVideo.src ="";
+			localStream.stop();
+			console.log("Stopping stream");
+		}
 				
 //Displaying error message in case of getUserMedia failure
 		
