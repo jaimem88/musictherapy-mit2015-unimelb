@@ -44,8 +44,9 @@ module.exports = {
 	updateFirstName: function(req,done){
 	},
 	updateLastName: function(req,done){
+	},
+	showUsers: function (req){
 	}
-	showUsers:
 };
 
 String.prototype.capitalize = function() {

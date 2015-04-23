@@ -25,16 +25,12 @@ function startCallMode(){
 		$.getScript("js/controllers/webRTC_API_functions.js");
 		$.getScript("js/controllers/on_event_functions.js");
 		socket.emit('new user',username);
-		$startCallButton.style.display = 'none';
-		$stopCallButton.style.display = "block";
-		$videoWindow.style.display = "block";
+		
 		displayContent();
 }
 
 function stopCallMode(){
-	$startCallButton.style.display = 'block';
-	$stopCallButton.style.display = "none";
-	$videoWindow.style.display = "none";
+	
 	stopVideo();
 	stopDisplayContent();
 	window.location.reload();
@@ -45,9 +41,21 @@ function stopCallMode(){
 function displayContent(){
 	console.log("displaying media page");
 	document.getElementById("mediaPage").style.display = "block";
+	$startCallButton.style.display = 'none';
+	$stopCallButton.style.display = "block";
+	$videoWindow.style.display = "block";
+	$recordAudio.style.display = "block";
+	$stopRecordingAudio.style.display = "block";
+	$pauseResumeAudio.style.display = "block";
 }
 function stopDisplayContent(){
 	console.log("hiding media page");
 	document.getElementById("mediaPage").style.display = "none";
+	$startCallButton.style.display = 'block';
+	$stopCallButton.style.display = "none";
+	$videoWindow.style.display = "none";
+	$recordAudio.style.display = "none";
+	$stopRecordingAudio.style.display = "none";
+	$pauseResumeAudio.style.display = "none";
 	socket.emit('message','goodbye');
 }
