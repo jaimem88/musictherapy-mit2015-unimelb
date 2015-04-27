@@ -1,7 +1,7 @@
-/**************************************************************************************************/		
+/**************************************************************************************************/
 	/****Setting the  the video and audio constraints and getting user media accordingly****/
-/**************************************************************************************************/	
-			
+/**************************************************************************************************/
+
 //Declaring the audio and video constraints
 
 		var qvgaConstraints  = {
@@ -12,66 +12,18 @@
 				}
 			},audio:true
 		};
-		var vgaConstraints  = {
-		  video: {
-			mandatory: {
-			  maxWidth: 640,
-			  maxHeight: 360
-			}
-		  },audio:true
-		};
-
-		var hdConstraints  = {
-		  video: {
-			mandatory: {
-			  minWidth: 1280,
-			  minHeight: 720
-			}
-		  },audio:true
-		};
-		
 		var audioConstraints  = {
 			video: false,audio:true
 		};
-		
-//Getting the user media from the sources 
 
-		function getMedia(constraints)
+//Getting the user media from the sources
+
+		function getMedia()
 		{
-			console.log(constraints);
-			getUserMedia(constraints, handleUserMedia, handleUserMediaError);
-			console.log('Getting user media with constraints', constraints);
+			console.log(qvgaConstraints);
+			getUserMedia(	qvgaConstraints, handleUserMedia, handleUserMediaError);
+			console.log('Getting user media with constraints', qvgaConstraints);
 		}
-		
-//Calling the getMedia function with the user selected constraints
-		
-		function selectionMade(){	
-			
-			//Extract the quality selected by the user
-			
-			var quality = document.getElementById('quality');
-			var qualitySelected = quality.options[quality.selectedIndex].value;
-			console.log('qulaity selected:' + qualitySelected);
-			
-			if(qualitySelected==='qvga')
-			{
-				getMedia(qvgaConstraints);
-			}
-			else 
-				if(qualitySelected==='vga')
-				{
-					getMedia(vgaConstraints);
-				}
-				else
-					if(qualitySelected==='hd')
-					{
-						getMedia(hdConstraints);
-					}
-					else
-						getMedia(audioConstraints );
-					
-		}
-
 //Returning true if video element is present in the media stream
 
 		function hasVideo(stream){
@@ -82,7 +34,7 @@
 		}
 
 //Displaying the local user's video/audio onto the screen
-		
+
 		function handleUserMedia(stream) {
 			console.log('Adding local stream.');
 			// checking video presence
@@ -99,7 +51,7 @@
 				$localAudio.src = window.URL.createObjectURL(localStream);
 				$localAudio.style.display = "block";
 			}
-			
+
 		}
 		function stopVideo(){
 			console.log("in stopVideo()");
@@ -107,9 +59,9 @@
 			localStream.stop();
 			console.log("Stopping stream");
 		}
-				
+
 //Displaying error message in case of getUserMedia failure
-		
+
 		function handleUserMediaError(error){
 			console.log('getUserMedia error: ', error);
 		}

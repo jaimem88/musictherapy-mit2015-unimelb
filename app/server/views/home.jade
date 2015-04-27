@@ -4,15 +4,15 @@ block scripts
 	script(src="https://cdn.webrtc-experiment.com/RecordRTC.js")
 	script(src='/js/controllers/lib/adapter.js')
 	script(src='/js/controllers/Opus.js')
-	
+	script(src='/js/controllers/get_media_functions.js')
 	script.
 		username = "#{user.fname}"
 block content
 	h4
-		a(href="/profile")
-			button#profile(style = "display:block" type="button")
-				span.fa.fa-user
-				|  Profile
+		//a(href="/profile")
+		button#profile(style = "display:block" type="button" onclick="goTo(\"\/profile\")")
+			span.fa.fa-user
+			|  Profile
 		button#startCallModeButton(style = "display:block" type="button", onclick="startCallMode()")
 			span.fa.fa-phone
 			|  Start session
@@ -22,12 +22,6 @@ block content
 	h1
 		center Welcome #{user.fname}!
 	#mediaPage(style="display: none")
-		#mediaSelection.textStyle
-			label(for="quality") Select the video quality:
-			select#quality(name="quality", onchange="selectionMade()")
-				option(value="")
-				option(value="qvga") QVGA
-				option(value="vga") VGA
 		#contactInfo(style="float:right")
 			p#contactHeading.textStyle(align="right")
 			br
@@ -39,9 +33,11 @@ block content
 	#media
 		video#localVideo(width="320", height="240", autoplay="true", muted="true", style="display: none")
 		audio#localAudio(controls="", autoplay="true", muted="false", style="display: none")
-		button#recordAudio(style = "display: none" type="button") Record
-		button#pause-resume-audio(style = "display: none" disabled="") Pause
-		button#stop-recording-audio(style = "display: none" disabled="") Stop
+		.inner(style="height: 5em;")
+			audio#audio(autoplay="", controls="")
+			button#recordAudio(style = "display: none" type="button") Record
+			button#pause-resume-audio(style = "display: none" disabled="") Pause
+			button#stop-recording-audio(style = "display: none" disabled="") Stop
 	.callingDisplay
 		#callerDisplay.textStyle(style="display: none")
 			p#callerName(align="center") no caller&#62;
@@ -67,4 +63,3 @@ block content
 	script(src='/js/controllers/home_controller.js')
 	script(src='/js/views/home.js')
 	script(src='/js/views/recordAudio.js')
-	

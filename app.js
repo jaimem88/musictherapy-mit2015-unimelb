@@ -22,6 +22,7 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
+var fs 			 = require('fs');
 
 //Database config
 var configDB = require( __dirname + '/app/server/config/database.js');
@@ -30,7 +31,10 @@ var configDB = require( __dirname + '/app/server/config/database.js');
 mongoose.connect(configDB.url); // connect to our database
 
 require(__dirname + '/app/server/config/passport')(passport); // pass passport for configuration
-
+var sslOptions ={
+	key: fs.readFileSync('./ssl/key.pem'),
+	cert: fs.readFileSync('./ssl/key-cert.pem')
+};
 // set up our express application
 //app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
@@ -52,8 +56,10 @@ app.use(express.static(__dirname + '/app/public'));
 //console.log('Server listening on port ' + port);
 
 //socket io connection
-var server = require('http').createServer(app);
-io = require('socket.io').listen(server);	
+var server = require('https').createServer(sslOptions,app);
+io = require('socket.io').listen(server);
+io.set('match origin protocol', true);
+
 // launch ======================================================================
 server.listen(port,function(){
 	console.log('Server listening on port ' + port);

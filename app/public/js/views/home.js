@@ -4,6 +4,9 @@
 var $startCallButton = document.getElementById('startCallModeButton');
 var $stopCallButton = document.getElementById('stopCallModeButton');
 var $videoWindow = document.getElementById('localVideo');
+var $startRecording = document.getElementById('recordAudio');
+var $pauseResumeAudio = document.getElementById('pause-resume-audio');
+var $stopRecordingAudio = document.getElementById('stop-recording-audio');
 var script = document.createElement('script');
 	script.src = 'http://somesite.com/somescript.js';
 	script.type = 'text/javascript';
@@ -16,21 +19,24 @@ console.log("This is home.js");
 /*******LOGIN LISTEN TO SERVER****************/
 
 console.log(window.location.host);
+
 //Start call mode
 function startCallMode(){
 	console.log(username);
-	socket = io.connect("http://" + window.location.host);
-	 	$.getScript("js/controllers/get_media_functions.js");
+	console.log("here?");
+	socket = io.connect("https://" + window.location.host);
+	 	//$.getScript("js/controllers/get_media_functions.js");
 		$.getScript("js/controllers/remote_media_functions.js");
 		$.getScript("js/controllers/webRTC_API_functions.js");
 		$.getScript("js/controllers/on_event_functions.js");
 		socket.emit('new user',username);
-		
 		displayContent();
+		getMedia();
+
 }
 
 function stopCallMode(){
-	
+
 	stopVideo();
 	stopDisplayContent();
 	window.location.reload();
@@ -44,7 +50,7 @@ function displayContent(){
 	$startCallButton.style.display = 'none';
 	$stopCallButton.style.display = "block";
 	$videoWindow.style.display = "block";
-	$recordAudio.style.display = "block";
+	$startRecording.style.display = "block";
 	$stopRecordingAudio.style.display = "block";
 	$pauseResumeAudio.style.display = "block";
 }
@@ -54,7 +60,7 @@ function stopDisplayContent(){
 	$startCallButton.style.display = 'block';
 	$stopCallButton.style.display = "none";
 	$videoWindow.style.display = "none";
-	$recordAudio.style.display = "none";
+	$startRecording.style.display = "none";
 	$stopRecordingAudio.style.display = "none";
 	$pauseResumeAudio.style.display = "none";
 	socket.emit('message','goodbye');

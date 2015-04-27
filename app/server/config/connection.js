@@ -36,9 +36,9 @@ module.exports = function(socket) {
 					socket.username = newUser;
 				
 					//store the new user details in server
-				
+					clientsNameArray.push(socket.username);
 					createClientObject(newUser,socket);
-					sendOnlineContacts(["John","Jaime"],newUser);
+					sendOnlineContacts(clientsNameArray,newUser);
 					//callback(true);
 				//}
 				//else{
@@ -126,7 +126,9 @@ module.exports = function(socket) {
 //};
 	/************************************************************************************************/
 									/****helper functions****/
-								
+		
+		
+					
 //Sending the list of online contacts to the client
 		
 function sendOnlineContacts(contactsArray,newUser){
@@ -134,7 +136,12 @@ function sendOnlineContacts(contactsArray,newUser){
 	formClientsNameArray();
 	console.log('client array:' +clientsNameArray);
 	console.log('contact array:' +contactsArray);
-	contactsOnline = _.intersection(clientsNameArray,contactsArray);
+	for (i=0; i<clientsNameArray.length; i++){
+		if (clientsNameArray[i] != newUser)
+			contactsOnline.push(clientsNameArray[i]);
+	}
+	console.log(contactsOnline);
+	//contactsOnline = clientsNameArray.filter(isItMe(newUser));
 	//emit contacts who are online to the new user
 	io.sockets.in(socket.id).emit('contacts',contactsOnline);
 	console.log('sent online contacts to client:'+contactsOnline);

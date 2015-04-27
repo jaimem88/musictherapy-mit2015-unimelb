@@ -7,6 +7,11 @@ module.exports = function(app, passport) {
 	//	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	//	next(); 
 //	});
+	//Test audio
+	 app.get('/audio', function(req, res) {
+        res.render('audio.jade'); // load the index.jade file
+    });
+
     // =====================================
     // INDEX PAGE (with login links) ========
     // =====================================

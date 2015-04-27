@@ -5,7 +5,13 @@ block content
 			h1
 				span.fa.fa-cog.fa-spin
 				|  My Profile
-			a.btn.btn-default.btn-sm(href="/logout") Logout
+			button#profile(style = "display:block" type="button" onclick="goTo(\"\/home\")")
+				span.fa.fa-phone
+				|  Conference Mode
+			button#profile(style = "display:block" type="button" onclick="goTo(\"\/logout\")")
+				span.fa.fa-sign-out
+				|  Logout
+			
 		.row
 			// LOCAL INFORMATION
 			.col-sm-6
