@@ -59,9 +59,16 @@
 			localStream.stop();
 			console.log("Stopping stream");
 		}
+		function recordAudio(){
+
+		}
 
 //Displaying error message in case of getUserMedia failure
 
 		function handleUserMediaError(error){
 			console.log('getUserMedia error: ', error);
+		}
+
+		function getLocalStream(){
+			return localStream;
 		}

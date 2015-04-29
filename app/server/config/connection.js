@@ -1,5 +1,6 @@
 
 var _ = require('underscore-node');
+//var recordRTC = require('recordrtc');
 var rooms={};
 var clients={};
 var clientsNameArray =[];
@@ -12,7 +13,7 @@ module.exports = function(socket) {
 			console.log('Got message: ', message);
 			if (message === 'goodbye'){
 				onGoodbye();
-			}	
+			}
 			else
 				if(message === 'leave'){
 					onLeave();
@@ -25,16 +26,16 @@ module.exports = function(socket) {
 						sendMessageToClient(message);
 					}
 		});
-		
-		
+
+
 	//Validating the new user and storing the user details in the server
-		
+
 		socket.on('new user',function(newUser,callback){
 		//	Users.findOne({fname:newUser},{contacts:1}).exec( function(err,jsonContacts){
 			//	if(jsonContacts){
 				//	console.log('username is valid');
 					socket.username = newUser;
-				
+
 					//store the new user details in server
 					clientsNameArray.push(socket.username);
 					createClientObject(newUser,socket);
@@ -47,11 +48,11 @@ module.exports = function(socket) {
 				//}
 			//});
 		});
-		
+
 	//Send a connect request or add to conference request to the callee according to callee's room status
-		
+
 		socket.on('connectToUser', function(contactSelected){
-			console.log('connect request from : '+socket.username+' to '+contactSelected); 
+			console.log('connect request from : '+socket.username+' to '+contactSelected);
 			if(clients[contactSelected].room === ''){
 				console.log("sending connect request to  "+ contactSelected);
 				io.sockets.in(clients[contactSelected].socketID).emit('connectRequest', socket.username);
@@ -61,17 +62,17 @@ module.exports = function(socket) {
 				io.sockets.in(clients[contactSelected].socketID).emit('addToConferenceRequest', socket.username);
 			}
 		});
-		
+
 	//Triggered when the client accepts a call from the initiator,
-	//When the initiator starts a call the first time,Create a room for the initiator 
+	//When the initiator starts a call the first time,Create a room for the initiator
 	//and then add callee to the room.
 	//When the initiator tries to add more users into the conference,
 	//join the callee to initiator's existing room
-		
+
 		socket.on('accept',function(callerName){
 			console.log('client accepted the call');
 			console.log('allocating rooms');
-		
+
 			var room;
 			if(clients[callerName].room ==''){
 				room = 'room1';
@@ -84,12 +85,12 @@ module.exports = function(socket) {
 			console.log('callee joined existing room: '+room);
 			socket.emit('joined',room);
 			sendMessageToRoom('user joined',socket.username);
-										
-		});	
-	
+
+		});
+
 	//When the initiator accepts a user into the conference,
 	//join the user to an existing room
-	
+
 		socket.on('acceptIntoConference',function(callerName){
 			var room = clients[socket.username].room ;
 			console.log('initiator accepted the call');
@@ -100,37 +101,54 @@ module.exports = function(socket) {
 			sendMessageToRoom('user joined',callerName);
 			io.sockets.in(clients[callerName].socketID).emit('addedToConference',clients[callerName].room );
 		});
-		
-		
+
+
 	//On getting reject message from callee, send the message to the caller
 
-		socket.on('reject',function(name){	
+		socket.on('reject',function(name){
 			console.log('got reject message from callee,sending it to caller');
 			io.sockets.in(clients[name].socketID).emit('reject',socket.username);
 		});
-	
-	//On hangup event send hangup message to the hangupUser	
-	
+
+	//On hangup event send hangup message to the hangupUser
+
 		socket.on('hangup',function(hangupUser){
 			console.log('send hangup message to client:'+hangupUser);
 			io.sockets.in(clients[hangupUser].socketID).emit('hangup',socket.username);
 		});
-	
+
 	//On receiving remove request from initiator,
 	//remove the user from the room and inform others to remove the user as well
-	
+
 		socket.on('remove from room',function(hangupUser){
 			sendMessageToRoom('remove',hangupUser);
 		});
 
+	//Stop audio recording
+	socket.on('stop recording',function(hangupUser){
+		var fileName = uuid.v4();
+
+
+			writeToDisk(data.audio.dataURL, fileName + '.wav');
+
+			// if it is chrome
+			if (data.video) {
+					writeToDisk(data.video.dataURL, fileName + '.webm');
+					merge(socket, fileName);
+			}
+
+			// if it is firefox or if user is recording only audio
+			else socket.emit('merged', fileName + '.wav');
+	});
+
 //};
 	/************************************************************************************************/
 									/****helper functions****/
-		
-		
-					
+
+
+
 //Sending the list of online contacts to the client
-		
+
 function sendOnlineContacts(contactsArray,newUser){
 	var contactsOnline =[];
 	formClientsNameArray();
@@ -147,7 +165,7 @@ function sendOnlineContacts(contactsArray,newUser){
 	console.log('sent online contacts to client:'+contactsOnline);
 	//update new user online status to existing online users
 	updateStatus(contactsOnline,newUser);
-			
+
 };
 //Updating the list of online contacts in all clients
 function updateStatus(contactsOnline,newUser){
@@ -186,7 +204,7 @@ function joinExistingRoom(socket,room){
 	clients[socket.username].room = room;
 }
 //On receiving goodbye message from client,
-//inform the other room members to update their connected users array 
+//inform the other room members to update their connected users array
 //and  also delete the client from clients array in the server
 function onGoodbye(){
 	console.log('got message goodbye from client');
@@ -198,21 +216,21 @@ function onGoodbye(){
 //If the client was part of a web conference,
 //then inform the room members to remove the client from their connected users list
 function informRoomMembers(){
-	if(socket.username in clients){		
+	if(socket.username in clients){
 		if(clients[socket.username].room != ''){
 			sendMessageToRoom('remove',socket.username);
 		}
 	}
 }
-//Deleting the client information from the clients array 
-function deleteClient(name){		
+//Deleting the client information from the clients array
+function deleteClient(name){
 	console.log('deleting client from client array');
 	delete clients[name];
 	console.log('the client array now is: ');
 	formClientsNameArray();
 	console.log(clientsNameArray);
 }
-	
+
 //Removing the user from the room and informing other members in the room about the removal
 function onLeave(){
 	console.log('got message leaving from client '+socket.username);
@@ -221,11 +239,11 @@ function onLeave(){
 	sendMessageToRoom('message',socket.username+' left the room');
 	clients[socket.username].room='';
 }
-	
+
 function onEndConference(){
 	console.log('ending the conference,closing room');
 	sendMessageToRoom('message','endOfConference');
-}	
+}
 //Sending a message to the whole room
 function sendMessageToRoom(messageTag,message){
 	console.log('sending message to room:'+ messageTag);
@@ -241,21 +259,21 @@ function sendMessageToClient(message){
 }
 	/*************************************************************************************/
 	/****Managing the Client Array****/
-	
+
 	//This function stores the information about the clients
-	
+
 	function createClientObject(newUser,socket){
 		var clientObj = {};
-	
+
 		clientObj.socket= socket;
 		clientObj.socketID= socket.id;
 		clientObj.room = '';
-		
+
 		clients[newUser] = clientObj;
 	}
-	
+
 	//This function forms a list of client names connected to the server
-	
+
 	function formClientsNameArray(){
 		clientsNameArray = Object.keys(clients);
 	}

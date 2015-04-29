@@ -58,7 +58,7 @@ app.use(express.static(__dirname + '/app/public'));
 //socket io connection
 var server = require('https').createServer(sslOptions,app);
 io = require('socket.io').listen(server);
-io.set('match origin protocol', true);
+//io.set('match origin protocol', true);
 
 // launch ======================================================================
 server.listen(port,function(){

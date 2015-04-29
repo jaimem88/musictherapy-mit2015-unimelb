@@ -12,14 +12,15 @@
     "underscore-node": "^0.1.2",
 	"passport" : "~0.2.1",
 	"passport-local" : "~1.0.0",
-	"connect-flash" : "~0.1.1",     
+	"connect-flash" : "~0.1.1",
     "bcrypt-nodejs" : "latest",
 	"password-generator" : "latest",
     "morgan": "~1.0.0",
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.0",
     "method-override": "~1.0.0",
-    "express-session": "~1.0.0"     
+    "express-session": "~1.0.0",
+    "recordrtc": "*"
   },
   "author": "Jaime Martinez",
  "repository": {

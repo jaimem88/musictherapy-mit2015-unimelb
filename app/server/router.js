@@ -3,9 +3,9 @@ var User = require('./models/user');
 var Accounts = require('./config/accounts');
 module.exports = function(app, passport) {
 
-	//app.get('/*', function(req, res, next){ 
+	//app.get('/*', function(req, res, next){
 	//	res.setHeader('Last-Modified', (new Date()).toUTCString());
-	//	next(); 
+	//	next();
 //	});
 	//Test audio
 	 app.get('/audio', function(req, res) {
@@ -24,7 +24,7 @@ module.exports = function(app, passport) {
 	app.get('/home', isLoggedIn, function(req, res) {
         res.render('home.jade', {
             user : req.user // get the user out of session and pass to template
-        }); 
+        });
 
     });
     // =====================================
@@ -34,7 +34,7 @@ module.exports = function(app, passport) {
     app.get('/login', function(req, res) {
 
         // render the page and pass in any flash data if it exists
-        res.render('login.jade', { message: req.flash('loginMessage') }); 
+        res.render('login.jade', { message: req.flash('loginMessage') });
     });
 //manage forgotten PASSWORD  HEREEEEEEEEEEEEEE
 	app.get('/forgotpass', function(req, res) {
@@ -56,20 +56,20 @@ module.exports = function(app, passport) {
     // show the signup form
     app.get('/signup',isLoggedIn, function(req, res) {
 	//	console.log(req.user);
-		if(req.user.admin){	
+		if(req.user.admin){
         // render the page and pass in any flash data if it exists
         	res.render('signup.jade', { message: req.flash('signupMessage') });
 		}else{
 				res.redirect('/profile');
 		}
     });
-	
+
     // process the signup form
     app.post('/signup', isLoggedIn,function(req,res){
     	    Accounts.createAccount(req);
     	    res.redirect('/profile');
     });
-    
+
     // =====================================
     // PROFILE SECTION =====================
     // =====================================
@@ -93,7 +93,7 @@ module.exports = function(app, passport) {
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on 
+    // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();
 

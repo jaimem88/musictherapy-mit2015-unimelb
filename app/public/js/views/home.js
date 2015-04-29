@@ -63,5 +63,5 @@ function stopDisplayContent(){
 	$startRecording.style.display = "none";
 	$stopRecordingAudio.style.display = "none";
 	$pauseResumeAudio.style.display = "none";
-	socket.emit('message','goodbye');
+	//socket.emit('message','goodbye');
 }
