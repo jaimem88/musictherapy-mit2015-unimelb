@@ -123,22 +123,17 @@ module.exports = function(socket) {
 		socket.on('remove from room',function(hangupUser){
 			sendMessageToRoom('remove',hangupUser);
 		});
-
+	//Tell all users to start recording local stream
+	socket.on('start recording',function(){
+		sendMessageToRoom('start recording','');
+	});
 	//Stop audio recording
-	socket.on('stop recording',function(hangupUser){
-		var fileName = uuid.v4();
-
-
-			writeToDisk(data.audio.dataURL, fileName + '.wav');
-
-			// if it is chrome
-			if (data.video) {
-					writeToDisk(data.video.dataURL, fileName + '.webm');
-					merge(socket, fileName);
-			}
-
-			// if it is firefox or if user is recording only audio
-			else socket.emit('merged', fileName + '.wav');
+	socket.on('stop recording',function(data){
+		sendMessageToRoom('stop recording','');
+	});
+	//Receive all recordings
+	socket.on('myrecording',function(file){
+		console.log("recieved audio file");
 	});
 
 //};
@@ -179,6 +174,7 @@ function updateStatus(contactsOnline,newUser){
 				console.log('client found, updating contact list in client:'+contactsOnline[i]);
 				console.log("the new user is:"+newUser);
 				io.sockets.in(clients[contactsOnline[i]].socketID).emit('addContact',newUser);
+				console.log("CLIENTS SENT");
 				updated= true;
 			}else{
 				console.log('checking next contact');

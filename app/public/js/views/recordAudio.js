@@ -2,38 +2,41 @@ var audioConstraints = {
 	audio: true,
 	video: false
 };
-//var audio = document.getElementById('audio');
-//var $stopRecordingAudio = document.getElementById('stop-recording-audio');
-//var $pauseResumeAudio = document.getElementById('pause-resume-audio');
+
 var recordAudio, recordVideo;
 $startRecording.onclick = function() {
 	$startRecording.disabled = true
-	mediaStream = stream = getLocalStream();
-	recordAudio = RecordRTC(stream);
-	recordAudio.startRecording();
+	socket.emit('start recording');
 	$stopRecordingAudio.disabled = false;
 };
 
 
 $stopRecordingAudio.onclick = function() {
 	$startRecording.disabled = false;
-	$stopRecordingAudio.disabled = true;
+	$stopRecording.disabled = true;
+	socket.emit('stop recording');
+};
 
-	// if firefox or if you want to record only audio
-	// stop audio recorder
+//when start recording is received, then record local stream
+socket.on('start recording',function(){
+	console.log("recording local audio")
+	mediaStream = stream = getLocalStream();
+	recordAudio = RecordRTC(stream);
+	recordAudio.startRecording();
+});
+
+socket.on('stop recording',function(){
+	console.log("stop recording local audio")
 	recordAudio.stopRecording(function() {
 		// get audio data-URL
 		recordAudio.getDataURL(function(audioDataURL) {
-			var files = {
+			var file = {
 				audio: {
 					type: recordAudio.getBlob().type || 'audio/wav',
 					dataURL: audioDataURL
 				}
 			};
-			RecordRTC.writeToDisk(files.audio);
-
-			//socketio.emit('stop recording', files);
-		//	if(mediaStream) mediaStream.stop();
+			socket.emit('myrecording',file )
 		});
-	});
-};
+});
+});

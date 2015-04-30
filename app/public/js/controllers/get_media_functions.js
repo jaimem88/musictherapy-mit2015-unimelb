@@ -12,10 +12,6 @@
 				}
 			},audio:true
 		};
-		var audioConstraints  = {
-			video: false,audio:true
-		};
-
 //Getting the user media from the sources
 
 		function getMedia()

@@ -1,15 +1,15 @@
-/*************************************************************************************/		
+/*************************************************************************************/
 		/****Creating a separate HTML Division for displaying remote media****/
-/*************************************************************************************/		
-	
-//Creating a HTML division 
+/*************************************************************************************/
+
+//Creating a HTML division
 
 function createHTMLDivision(divElement,connectToUser){
 	divElement.id = connectToUser;
 	divElement.className = 'remoteVideoContainer';
 	console.log('div element id in html division:'+divElement.id);
 }
-		
+
 //Creating a HTML video element and appending it to the division
 
 function createVideoElement(divElement,stream){
@@ -34,22 +34,21 @@ function createAudioElement(divElement,stream){
 	//remoteStream = stream;
 	divElement.appendChild(remoteAudio);
 }
-			
-	
+
+
 //Creating and appending a close button for the remote stream displayed on the screen
-		
+
 function createCloseButton(divElement,name,height,width){
-	var closeButton='<button  class=\'close\' type=\'button\' value=\'' 
+	var closeButton='<button  class=\'close\' type=\'button\' value=\''
 		+name
-		+'\' onclick=\'hangupUser(this.value)\'><img src=\'Images/close-button.png\' height='+height+' width='+width+' alt=\'Hangup\'></button>';
+		+'\' onclick=\'hangupUser(this.value)\'><img src=\'/img/close-button.png\' height='+height+' width='+width+' alt=\'Hangup\'></button>';
 	divElement.innerHTML=divElement.innerHTML + closeButton;
 	console.log(divElement);
 }
-		
+
 //Displaying a name tag to the remote media displayed on the screen
 
 function addNameTag(divElement,displayName){
-	var nameDisplay='<p align=\'center\'><font size=\'4\'>'+displayName+'</p>';	
+	var nameDisplay='<p align=\'center\'><font size=\'4\'>'+displayName+'</p>';
 	divElement.innerHTML=divElement.innerHTML + nameDisplay;
 }
-	

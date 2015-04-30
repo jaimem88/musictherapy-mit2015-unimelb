@@ -13,7 +13,7 @@ Last Modified:	April 22
 // get all the tools we need
 var express  = require('express');
 var app      = express();
-var port     = process.env.PORT || 8080;
+var port     = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -68,3 +68,11 @@ io.sockets.on('connection', function (socket){
 	console.log("new client connected");
 	require(__dirname + '/app/server/config/connection')(socket);
 });
+/*
+// Redirect from http port 8080 to https
+var http = require('http');
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host']+PORT +"/"+req.url });
+		console.log("Location"+ "https://" + req.headers['host']+PORT +"/"+req.url)
+    res.end();
+}).listen(8080);*/

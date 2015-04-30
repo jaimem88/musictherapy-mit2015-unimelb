@@ -1,8 +1,8 @@
-/*************************************************************************************/		
+/*************************************************************************************/
 				/****Handling the call using webRTC APIs****/
-/*************************************************************************************/								
-						
-//Creating a peer connection using the ICE candidates returned from the 
+/*************************************************************************************/
+
+//Creating a peer connection using the ICE candidates returned from the
 //STUN server and adding local stream to the created peer connection object
 
 function createPeerConnection(connectToUser) {
@@ -12,7 +12,7 @@ function createPeerConnection(connectToUser) {
 		pc = new webkitRTCPeerConnection(pc_config);
 		pc.onicecandidate = function(event){
 			handleIceCandidate(event,connectToUser)};
-		console.log('Created RTCPeerConnnection with config:\n' + '  \'' 
+		console.log('Created RTCPeerConnnection with config:\n' + '  \''
 						+JSON.stringify(pc_config) + '\'.');
 		pc.addStream(localStream);
 		storeConnectedUsers(connectToUser,pc);
@@ -22,9 +22,9 @@ function createPeerConnection(connectToUser) {
 		alert('Cannot create RTCPeerConnection object.');
 		return;
 	}
-} 
-		
-//Sending the ICE candidate received from the STUN server 
+}
+
+//Sending the ICE candidate received from the STUN server
 //along with the connect to user name  to the signalling server
 
 function handleIceCandidate(event,connectToUser) {
@@ -40,10 +40,10 @@ function handleIceCandidate(event,connectToUser) {
 		console.log('End of candidates.');
 	  }
 }
-		
-//Detecting the presence of remote audio/video stream and 
-//calling the respective display functions to display the remote media content 
-		
+
+//Detecting the presence of remote audio/video stream and
+//calling the respective display functions to display the remote media content
+
 function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
 	divElement = document.createElement('div');
@@ -55,22 +55,22 @@ function handleRemoteStreamAdded(event,connectToUser) {
 	}
 	else{
 		createAudioElement(divElement,event.stream);
-		createCloseButton(divElement,connectToUser,10,10);	
+		createCloseButton(divElement,connectToUser,10,10);
 	}
 	addNameTag(divElement,connectToUser);
 	$media.appendChild(divElement);
 }
-	
-//Sending an offer to the peer user 
-		
+
+//Sending an offer to the peer user
+
 function sendOffer(connectToUser) {
 	console.log('Sending offer to peer');
 	connectedUsers[connectToUser].createOffer(function(sdp){
 		setLocalAndSendMessage(sdp,connectToUser,'offer')},handleCreateOfferError);
 }
-		
-//Creating an answer to the peer	
-		
+
+//Creating an answer to the peer
+
 function sendAnswer(connectToUser) {
 	console.log('Sending answer to peer.');
 	connectedUsers[connectToUser].createAnswer(function (sdp){
@@ -87,13 +87,10 @@ function setLocalAndSendMessage(sessionDescription,connectToUser,messageType) {
 		type:messageType,
 		sdp:sessionDescription,
 		connectTo:connectToUser});
-}	
+}
 
 //Displaying error message in case of failure in sending offer message
 
 function handleCreateOfferError(event){
 	console.log('createOffer() error: ', e);
 }
-		
-		
-
