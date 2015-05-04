@@ -30,13 +30,14 @@ block content
 					button.btn.btn-danger.btn-block#stopCallModeButton(style = "display: none" type="button", onclick="stopCallMode()")
 						span.fa.fa-stop
 						|  Stop session
+	button.btn.btn-lg.btn-primary.btn-add-panel Add new panel
 	.container-fluid#mediaPage2(style="display: none")
 		.row#media
-			.col-sm-3
+			.col-sm-3.template
 				.panel.panel-success
 					.panel-heading
 						h3.panel-title.text-center #{user.fname}
-					.panel-body.text-center
+					.panel-body
 						video#localVideo(width="320", height="240", autoplay="true", muted="true", style="display: none")
 						audio#localAudio(controls="", autoplay="true", muted="false", style="display: none")
 						.row
