@@ -1,5 +1,5 @@
 
-var _ = require('underscore-node');
+fs = require("fs");
 //var recordRTC = require('recordrtc');
 var rooms={};
 var clients={};
@@ -125,22 +125,44 @@ module.exports = function(socket) {
 		});
 	//Tell all users to start recording local stream
 	socket.on('start recording',function(){
-		sendMessageToRoom('start recording','');
+		sendMessageToRoom('start recording','start recording');
 	});
 	//Stop audio recording
 	socket.on('stop recording',function(data){
-		sendMessageToRoom('stop recording','');
+		sendMessageToRoom('stop recording','stop recording');
 	});
 	//Receive all recordings
 	socket.on('myrecording',function(file){
 		console.log("recieved audio file");
+		var d = new Date()
+		var fileName = d.getTime();
+		writeToDisk(file.audio.dataURL, file.audio.user+'_'+fileName + '.wav');
 	});
 
 //};
 	/************************************************************************************************/
 									/****helper functions****/
 
+//write recording to disk
+function writeToDisk(dataURL, fileName) {
+    var fileExtension = fileName.split('.').pop(),
+        fileRootNameWithBase = './app/public/uploads/' + fileName,
+        filePath = fileRootNameWithBase,
+        fileID = 2,
+        fileBuffer;
 
+    // @todo return the new filename to client
+    while (fs.existsSync(filePath)) {
+        filePath = fileRootNameWithBase + '(' + fileID + ').' + fileExtension;
+        fileID += 1;
+    }
+
+    dataURL = dataURL.split(',').pop();
+    fileBuffer = new Buffer(dataURL, 'base64');
+    fs.writeFileSync(filePath, fileBuffer);
+
+    console.log('filePath', filePath);
+}
 
 //Sending the list of online contacts to the client
 

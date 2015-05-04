@@ -5,27 +5,28 @@ var audioConstraints = {
 
 var recordAudio, recordVideo;
 $startRecording.onclick = function() {
+	console.log('click on start recording '+username)
 	$startRecording.disabled = true
-	socket.emit('start recording');
 	$stopRecordingAudio.disabled = false;
+	socket.emit('start recording');
 };
 
 
 $stopRecordingAudio.onclick = function() {
 	$startRecording.disabled = false;
-	$stopRecording.disabled = true;
+	$stopRecordingAudio.disabled = true;
 	socket.emit('stop recording');
 };
 
 //when start recording is received, then record local stream
-socket.on('start recording',function(){
+socket.on('start recording',function (){
 	console.log("recording local audio")
 	mediaStream = stream = getLocalStream();
 	recordAudio = RecordRTC(stream);
 	recordAudio.startRecording();
 });
 
-socket.on('stop recording',function(){
+socket.on('stop recording',function (){
 	console.log("stop recording local audio")
 	recordAudio.stopRecording(function() {
 		// get audio data-URL
@@ -33,7 +34,8 @@ socket.on('stop recording',function(){
 			var file = {
 				audio: {
 					type: recordAudio.getBlob().type || 'audio/wav',
-					dataURL: audioDataURL
+					dataURL: audioDataURL,
+					user : username
 				}
 			};
 			socket.emit('myrecording',file )

@@ -1,8 +1,8 @@
-/*************************************************************************************/		
-								/****On event functions****/		
-/*************************************************************************************/						
-					;	
-//On receiving contact list from server, 
+/*************************************************************************************/
+								/****On event functions****/
+/*************************************************************************************/
+					;
+//On receiving contact list from server,
 //display it on the screen and store the length of the contact list
 var user = username
 socket.on('contacts', function(data){
@@ -13,8 +13,8 @@ socket.on('contacts', function(data){
 });
 
 //On receiving a new online contact from the server,
-//append a new button to the contact list on the screen 
-		
+//append a new button to the contact list on the screen
+
 socket.on('addContact', function(data){
 	console.log('received new online contact from server:'+data);
 	numberOfOnlineContacts ++;
@@ -27,9 +27,9 @@ socket.on('addContact', function(data){
 	console.log($contacts.innerHTML);
 });
 
-//On receiving delete contact from server, 
-//delete the user button from the contact list 
-		
+//On receiving delete contact from server,
+//delete the user button from the contact list
+
 socket.on('deleteContact',function(deleteName){
 	var $innerContacts = $contacts.childNodes;
 	for(i=0;i<$contacts.childNodes.length;i++){
@@ -41,8 +41,8 @@ socket.on('deleteContact',function(deleteName){
 	}
 });
 
-//On incoming call, 
-//display the accept reject buttons to the user 
+//On incoming call,
+//display the accept reject buttons to the user
 
 socket.on('connectRequest', function(callerName){
 	$callerName.innerHTML = callerName;
@@ -51,10 +51,10 @@ socket.on('connectRequest', function(callerName){
 	$ringingSound.play();
 });
 
-//On incoming call, 
+//On incoming call,
 //display the add to conference buttons to the user
 //if user is already in a conference
-		
+
 socket.on('addToConferenceRequest', function(callerName){
 	console.log("add to conference request received");
 	var $caller = document.getElementById('callerDisplay');
@@ -64,8 +64,8 @@ socket.on('addToConferenceRequest', function(callerName){
 	$addToConferenceButtons.style.display = 'block';
 	$ringingSound.play();
 });
-		
-//On creation of the room, 
+
+//On creation of the room,
 //make isInitiator status true and
 //display the end call button	to the initiator
 
@@ -75,9 +75,9 @@ socket.on('created', function (room){
 	console.log('Created room ' + room+ 'for ' + user);
 	isInitiator = true;
 });
-		
+
 //On any new peer joining the conference,
-//create a separate peer connection,increment userID 
+//create a separate peer connection,increment userID
 //and send offer to that peer
 
 socket.on('user joined', function (userJoined){
@@ -89,34 +89,34 @@ socket.on('user joined', function (userJoined){
 		sendOffer(userJoined);
 	}
 });
-		
+
 //On receiving joined message from server,
 //display the joined information to the user
 
 socket.on('joined', function (members){
 	console.log(user +' Joined room ' + room);
 });
-		
+
 //On successfully being added into the conference,
-//increment the userID 
-		
+//increment the userID
+
 socket.on('addedToConference', function (room){
 	userID ++;
 	$callee.style.display = 'none';
 	console.log(user +' added to conference room ' + room);
 });
-		
-//On getting a disconnect request from other user, 
+
+//On getting a disconnect request from other user,
 //stop that user's corresponding peer connection
-	
+
 socket.on('hangup', function (hangupUser){
 	console.log('hangup request from user '+hangupUser);
 	stop(hangupUser);
 });
 
-//On receiving remove peer instruction from initiator, stop the connection with the peer 
+//On receiving remove peer instruction from initiator, stop the connection with the peer
 //The peer himself will delete all connections with his room members
-	
+
 socket.on('remove', function (hangupUser){
 	console.log('got remove user request from server');
 	if(hangupUser===user){
@@ -126,8 +126,8 @@ socket.on('remove', function (hangupUser){
 		stop(hangupUser);
 	}
 });
-		
-//On receiving a reject message, 
+
+//On receiving a reject message,
 //alert the caller about the rejection
 
 socket.on('reject', function (calleeName){
@@ -136,28 +136,26 @@ socket.on('reject', function (calleeName){
 	alert('Call rejected by ' + calleeName);
 });
 
-//Client response to other messages from server	
-		
+//Client response to other messages from server
+
 socket.on('message', function (message){
 	console.log('message from server:', message);
-	
+
 	if (message.type === 'offer') {
 		onOfferMessage(message);
-	} 
-	else 
-		if (message.type === 'answer') {
-			onAnswerMessage(message);
-		} 
-		else 
-			if (message.type === 'candidate') {
-				onCandidateMessage(message);
-			} 
-			else
-				if(message === 'endOfConference'){
-						deleteAllConnections();
-				}
+	}else if (message.type === 'answer') {
+		onAnswerMessage(message);
+	}else if (message.type === 'candidate') {
+		onCandidateMessage(message);
+	}else if(message === 'endOfConference'){
+		deleteAllConnections();
+	}/*else if(message === 'start recording'){
+		recordLocalAudio();
+	}else if (message === 'stop recording'){
+		stopRecordLocalAudio();
+	}*/
 });
-						
+
 //On receiving offer from a peer,increment the userID, create a separate peer connection,
 //send answer message to the server,
 //store the remote description and display the remote media stream
@@ -172,8 +170,8 @@ function onOfferMessage(message){
 	connectedUsers[connectToUser].onaddstream = function(event){
 		handleRemoteStreamAdded(event,connectToUser)};
 }
-		
-//On receiving answer from a peer, 
+
+//On receiving answer from a peer,
 //set the remote description and display the remote media stream
 
 function onAnswerMessage(message){
@@ -183,9 +181,9 @@ function onAnswerMessage(message){
 	connectedUsers[connectToUser].onaddstream = function(event){
 		handleRemoteStreamAdded(event,connectToUser)};
 }
-//On receiving candidate information from server, 
+//On receiving candidate information from server,
 //add the ICE candidates to the corresponding peer connection
-			
+
 function onCandidateMessage(message){
 	console.log('got candidate');
 	var candidate = new RTCIceCandidate(
@@ -194,9 +192,14 @@ function onCandidateMessage(message){
 		candidate: message.candidate
 	});
 	connectedUsers[message.connectTo].addIceCandidate(candidate);
+	//call initiated
+	if (admin=== 'true') {
+		$startRecording.style.display = 'block';
+		$stopRecordingAudio.style.display = 'block'
+	}
 }
 
-//Informing the server about the client ending the session 
+//Informing the server about the client ending the session
 
 window.onbeforeunload = function(e){
 	sendMessage('goodbye');

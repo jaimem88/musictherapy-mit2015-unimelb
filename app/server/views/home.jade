@@ -7,58 +7,68 @@ block scripts
 	script(src='/js/controllers/get_media_functions.js')
 	script.
 		username = "#{user.fname}"
+		admin = "#{user.admin}"
 block content
 	h4
-		//a(href="/profile")
-		button#profile(style = "display:block" type="button" onclick="goTo(\"\/profile\")")
-			span.fa.fa-user
-			|  Profile
-		button#startCallModeButton(style = "display:block" type="button", onclick="startCallMode()")
-			span.fa.fa-phone
-			|  Start session
-		button#stopCallModeButton(style = "display: none" type="button", onclick="stopCallMode()")
-			span.fa.fa-stop
-			|  Stop session
-	h1
-		center Welcome #{user.fname}!
-	#mediaPage(style="display: none")
-		#contactInfo(style="float:right")
-			p#contactHeading.textStyle(align="right")
-			br
-			br
-			br
-			br
-			strong Online Contacts
-			p#contacts(align="right") no contacts
-	#media
-		video#localVideo(width="320", height="240", autoplay="true", muted="true", style="display: none")
-		audio#localAudio(controls="", autoplay="true", muted="false", style="display: none")
-		.inner(style="height: 5em;")
-			- if (user.admin)
-				button#recordAudio(style = "display: block" type="button") Start Recording Mode
-				button#stop-recording-audio(style = "display: block" disabled="") Stop Recording Mode
-	.callingDisplay
-		#callerDisplay.textStyle(style="display: none")
-			p#callerName(align="center") no caller&#62;
-			p#calling(align="center") calling
-			audio#ringingSound(src="ringing_sound.mp3", type="audio/mpeg")
-		#calleeDisplay.textStyle(style="display: none")
-			p#calleeName no callee
-				img(src="/img/calling-icon.png", align="center", alt="calling", height="40", width="40")
-		#acceptButtons(style="display: none")
-			button#accept(type="button", onclick="accept()")
-				img(src="/img/Accept-icon.jpg", height="40", width="100", alt="Accept")
-			button#reject(type="button", onclick="reject()")
-				img(src="/img/Reject-icon.jpg", height="40", width="100", alt="Reject")
-		#addToConferenceButtons(align="right", style="display: none")
-			button#addToConference(type="button", onclick="addToConference()")
-				img(src="/img/add-button.png", height="40", width="100", alt="add")
-			button#reject(type="button", onclick="reject()")
-				img(src="/img/Reject-icon.jpg", height="40", width="100", alt="Reject")
-		#endConference(align="right", style="display: none")
-			button#hangupButton(type="button", onclick="endConference()")
-				img(src="/img/end-call.jpg", height="60", width="80", alt="Hangup")
-
+		.container-fluid
+			h1
+				center Welcome #{user.fname}!
+			.row
+				.col-md-3.col-md-push-9
+					#mediaPage(style="display: none")
+						#contactInfo(style="float:right")
+							p#contactHeading.textStyle(align="right")
+							strong Online Contacts
+							p#contacts(align="right") no contacts
+				.col-md-2.col-md-pull-3
+					button.btn.btn-info.btn-block#profile(style = "display:block" type="button" onclick="goTo(\"\/profile\")")
+						span.fa.fa-user
+						|  Profile
+					button.btn.btn-success.btn-block#startCallModeButton(style = "display:block" type="button", onclick="startCallMode()")
+						span.fa.fa-phone
+						|  Start session
+					button.btn.btn-danger.btn-block#stopCallModeButton(style = "display: none" type="button", onclick="stopCallMode()")
+						span.fa.fa-stop
+						|  Stop session
+	.container-fluid#mediaPage2(style="display: none")
+		.row#media
+			.col-sm-3
+				.panel.panel-success
+					.panel-heading
+						h3.panel-title.text-center #{user.fname}
+					.panel-body.text-center
+						video#localVideo(width="320", height="240", autoplay="true", muted="true", style="display: none")
+						audio#localAudio(controls="", autoplay="true", muted="false", style="display: none")
+						.row
+							.col-sm-12
+								button#recordAudio(style = "display: none" type="button") Start Recording Mode
+								button#stop-recording-audio(style = "display: none" disabled="" type="button") Stop Recording Mode
+						.row
+							.col-sm-2
+								#callerDisplay.textStyle(style="display: none")
+									p#callerName(align="center") no caller&#62;
+									p#calling(align="center") calling
+									audio#ringingSound(src="ringing_sound.mp3", type="audio/mpeg")
+							.col-sm-2
+								#calleeDisplay.textStyle(style="display: none")
+									p#calleeName no callee
+										img(src="/img/calling-icon.png", align="center", alt="calling", height="40", width="40")
+							.col-sm-2
+								#acceptButtons(style="display: none")
+									button#accept(type="button", onclick="accept()")
+										img(src="/img/Accept-icon.jpg", height="40", width="100", alt="Accept")
+									button#reject(type="button", onclick="reject()")
+										img(src="/img/Reject-icon.jpg", height="40", width="100", alt="Reject")
+							.col-sm-2
+								#addToConferenceButtons(align="right", style="display: none")
+									button#addToConference(type="button", onclick="addToConference()")
+										img(src="/img/add-button.png", height="40", width="100", alt="add")
+									button#reject(type="button", onclick="reject()")
+										img(src="/img/Reject-icon.jpg", height="40", width="100", alt="Reject")
+							.col-sm-2
+								#endConference(align="right", style="display: none")
+									button#hangupButton(type="button", onclick="endConference()")
+										img(src="/img/end-call.jpg", height="60", width="80", alt="Hangup")
 	script(src='/js/controllers/home_controller.js')
 	script(src='/js/views/home.js')
 	//script(src='/js/views/recordAudio.js')

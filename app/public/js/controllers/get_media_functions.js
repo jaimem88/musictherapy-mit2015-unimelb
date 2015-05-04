@@ -8,7 +8,7 @@
 			video: {
 				mandatory: {
 					maxWidth: 320,
-					maxHeight: 180
+					maxHeight: 240
 				}
 			},audio:true
 		};

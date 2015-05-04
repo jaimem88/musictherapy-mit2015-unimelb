@@ -36,7 +36,7 @@ var sslOptions ={
 	cert: fs.readFileSync('./ssl/key-cert.pem')
 };
 // set up our express application
-//app.use(morgan('dev')); // log every request to the console
+app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 app.set('views', __dirname + '/app/server/views');
@@ -68,11 +68,11 @@ io.sockets.on('connection', function (socket){
 	console.log("new client connected");
 	require(__dirname + '/app/server/config/connection')(socket);
 });
-/*
+
 // Redirect from http port 8080 to https
 var http = require('http');
 http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host']+PORT +"/"+req.url });
-		console.log("Location"+ "https://" + req.headers['host']+PORT +"/"+req.url)
+    res.writeHead(301, { "Location": "https://localhost:3000"+req.url });
+		console.log("Location"+ "https://localhost:3000"+req.url)
     res.end();
-}).listen(8080);*/
+}).listen(8080);

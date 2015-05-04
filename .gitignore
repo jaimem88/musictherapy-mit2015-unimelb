@@ -21,3 +21,5 @@ node_modules
 #package.json~
 #package.json~
 *.*~
+#uploads
+app/public/uploads

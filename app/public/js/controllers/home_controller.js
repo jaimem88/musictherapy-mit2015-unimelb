@@ -3,8 +3,8 @@
 /*************************************************************************************************/
 
 						/****Declarations****/
-				
-				
+
+
 var localStream;
 var remoteStream;
 
@@ -26,20 +26,20 @@ var $calleeName = document.getElementById('calleeName');
 var $contacts = document.getElementById('contacts');
 var $ringingSound = document.getElementById('ringingSound');
 
-var $media = document.getElementById('media');		
+var $media = document.getElementById('media');
 var $localAudio = document.getElementById('localAudio');
 var $localVideo = document.getElementById('localVideo');
-var $mediaSelection = document.getElementById('mediaSelection');
-		
+//var $mediaSelection = document.getElementById('mediaSelection');
+
 var sdpConstraints = {'mandatory': {
 	'OfferToReceiveAudio':true,
-	'OfferToReceiveVideo':true }};				
+	'OfferToReceiveVideo':true }};
 /*************************************************************************************/
 console.log("Home loaded");
 
 //Creating a new HTML button for each contact in the contact list
 
-		
+
 function displayContacts(contacts){
 	var contactString='';
 	console.log('displaying contacts onto the screen: '+ contacts);
@@ -49,15 +49,15 @@ function displayContacts(contacts){
 				+"\" onclick = \"callUser('contact"+(i+1)
 				+"')\">"+contacts[i]+"</button>"+'<br/>';
 	}
-	
+
 	$contacts.innerHTML = contactString;
 	console.log(contactString);
 }
-			
+
 //When any name in the contact list is clicked,
 //the function confirms the calling
 //and displays the calling to the user
-		
+
 function callUser(id) {
 	console.log('entered call user function ');
 	var connectToUser=document.getElementById(id).value;
@@ -68,40 +68,39 @@ function callUser(id) {
 		socket.emit('connectToUser',connectToUser);
 		$calleeName.innerHTML = 'calling  ' + connectToUser;
 		$callee.style.display = 'block';
-		$mediaSelection.style.display = "none";
 	}
 	else{
 		console.log('calling cancelled');
-	}	
+	}
 }
 
 //Sending an accept message to the server,
-//when the user accepts an incoming call	
-				
+//when the user accepts an incoming call
+
 function accept(){
 	var connectToUser = $callerName.innerHTML;
 	console.log(connectToUser + ' call accepted');
 	socket.emit('accept',connectToUser);
-	$caller.style.display = 'none';	
+	$caller.style.display = 'none';
 	$acceptButtons.style.display = 'none';
-	$mediaSelection.style.display = "none";
+//	$mediaSelection.style.display = "none";
 	$ringingSound.pause();
 }
 
-//Sending add to conference message to the server 		
+//Sending add to conference message to the server
 //when the user has accepted the caller into a conference
-		
+
 function addToConference(){
 	var connectToUser = $callerName.innerHTML;
 	console.log(connectToUser + ' call accepted');
 	socket.emit('acceptIntoConference',connectToUser );
-	$caller.style.display = 'none';	
+	$caller.style.display = 'none';
 	$addToConferenceButtons.style.display = 'none';
 	$ringingSound.pause();
 }
 
 //Sending reject message to the server
-//when the user rejects an incoming call	
+//when the user rejects an incoming call
 
 function reject(){
 	console.log('call rejected');
@@ -114,7 +113,7 @@ function reject(){
 
 //Informing the server to end the conference,
 //when end call button is clicked by the initiator
-		
+
 function endConference(){
 	console.log('initiator ending the call');
 	$endConference.style.display = 'none';
@@ -136,7 +135,7 @@ function deleteAllConnections(){
 	}
 }
 
-//If the user hangups the connection with the initiator, 
+//If the user hangups the connection with the initiator,
 //the function will inform the server to remove the user from the conference room itself.
 //If the user hangups another member in the room,
 //then the function stops that particular peer connection only
@@ -150,9 +149,9 @@ function hangupUser(hangupUser) {
 		socket.emit('hangup',hangupUser);
 		stop(hangupUser);
 	}
-	
+
 }
-		
+
 //Stopping a peer connection includes,
 //removing the remote media stream,
 //closing and deleting the peer connection object from the connectedUsers array,
@@ -160,7 +159,7 @@ function hangupUser(hangupUser) {
 //The function also checks the number of users connected
 //and acts accordingly
 
-		
+
 function stop(hangupUser) {
 	console.log('closing peer connection of :'+hangupUser);
 	connectedUsers[hangupUser].close();
@@ -173,7 +172,7 @@ function stop(hangupUser) {
 }
 
 //Informs the server to leave the room if there are no peers connected to the user
-//The function also makes the isInitiator status false if the user is the initiator and 
+//The function also makes the isInitiator status false if the user is the initiator and
 //there are no existing peer connections left
 
 function checkNumberOfConnections(){
@@ -181,18 +180,21 @@ function checkNumberOfConnections(){
 		console.log('no connected users');
 		sendMessage('leave');
 		console.log('leaving the room '+user);
-		$mediaSelection.style.display = "block";
+		//$mediaSelection.style.display = "block";
 		if(isInitiator){
 			$endConference.style.display = 'none';
 			isInitiator = false;
 		}
+		if (admin=== 'true') {
+			$startRecording.style.display = 'none';
+			$stopRecordingAudio.style.display = 'none'
+		}
 	}
 }
-		
+
 //Sending messages to the server with a message tag
-		
+
 function sendMessage(message){
 		console.log('Client sending message: ', message);
 		socket.emit('message', message);
 }
-

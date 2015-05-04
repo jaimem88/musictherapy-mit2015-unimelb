@@ -16,7 +16,8 @@ function createVideoElement(divElement,stream){
 	console.log('creating a video element to display peer video');
 	console.log('div element id :'+divElement.id);
 	var remoteVideo = document.createElement('video');
-	remoteVideo.width = 400;
+	remoteVideo.width = 320;
+	remoteVideo.height = 240;
 	remoteVideo.autoplay = true;
 	remoteVideo.src = window.URL.createObjectURL(stream);
 	//remoteStream = stream;
