@@ -8,6 +8,7 @@ $startRecording.onclick = function() {
 	console.log('click on start recording '+username)
 	$startRecording.disabled = true
 	$stopRecordingAudio.disabled = false;
+	$mixRecordings.disabled = true;
 	socket.emit('start recording');
 };
 
@@ -15,8 +16,16 @@ $startRecording.onclick = function() {
 $stopRecordingAudio.onclick = function() {
 	$startRecording.disabled = false;
 	$stopRecordingAudio.disabled = true;
+	$mixRecordings.disabled = false;
 	socket.emit('stop recording');
 };
+$mixRecordings.onclick = function() {
+	$startRecording.disabled = false;
+	$stopRecordingAudio.disabled = true;
+	$mixRecordings.disabled = true;
+	socket.emit('mix recordings');
+};
+
 
 //when start recording is received, then record local stream
 socket.on('start recording',function (){

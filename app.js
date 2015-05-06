@@ -62,7 +62,7 @@ io = require('socket.io').listen(server);
 
 // launch ======================================================================
 server.listen(port,function(){
-	console.log('Server listening on port ' + port);
+	console.log('HTTPS server listening on port ' + port);
 });
 io.sockets.on('connection', function (socket){
 	console.log("new client connected");
@@ -72,7 +72,7 @@ io.sockets.on('connection', function (socket){
 // Redirect from http port 8080 to https
 var http = require('http');
 http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://localhost:3000"+req.url });
-		console.log("Location"+ "https://localhost:3000"+req.url)
-    res.end();
+	console.log("Location "+ "https://" + req.headers['port'] +" "+req.url )
+	res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+  res.end();
 }).listen(8080);

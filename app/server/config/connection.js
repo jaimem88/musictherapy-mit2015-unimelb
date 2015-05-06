@@ -1,5 +1,6 @@
 
 fs = require("fs");
+var mixer = require("./mixer.js")
 //var recordRTC = require('recordrtc');
 var rooms={};
 var clients={};
@@ -136,9 +137,12 @@ module.exports = function(socket) {
 		console.log("recieved audio file");
 		var d = new Date()
 		var fileName = d.getTime();
-		writeToDisk(file.audio.dataURL, file.audio.user+'_'+fileName + '.wav');
+		writeToDisk(file.audio.dataURL, fileName+'_'+file.audio.user+ '.wav');
 	});
-
+	//on mix
+	socket.on('mix recordings',function(data){
+		mixer.printFiles();
+	});
 //};
 	/************************************************************************************************/
 									/****helper functions****/

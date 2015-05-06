@@ -195,7 +195,8 @@ function onCandidateMessage(message){
 	//call initiated
 	if (admin=== 'true') {
 		$startRecording.style.display = 'block';
-		$stopRecordingAudio.style.display = 'block'
+		$stopRecordingAudio.style.display = 'block';
+		$mixRecordings.style.display ='block';
 	}
 }
 

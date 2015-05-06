@@ -6,6 +6,7 @@ var $stopCallButton = document.getElementById('stopCallModeButton');
 var $videoWindow = document.getElementById('localVideo');
 var $startRecording = document.getElementById('recordAudio');
 var $stopRecordingAudio = document.getElementById('stop-recording-audio');
+var $mixRecordings = document.getElementById('mix-recordings');
 var callMode = false;
 var script = document.createElement('script');
 	script.src = 'http://somesite.com/somescript.js';
@@ -50,11 +51,6 @@ function displayContent(){
 	document.getElementById("mediaPage").style.display = "block";
 	document.getElementById("mediaPage2").style.display = "block";
 	console.log(" admin? "+admin)
-/*	if (admin=== 'true') {
-		$startRecording.style.display = 'block';
-		$stopRecordingAudio.style.display = 'block'
-	}
-	*/
 	$startCallButton.style.display = 'none';
 	$stopCallButton.style.display = "block";
 	$videoWindow.style.display = "block";

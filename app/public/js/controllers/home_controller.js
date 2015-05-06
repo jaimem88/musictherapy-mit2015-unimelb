@@ -188,6 +188,7 @@ function checkNumberOfConnections(){
 		if (admin=== 'true') {
 			$startRecording.style.display = 'none';
 			$stopRecordingAudio.style.display = 'none'
+			$mixRecordings.style.display='none'
 		}
 	}
 }
