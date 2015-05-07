@@ -15,10 +15,12 @@ module.exports = {
   mix();
   }
 };
-
+var i =0;
 function mix(){
 
+    console.log(i + ' '+clips);
     if (!clips.length) {
+
         dhh.end("Done");
         return;
     }
@@ -27,6 +29,9 @@ function mix(){
     stream.pipe(dhh, {end: false});
     stream.on("end", function() {
         console.log(currentfile + ' appended');
+        console.log(i + ' '+currentfile);
+      //  fs.unlink(currentfile);
         mix();
     });
+    i+=1;
 }
