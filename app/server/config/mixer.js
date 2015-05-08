@@ -1,37 +1,29 @@
 var fs = require("fs");
+var sys = require("sys");
+var exec = require('child_process').exec;
 var filesPath = './app/public/uploads/',
   clips = [],
   stream,
   currentfile;
-
+  x = " ";
 module.exports = {
   printFiles: function(){
     files = fs.readdirSync(filesPath);
+
     files.forEach(function(file){
-      console.log("File: "+file);
-      clips.push(file);
+      x+=filesPath+file+" ";
+      //console.log(x);
+      //clips.push(file);
     });
-    dhh=fs.createWriteStream(filesPath+'mixed.wav');
-  mix();
+
+  mix(x);
   }
 };
-var i =0;
-function mix(){
+//var i =0;
+function puts(error, stdout, stderr) { sys.puts(stdout) };
+function mix(audioFiles){
 
-    console.log(i + ' '+clips);
-    if (!clips.length) {
+  console.log(x)
+  exec("sox -m"+x+filesPath+"mixed_1.wav", puts);
 
-        dhh.end("Done");
-        return;
-    }
-    currentfile = filesPath+ clips.shift();
-    stream = fs.createReadStream(currentfile);
-    stream.pipe(dhh, {end: false});
-    stream.on("end", function() {
-        console.log(currentfile + ' appended');
-        console.log(i + ' '+currentfile);
-      //  fs.unlink(currentfile);
-        mix();
-    });
-    i+=1;
 }
