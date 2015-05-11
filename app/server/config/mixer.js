@@ -23,7 +23,7 @@ module.exports = {
 function puts(error, stdout, stderr) { sys.puts(stdout) };
 function mix(audioFiles){
 
-  console.log(x)
+  console.log("sox -m"+x+filesPath+"mixed_1.wav");
   exec("sox -m"+x+filesPath+"mixed_1.wav", puts);
 
 }

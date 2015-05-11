@@ -1,7 +1,4 @@
-var audioConstraints = {
-	audio: true,
-	video: false
-};
+
 
 var recordAudio, recordVideo;
 $startRecording.onclick = function() {

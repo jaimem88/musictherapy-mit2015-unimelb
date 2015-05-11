@@ -9,15 +9,17 @@ html
 			function goTo(page){
 				window.location.href=page
 			}
-		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
+		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
 		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+		style
+			body{overflow-x: hidden;overflow-y: scroll;}
 		.container-fluid
 			.row
 				.col-md-4
-					img(src="/img/MNSI-LogoBlue.png", align="left", height="100%", width="200")
+					img(src="/img/MNSI-LogoBlue.png", align="left", height="70", width="200")
 				.col-md-4
-					img(src="/img/choir_test.jpg",align="middle", height="100%", width="70%")
+					img(src="/img/choir_test.jpg",align="middle", height="70", width="65%")
 				.col-md-4
-					img(src="/img/Melb_music.jpg", align="right", height="100%", width="200")
-
-	block content
+					img(src="/img/Melb_music.jpg", align="right", height="70", width="200")
+	body
+		block content

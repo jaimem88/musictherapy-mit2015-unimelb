@@ -4,7 +4,7 @@
 
 //Declaring the audio and video constraints
 
-		var qvgaConstraints  = {
+		var constraints  = {
 			video: {
 				mandatory: {
 					maxWidth: 320,
@@ -16,9 +16,8 @@
 
 		function getMedia()
 		{
-			console.log(qvgaConstraints);
-			getUserMedia(	qvgaConstraints, handleUserMedia, handleUserMediaError);
-			console.log('Getting user media with constraints', qvgaConstraints);
+			getUserMedia(	constraints, handleUserMedia, handleUserMediaError);
+			console.log('Getting user media with constraints', constraints);
 		}
 //Returning true if video element is present in the media stream
 

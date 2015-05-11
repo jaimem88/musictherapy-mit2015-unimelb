@@ -11,7 +11,9 @@ module.exports = function(app, passport) {
 	 app.get('/audio', function(req, res) {
         res.render('audio.jade'); // load the index.jade file
     });
-
+		app.get('/layout', function(req, res) {
+        res.render('layout.jade'); // load the index.jade file
+    });
     // =====================================
     // INDEX PAGE (with login links) ========
     // =====================================

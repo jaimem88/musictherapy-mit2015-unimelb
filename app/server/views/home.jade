@@ -9,28 +9,27 @@ block scripts
 		username = "#{user.fname}"
 		admin = "#{user.admin}"
 block content
-	h4
-		.container-fluid
-			h1
-				center Welcome #{user.fname}!
-			.row
-				.col-md-3.col-md-push-9
-					#mediaPage(style="display: none")
-						#contactInfo(style="float:right")
-							p#contactHeading.textStyle(align="right")
-							strong Online Contacts
-							p#contacts(align="right") no contacts
-				.col-md-2.col-md-pull-3
-					button.btn.btn-info.btn-block#profile(style = "display:block" type="button" onclick="goTo(\"\/profile\")")
-						span.fa.fa-user
-						|  Profile
-					button.btn.btn-success.btn-block#startCallModeButton(style = "display:block" type="button", onclick="startCallMode()")
-						span.fa.fa-phone
-						|  Start session
-					button.btn.btn-danger.btn-block#stopCallModeButton(style = "display: none" type="button", onclick="goTo(\"\/home\")")
-						span.fa.fa-stop
-						|  Stop session
-	button.btn.btn-lg.btn-primary.btn-add-panel Add new panel
+	.container-fluid
+		h1
+			center Welcome #{user.fname}!
+		.row
+			.col-md-3.col-md-push-9
+				#mediaPage(style="display: none")
+					#contactInfo(style="float:right")
+						p#contactHeading.textStyle(align="right")
+						strong Online Contacts
+						p#contacts(align="right") no contacts
+			.col-md-2.col-md-pull-3
+				button.btn.btn-info.btn-block#profile(style = "display:block" type="button" onclick="goTo(\"\/profile\")")
+					span.fa.fa-user
+					|  Profile
+				button.btn.btn-success.btn-block#startCallModeButton(style = "display:block" type="button", onclick="startCallMode()")
+					span.fa.fa-phone
+					|  Start session
+				button.btn.btn-danger.btn-block#stopCallModeButton(style = "display: none" type="button", onclick="goTo(\"\/home\")")
+					span.fa.fa-stop
+					|  Stop session
+	//button.btn.btn-lg.btn-primary.btn-add-panel Add new panel
 	.container-fluid#mediaPage2(style="display: none")
 		.row#media
 			.col-sm-3.template
@@ -42,9 +41,9 @@ block content
 						audio#localAudio(controls="", autoplay="true", muted="false", style="display: none")
 						.row
 							.col-sm-12
-								button#recordAudio(style = "display: none" type="button") Start Recording Mode
-								button#stop-recording-audio(style = "display: none" disabled="" type="button") Stop Recording Mode
-								button#mix-recordings(style = "display: none" disabled="" type="button") Mix Recordings
+								button.btn.btn-success.btn-block#recordAudio(style = "display: none" type="button") Start Recording Mode
+								button.btn.btn-warning.btn-block#stop-recording-audio(style = "display: none" disabled="" type="button") Stop Recording Mode
+								button.btn.btn-info.btn-block#mix-recordings(style = "display: none" disabled="" type="button") Mix Recordings
 						.row
 							.col-sm-2
 								#callerDisplay.textStyle(style="display: none")

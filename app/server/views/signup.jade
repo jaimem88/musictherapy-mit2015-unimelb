@@ -1,13 +1,13 @@
 extend layout
 block content
-	.container
+	.container-fluid
 		.col-sm-6.col-sm-offset-3
 			h1
 				span.fa.fa-sign-in
 				|  Create new account
 			if message.length>0
 				.alert.alert-danger= message
-          
+
 			// LOGIN FORM
 			form(action="/signup", method="post")
 				.form-group
@@ -22,7 +22,7 @@ block content
 				.form-group
 					label Password
 					input.form-control(type="password", name="password")
-				
+
 				input(type="checkbox", name="admin", checked=(true===false ? "checked" : undefined))
 				strong   Admin?
 				br

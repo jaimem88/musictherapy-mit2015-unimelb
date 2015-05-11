@@ -1,17 +1,17 @@
 extend layout
 block content
-	.container
-		.page-header.text-center
-			h1
-				span.fa.fa-cog.fa-spin
-				|  My Profile
-			button#profile(style = "display:block" type="button" onclick="goTo(\"\/home\")")
-				span.fa.fa-phone
-				|  Conference Mode
-			button#profile(style = "display:block" type="button" onclick="goTo(\"\/logout\")")
-				span.fa.fa-sign-out
-				|  Logout
-			
+	.container-fluid
+		.row
+			.page-header.text-center
+				h1
+					span.fa.fa-cog.fa-spin
+					|  My Profile
+				button#profile(style = "display:block" type="button" onclick="goTo(\"\/home\")")
+					span.fa.fa-phone
+					|  Conference Mode
+				button#profile(style = "display:block" type="button" onclick="goTo(\"\/logout\")")
+					span.fa.fa-sign-out
+					|  Logout
 		.row
 			// LOCAL INFORMATION
 			.col-sm-6
@@ -24,7 +24,7 @@ block content
 					p
 						strong Email: #{user.email}
 
-		.column
+		.row
 			h4
 				- if (user.admin)
 					span.fa.fa-users
