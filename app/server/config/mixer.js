@@ -17,6 +17,7 @@ module.exports = {
     });
 
   mix(x);
+  x = " ";
   }
 };
 //var i =0;
