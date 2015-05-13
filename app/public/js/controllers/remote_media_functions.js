@@ -5,8 +5,10 @@
 //Creating a HTML division
 
 function createHTMLDivision(divElement,connectToUser){
+
 	divElement.id = connectToUser;
-	divElement.className = 'remoteVideoContainer';
+	divElement.className = 'col.sm-3'
+	//divElement.className = 'remoteVideoContainer';
 	console.log('div element id in html division:'+divElement.id);
 }
 

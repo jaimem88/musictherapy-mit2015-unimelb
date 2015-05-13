@@ -30,7 +30,8 @@ function createPeerConnection(connectToUser) {
 	};
 	try {
 		console.log('number of contacts connected: '+ userID);
-		pc = new webkitRTCPeerConnection(pc_config);
+		//if(webrtcDetectedBrowser==='firefox'
+		pc = new RTCPeerConnection(pc_config);
 		pc.onicecandidate = function(event){
 			handleIceCandidate(event,connectToUser)};
 		console.log('Created RTCPeerConnnection with config:\n' + '  \''
