@@ -11,10 +11,15 @@ function createPeerConnection(connectToUser) {
 		[
 			//{'url': 'stun:stun.l.google.com:19302'},
 			//{'url': 'stun:23.21.150.121'},
-			{
+		/*	{
 				'url': 'turn:numb.viagenie.ca',
 				credential: 'muazkh',
 				username: 'webrtc@live.com'
+			},*/
+			{
+				'url': 'turn:numb.viagenie.ca',
+				credential: '@aspirina.9808',
+				username: 'jmartinez1@student.unimelb.edu.au'
 			}//,
 		/*	{
 				url: 'turn:192.158.29.39:3478?transport=udp',
