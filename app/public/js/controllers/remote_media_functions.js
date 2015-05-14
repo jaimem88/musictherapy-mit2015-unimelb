@@ -5,7 +5,7 @@
 //Creating a HTML division
 
 function createHTMLDivision(divElement,connectToUser){
-
+	
 	divElement.id = connectToUser;
 	divElement.className = 'col.sm-3'
 	//divElement.className = 'remoteVideoContainer';

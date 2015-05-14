@@ -136,12 +136,13 @@ module.exports = function(socket) {
 	socket.on('myrecording',function(file){
 		console.log("recieved audio file");
 		var d = new Date()
-		var fileName = d.getTime();
-		writeToDisk(file.audio.dataURL, fileName+'_'+file.audio.user+ '.wav');
+		var fileName = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+		writeToDisk(file.audio.dataURL, fileName+'_'+file.audio.email+'.wav');
 	});
 	//on mix
 	socket.on('mix recordings',function(data){
-		mixer.printFiles();
+		console.log(data);
+		mixer.printFiles(data);
 	});
 //};
 	/************************************************************************************************/

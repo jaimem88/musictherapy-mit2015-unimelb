@@ -13,8 +13,8 @@ function createPeerConnection(connectToUser) {
 			{'url': 'stun:23.21.150.121'},
 			{
 				'url': 'turn:numb.viagenie.ca',
-				credential: '@aspirina.9808',
-				username: 'jmartinez1@student.unimelb.edu.au'
+				credential: 'abalab.com.au',
+				username: 'lab@clab.org.au'
 			}
 		]
 	};
@@ -59,6 +59,9 @@ function handleIceCandidate(event,connectToUser) {
 
 function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
+	var $newPanel= $(".template").clone();
+	$newPanel.find('.panel-title').text(connectToUser)
+	$("#media").append($newPanel.fadeIn());
 	divElement = document.createElement('div');
 	createHTMLDivision(divElement,connectToUser);
 	console.log('div element id in webRTC:'+divElement.id);

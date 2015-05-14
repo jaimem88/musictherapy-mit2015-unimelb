@@ -12,6 +12,7 @@ $startRecording.onclick = function() {
 
 $stopRecordingAudio.onclick = function() {
 	$startRecording.disabled = false;
+	$startRecording.style.display='none';
 	$stopRecordingAudio.disabled = true;
 	$mixRecordings.disabled = false;
 	socket.emit('stop recording');
@@ -20,7 +21,10 @@ $mixRecordings.onclick = function() {
 	$startRecording.disabled = false;
 	$stopRecordingAudio.disabled = true;
 	$mixRecordings.disabled = true;
-	socket.emit('mix recordings');
+	var d = new Date()
+  var fileName = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+"_"+"SessionX"+"_RecordingY";
+  var mixedFileName = prompt("File name: ", fileName);
+	socket.emit('mix recordings',mixedFileName);
 };
 
 
@@ -41,7 +45,8 @@ socket.on('stop recording',function (){
 				audio: {
 					type: recordAudio.getBlob().type || 'audio/wav',
 					dataURL: audioDataURL,
-					user : username
+					user : username,
+					email : email
 				}
 			};
 			socket.emit('myrecording',file )

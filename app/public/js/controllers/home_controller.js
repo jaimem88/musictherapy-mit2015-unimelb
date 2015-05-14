@@ -29,6 +29,7 @@ var $ringingSound = document.getElementById('ringingSound');
 var $media = document.getElementById('media');
 var $localAudio = document.getElementById('localAudio');
 var $localVideo = document.getElementById('localVideo');
+
 //var $mediaSelection = document.getElementById('mediaSelection');
 
 var sdpConstraints = {'mandatory': {
@@ -180,15 +181,18 @@ function checkNumberOfConnections(){
 		console.log('no connected users');
 		sendMessage('leave');
 		console.log('leaving the room '+user);
+		numberOfOnlineContacts =0;
 		//$mediaSelection.style.display = "block";
 		if(isInitiator){
 			$endConference.style.display = 'none';
 			isInitiator = false;
 		}
+
 		if (admin=== 'true') {
-			$startRecording.style.display = 'none';
-			$stopRecordingAudio.style.display = 'none'
-			$mixRecordings.style.display='none'
+			$recordingControl.style.display='none'
+		//	$startRecording.style.display = 'none';
+		//	$stopRecordingAudio.style.display = 'none'
+		//	$mixRecordings.style.display='none'
 		}
 	}
 }

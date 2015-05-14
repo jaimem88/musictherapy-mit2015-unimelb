@@ -7,6 +7,8 @@ var $videoWindow = document.getElementById('localVideo');
 var $startRecording = document.getElementById('recordAudio');
 var $stopRecordingAudio = document.getElementById('stop-recording-audio');
 var $mixRecordings = document.getElementById('mix-recordings');
+var $recordingControl = document.getElementById('recordingControl');
+
 var callMode = false;
 var script = document.createElement('script');
 	script.src = 'http://somesite.com/somescript.js';
@@ -34,13 +36,14 @@ function startCallMode(){
 		displayContent();
 		getMedia();
 		callMode = true;
+
 }
 
 function stopCallMode(){
 	callMode= false;
 	endConference();
 	stopVideo();
-	//stopDisplayContent();
+
 	window.location.reload(true);
 }
 
@@ -50,10 +53,13 @@ function displayContent(){
 	console.log("displaying media page");
 	document.getElementById("mediaPage").style.display = "block";
 	document.getElementById("mediaPage2").style.display = "block";
+	document.getElementById("callControls").style.display = "block";
 	console.log(" admin? "+admin)
+
 	$startCallButton.style.display = 'none';
 	$stopCallButton.style.display = "block";
 	$videoWindow.style.display = "block";
+
 }
 
 

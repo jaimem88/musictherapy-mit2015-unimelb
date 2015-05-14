@@ -193,10 +193,12 @@ function onCandidateMessage(message){
 	});
 	connectedUsers[message.connectTo].addIceCandidate(candidate);
 	//call initiated
+
 	if (admin=== 'true') {
-		$startRecording.style.display = 'block';
-		$stopRecordingAudio.style.display = 'block';
-		$mixRecordings.style.display ='block';
+		$recordingControl.style.display = 'block';
+	//	$startRecording.style.display = 'block';
+		//$stopRecordingAudio.style.display = 'block';
+	//	$mixRecordings.style.display ='block';
 	}
 }
 
