@@ -5,7 +5,7 @@
 //Creating a HTML division
 
 function createHTMLDivision(divElement,connectToUser){
-	
+
 	divElement.id = connectToUser;
 	divElement.className = 'col.sm-3'
 	//divElement.className = 'remoteVideoContainer';
@@ -13,8 +13,11 @@ function createHTMLDivision(divElement,connectToUser){
 }
 
 //Creating a HTML video element and appending it to the division
-
-function createVideoElement(divElement,stream){
+function replacePanel(panel){
+	var remoteVideo = document.createElement
+	panel.$("localVideo").replaceWith
+}
+function createVideoElement(divElement,panel,stream){
 	console.log('creating a video element to display peer video');
 	console.log('div element id :'+divElement.id);
 	var remoteVideo = document.createElement('video');
@@ -23,18 +26,20 @@ function createVideoElement(divElement,stream){
 	remoteVideo.autoplay = true;
 	remoteVideo.src = window.URL.createObjectURL(stream);
 	//remoteStream = stream;
+	panel.find("localVideo").replaceWith(remoteVideo);
 	divElement.appendChild(remoteVideo);
 }
 
 //Creating a HTML audio element
 
-function createAudioElement(divElement,stream){
+function createAudioElement(divElement,panel,stream){
 	console.log('creating an audioelement to display peer audio');
 	var remoteAudio = document.createElement('audio');
 	remoteAudio.autoplay = true;
 	remoteAudio.controls=true;
 	remoteAudio.src = window.URL.createObjectURL(stream);
 	//remoteStream = stream;
+	panel.find("localAudio").replaceWith(remoteAudio);
 	divElement.appendChild(remoteAudio);
 }
 

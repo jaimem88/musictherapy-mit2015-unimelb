@@ -61,12 +61,12 @@ function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
 	var $newPanel= $(".template").clone();
 	$newPanel.find('.panel-title').text(connectToUser)
-	$("#media").append($newPanel.fadeIn());
+
 	divElement = document.createElement('div');
 	createHTMLDivision(divElement,connectToUser);
 	console.log('div element id in webRTC:'+divElement.id);
 	if(hasVideo(event.stream)){
-		createVideoElement(divElement,event.stream);
+		createVideoElement(divElement,$newPanel,event.stream);
 		createCloseButton(divElement,connectToUser,30,30);
 	}
 	else{
@@ -74,6 +74,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 		createCloseButton(divElement,connectToUser,10,10);
 	}
 	addNameTag(divElement,connectToUser);
+	$("#media").append($newPanel.fadeIn());
 	$media.appendChild(divElement);
 }
 
