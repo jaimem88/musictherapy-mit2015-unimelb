@@ -35,6 +35,7 @@ function createPeerConnection(connectToUser) {
 		return;
 	}
 }
+//lab@clab.org.au
 
 //Sending the ICE candidate received from the STUN server
 //along with the connect to user name  to the signalling server

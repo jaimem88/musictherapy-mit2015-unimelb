@@ -13,7 +13,7 @@ Last Modified:	April 22
 // get all the tools we need
 var express  = require('express');
 var app      = express();
-var port     = process.env.PORT || 3000;
+var port     = process.env.PORT || 443;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -32,8 +32,12 @@ mongoose.connect(configDB.url); // connect to our database
 
 require(__dirname + '/app/server/config/passport')(passport); // pass passport for configuration
 var sslOptions ={
-	key: fs.readFileSync('./ssl/key.pem'),
-	cert: fs.readFileSync('./ssl/key-cert.pem')
+	key: fs.readFileSync('./ssl/server.key'),
+	cert: fs.readFileSync('./ssl/server.crt'),
+	ca: fs.readFileSync('./ssl/ca.crt'),
+	requestCert: true,
+	rejectUnauthorized: false
+
 };
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
