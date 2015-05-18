@@ -59,23 +59,54 @@ function handleIceCandidate(event,connectToUser) {
 
 function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
-	var $newPanel= $(".template").clone();
-	$newPanel.find('.panel-title').text(connectToUser)
+
+	var $newPanel= $(".template").clone().prop('id', 'panels'+connectToUser );;
+
+	$newPanel.find('.panel-title').text(connectToUser);
+	$($newPanel)
+    .find("#localVideo")
+        .remove()
+    .end()
+    .appendTo("body");
+		$($newPanel)
+	    .find("#localAudio")
+	        .remove()
+	    .end()
+	    .appendTo("body");
+//	$newPanel.find("localVideo").remove().end();
+
 
 	divElement = document.createElement('div');
-	createHTMLDivision(divElement,connectToUser);
-	console.log('div element id in webRTC:'+divElement.id);
+	//createHTMLDivision(divElement,connectToUser);
+	//console.log('div element id in webRTC:'+divElement.id);
 	if(hasVideo(event.stream)){
-		createVideoElement(divElement,$newPanel,event.stream);
+		var remoteVideo = document.createElement('video');
+		//	remoteVideo.width = 320;
+		//	remoteVideo.height = 240;
+		remoteVideo.id = "remoteVideo";
+		remoteVideo.class = "embed-responsive-item"
+		remoteVideo.autoplay= "true";
+		if (admin=== 'true') {
+			remoteVideo.controls = true;
+		}
+	//	remoteVideo.autoplay = true;
+		remoteVideo.src = window.URL.createObjectURL(event.stream);
+		$newPanel.find('.test').append(remoteVideo);
+	//	$newPanel.find("localVideo").src="";
+		//$newPanel.find("localVideo").src = window.URL.createObjectURL(event.stream);
+		//createVideoElement($newPanel,event.stream);
 		createCloseButton(divElement,connectToUser,30,30);
 	}
 	else{
-		createAudioElement(divElement,event.stream);
-		createCloseButton(divElement,connectToUser,10,10);
+	//	createAudioElement(divElement,$newPanel,event.stream);
+	//	createCloseButton(divElement,connectToUser,10,10);
 	}
-	addNameTag(divElement,connectToUser);
+	//addNameTag(divElement,connectToUser);
+	$newPanel.find('.test').append(divElement);
 	$("#media").append($newPanel.fadeIn());
-	$media.appendChild(divElement);
+	remoteVideo.play();
+//	$("remoteVideo").prop('autoplay', true);
+//	$media.appendChild(divElement);
 }
 
 //Sending an offer to the peer user

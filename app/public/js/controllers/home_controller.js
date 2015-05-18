@@ -164,7 +164,8 @@ function hangupUser(hangupUser) {
 function stop(hangupUser) {
 	console.log('closing peer connection of :'+hangupUser);
 	connectedUsers[hangupUser].close();
-	$media.removeChild(document.getElementById(hangupUser));
+
+	$media.removeChild(document.getElementById('panels'+hangupUser));
 	userID--;
 	console.log('deleting the user from connected users array');
 	delete connectedUsers[hangupUser];

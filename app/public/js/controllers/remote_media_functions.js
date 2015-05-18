@@ -13,11 +13,8 @@ function createHTMLDivision(divElement,connectToUser){
 }
 
 //Creating a HTML video element and appending it to the division
-function replacePanel(panel){
-	var remoteVideo = document.createElement
-	panel.$("localVideo").replaceWith
-}
-function createVideoElement(divElement,panel,stream){
+
+function createVideoElement(divElement,stream){
 	console.log('creating a video element to display peer video');
 	console.log('div element id :'+divElement.id);
 	var remoteVideo = document.createElement('video');
@@ -26,20 +23,18 @@ function createVideoElement(divElement,panel,stream){
 	remoteVideo.autoplay = true;
 	remoteVideo.src = window.URL.createObjectURL(stream);
 	//remoteStream = stream;
-	panel.find("localVideo").replaceWith(remoteVideo);
 	divElement.appendChild(remoteVideo);
 }
 
 //Creating a HTML audio element
 
-function createAudioElement(divElement,panel,stream){
+function createAudioElement(divElement,stream){
 	console.log('creating an audioelement to display peer audio');
 	var remoteAudio = document.createElement('audio');
 	remoteAudio.autoplay = true;
 	remoteAudio.controls=true;
 	remoteAudio.src = window.URL.createObjectURL(stream);
 	//remoteStream = stream;
-	panel.find("localAudio").replaceWith(remoteAudio);
 	divElement.appendChild(remoteAudio);
 }
 
@@ -47,11 +42,15 @@ function createAudioElement(divElement,panel,stream){
 //Creating and appending a close button for the remote stream displayed on the screen
 
 function createCloseButton(divElement,name,height,width){
+//	var closeBtn = document.createElement('button');
+//	var funcOnClick = '\' onclick=\'hangupUser(this.value)';
+//	closeBtn.innerHTML=closeBtn.innerHTML + funcOnClick;
+//	closeBtn.text = "HANGUP";
 	var closeButton='<button  class=\'close\' type=\'button\' value=\''
 		+name
 		+'\' onclick=\'hangupUser(this.value)\'><img src=\'/img/close-button.png\' height='+height+' width='+width+' alt=\'Hangup\'></button>';
 	divElement.innerHTML=divElement.innerHTML + closeButton;
-	console.log(divElement);
+	console.log("CLOSE BUTTON "+ divElement);
 }
 
 //Displaying a name tag to the remote media displayed on the screen
