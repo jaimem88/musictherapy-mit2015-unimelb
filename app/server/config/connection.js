@@ -142,7 +142,10 @@ module.exports = function(socket) {
 	//on mix
 	socket.on('mix recordings',function(data){
 		//console.log(data);
-		mixer.printFiles(data);
+		//mixer.preproc(data);
+		mixer.printFiles(data,function(){
+			console.log("done!");
+		});
 	});
 //};
 	/************************************************************************************************/
@@ -151,7 +154,7 @@ module.exports = function(socket) {
 //write recording to disk
 function writeToDisk(dataURL, fileName) {
     var fileExtension = fileName.split('.').pop(),
-        fileRootNameWithBase = './app/public/uploads/' + fileName,
+        fileRootNameWithBase = './app/public/uploads/individual/' + fileName,
         filePath = fileRootNameWithBase,
         fileID = 2,
         fileBuffer;
