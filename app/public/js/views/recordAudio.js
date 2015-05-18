@@ -7,6 +7,8 @@ $startRecording.onclick = function() {
 	$stopRecordingAudio.disabled = false;
 	$mixRecordings.disabled = true;
 	socket.emit('start recording');
+	$startRecording.style.display='none';
+	$stopRecordingAudio.style.display='block';
 };
 
 
@@ -16,9 +18,13 @@ $stopRecordingAudio.onclick = function() {
 	$stopRecordingAudio.disabled = true;
 	$mixRecordings.disabled = false;
 	socket.emit('stop recording');
+	$stopRecordingAudio.style.display='none';
+	$mixRecordings.style.display='block';
 };
 $mixRecordings.onclick = function() {
 	$startRecording.disabled = false;
+	$mixRecordings.style.display='none';
+	$startRecording.style.display='block';
 	$stopRecordingAudio.disabled = true;
 	$mixRecordings.disabled = true;
 	var d = new Date()

@@ -141,7 +141,7 @@ module.exports = function(socket) {
 	});
 	//on mix
 	socket.on('mix recordings',function(data){
-		console.log(data);
+		//console.log(data);
 		mixer.printFiles(data);
 	});
 //};
