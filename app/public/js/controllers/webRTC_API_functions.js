@@ -56,26 +56,14 @@ function handleIceCandidate(event,connectToUser) {
 
 //Detecting the presence of remote audio/video stream and
 //calling the respective display functions to display the remote media content
-
+x = 0;
 function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
-
-	var $newPanel= $(".template").clone().prop('id', 'panels'+connectToUser );;
-
+	x+=1;
+	console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: "+x);
+	var $newPanel= $("#panels0").clone().prop('id', 'panels'+connectToUser );;
 	$newPanel.find('.panel-title').text(connectToUser);
-	$($newPanel)
-    .find("#localVideo")
-        .remove()
-    .end()
-    .appendTo("body");
-		$($newPanel)
-	    .find("#localAudio")
-	        .remove()
-	    .end()
-	    .appendTo("body");
-//	$newPanel.find("localVideo").remove().end();
-
-
+	removeFromPanel($newPanel);
 	divElement = document.createElement('div');
 	//createHTMLDivision(divElement,connectToUser);
 	//console.log('div element id in webRTC:'+divElement.id);
@@ -95,7 +83,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 	//	$newPanel.find("localVideo").src="";
 		//$newPanel.find("localVideo").src = window.URL.createObjectURL(event.stream);
 		//createVideoElement($newPanel,event.stream);
-		createCloseButton(divElement,connectToUser,30,30);
+		createCloseButton(divElement,connectToUser,15,15);
 	}
 	else{
 	//	createAudioElement(divElement,$newPanel,event.stream);
@@ -130,7 +118,7 @@ function sendAnswer(connectToUser) {
 function setLocalAndSendMessage(sessionDescription,connectToUser,messageType) {
 	sessionDescription.sdp = preferOpus(sessionDescription.sdp);
 	connectedUsers[connectToUser].setLocalDescription(sessionDescription);
-	console.log('setLocalAndSendMessage sending message' , sessionDescription);
+	//console.log('setLocalAndSendMessage sending message' , sessionDescription);
 	sendMessage({
 		type:messageType,
 		sdp:sessionDescription,
@@ -141,4 +129,36 @@ function setLocalAndSendMessage(sessionDescription,connectToUser,messageType) {
 
 function handleCreateOfferError(event){
 	console.log('createOffer() error: ', e);
+}
+function removeFromPanel($newPanel){
+	$($newPanel)
+    .find("#localVideo")
+        .remove()
+    .end()
+    .appendTo("body");
+		$($newPanel)
+	    .find("#localAudio")
+	        .remove()
+	    .end()
+	    .appendTo("body");
+			$($newPanel)
+		    .find(".template")
+		        .remove()
+		    .end()
+		    .appendTo("body");
+				$($newPanel)
+			    .find("#recordAudio")
+			        .remove()
+			    .end()
+			    .appendTo("body");
+					$($newPanel)
+						.find("#mix-recordings")
+								.remove()
+						.end()
+						.appendTo("body");
+						$($newPanel)
+							.find("#stop-recording-audio")
+									.remove()
+							.end()
+							.appendTo("body");
 }

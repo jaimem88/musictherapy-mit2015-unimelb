@@ -61,16 +61,3 @@ function displayContent(){
 	$videoWindow.style.display = "block";
 
 }
-
-
-//cloning video?
-var $template = $(".template");
-$(".btn-add-panel").on("click", function () {
-    var $newPanel = $template.clone();
-    $newPanel.find(".panel-title").text("new text "+username);
-		$newPanel.find(".panel-body").text("new body text");
-    //$newPanel.find(".accordion-toggle").attr("href",  "#" + (++hash))
-    //         .text("Dynamic panel #" + hash);
-    //$newPanel.find(".panel-collapse").attr("id", hash).addClass("collapse").removeClass("in");
-    $("#media").append($newPanel.fadeIn());
-});
