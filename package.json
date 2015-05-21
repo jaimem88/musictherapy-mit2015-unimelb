@@ -20,7 +20,8 @@
     "cookie-parser": "~1.0.0",
     "method-override": "~1.0.0",
     "express-session": "~1.0.0",
-    "recordrtc": "*"
+    "recordrtc": "*",
+    "async": "~1.0.0"
   },
   "author": "Jaime Martinez",
  "repository": {

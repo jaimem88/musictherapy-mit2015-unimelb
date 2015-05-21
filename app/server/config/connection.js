@@ -143,9 +143,7 @@ module.exports = function(socket) {
 	socket.on('mix recordings',function(data){
 		//console.log(data);
 		//mixer.preproc(data);
-		mixer.printFiles(data,function(){
-			console.log("done!");
-		});
+		mixer.printFiles(data);
 	});
 //};
 	/************************************************************************************************/
