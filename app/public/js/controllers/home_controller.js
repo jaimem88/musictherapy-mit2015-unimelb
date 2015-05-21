@@ -27,7 +27,6 @@ var $contacts = document.getElementById('contacts');
 var $ringingSound = document.getElementById('ringingSound');
 
 var $media = document.getElementById('media');
-var $localAudio = document.getElementById('localAudio');
 var $localVideo = document.getElementById('localVideo');
 
 //var $mediaSelection = document.getElementById('mediaSelection');
@@ -188,7 +187,9 @@ function checkNumberOfConnections(){
 		//	$endConference.style.display = 'none';
 			isInitiator = false;
 		}
-
+		
+		$profile.disabled = false;
+		$stopCallButton.disabled = false;
 		if (admin=== 'true') {
 			$recordingControl.style.display='none'
 			$endConference.style.display = 'none';

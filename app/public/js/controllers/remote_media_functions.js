@@ -26,19 +26,6 @@ function createVideoElement(divElement,stream){
 	divElement.appendChild(remoteVideo);
 }
 
-//Creating a HTML audio element
-
-function createAudioElement(divElement,stream){
-	console.log('creating an audioelement to display peer audio');
-	var remoteAudio = document.createElement('audio');
-	remoteAudio.autoplay = true;
-	remoteAudio.controls=true;
-	remoteAudio.src = window.URL.createObjectURL(stream);
-	//remoteStream = stream;
-	divElement.appendChild(remoteAudio);
-}
-
-
 //Creating and appending a close button for the remote stream displayed on the screen
 
 function createCloseButton(divElement,name,height,width){

@@ -35,7 +35,11 @@ $mixRecordings.onclick = function() {
 function toggleRemoteAudio(){
 	for (var key in connectedUsers) {
 		console.log(key);
+		if(key.includes("Clinician")){
+			continue;
+		}
 		var curRemoteVideo = $($("#panels"+key)).find("#remoteVideo");
+		console.log(curRemoteVideo);
 		$(curRemoteVideo).prop("muted",!$(curRemoteVideo).prop("muted"));
 	}
 }

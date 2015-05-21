@@ -151,11 +151,8 @@ socket.on('message', function (message){
 		onCandidateMessage(message);
 	}else if(message === 'endOfConference'){
 		deleteAllConnections();
-	}/*else if(message === 'start recording'){
-		recordLocalAudio();
-	}else if (message === 'stop recording'){
-		stopRecordLocalAudio();
-	}*/
+
+	}
 });
 
 //On receiving offer from a peer,increment the userID, create a separate peer connection,
@@ -204,6 +201,8 @@ function onCandidateMessage(message){
 		//$stopRecordingAudio.style.display = 'block';
 	//	$mixRecordings.style.display ='block';
 	}
+	$profile.disabled = true;
+	$stopCallButton.disabled = true;
 }
 
 //Informing the server about the client ending the session

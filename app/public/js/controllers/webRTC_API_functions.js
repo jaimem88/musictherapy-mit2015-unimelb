@@ -59,7 +59,6 @@ function handleIceCandidate(event,connectToUser) {
 x = 0;
 function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
-
 	var $newPanel= $("#panels0").clone().prop('id', 'panels'+connectToUser );;
 	$newPanel.find('.panel-title').text(connectToUser);
 	removeFromPanel($newPanel);
@@ -84,10 +83,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 		//createVideoElement($newPanel,event.stream);
 		createCloseButton(divElement,connectToUser,15,15);
 	}
-	else{
-	//	createAudioElement(divElement,$newPanel,event.stream);
-	//	createCloseButton(divElement,connectToUser,10,10);
-	}
+	
 	//addNameTag(divElement,connectToUser);
 	$newPanel.find('.locVid').append(divElement);
 	$("#media").append($newPanel.fadeIn());
@@ -131,38 +127,33 @@ function handleCreateOfferError(event){
 }
 function removeFromPanel($newPanel){
 	$($newPanel)
-    .find("#localVideo")
-        .remove()
-    .end()
-    .appendTo("body");
-		$($newPanel)
-	    .find("#localAudio")
-	        .remove()
-	    .end()
-	    .appendTo("body");
-			$($newPanel)
-		    .find(".template")
-		        .remove()
-		    .end()
-		    .appendTo("body");
-				$($newPanel)
-			    .find("#recordAudio")
-			        .remove()
-			    .end()
-			    .appendTo("body");
-					$($newPanel)
-						.find("#mix-recordings")
-								.remove()
-						.end()
-						.appendTo("body");
-						$($newPanel)
-							.find("#stop-recording-audio")
-									.remove()
-							.end()
-							.appendTo("body");
-							$($newPanel).find("#callControls")
-								.find("#endConference")
-										.remove()
-								.end()
-								.appendTo("body");
+		.find("#localVideo")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel)
+		.find(".template")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel)
+		.find("#recordAudio")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel)
+		.find("#mix-recordings")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel)
+		.find("#stop-recording-audio")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel).find("#callControls")
+		.find("#endConference")
+		.remove()
+		.end()
+		.appendTo("body");
 }

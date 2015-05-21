@@ -37,15 +37,8 @@
 			if(hasVideo(localStream)){
 				console.log(" video present");
 				$localVideo.src = window.URL.createObjectURL(localStream);
-				$localAudio.src="";
-				$localAudio.style.display =" none";
 			}
-			else{
-				$localVideo.src ="";
-				console.log("no video present");
-				$localAudio.src = window.URL.createObjectURL(localStream);
-				$localAudio.style.display = "block";
-			}
+
 
 		}
 		function stopVideo(){

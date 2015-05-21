@@ -3,6 +3,7 @@
 
 var $startCallButton = document.getElementById('startCallModeButton');
 var $stopCallButton = document.getElementById('stopCallModeButton');
+var $profile = document.getElementById('profile');
 var $videoWindow = document.getElementById('localVideo');
 var $startRecording = document.getElementById('recordAudio');
 var $stopRecordingAudio = document.getElementById('stop-recording-audio');
