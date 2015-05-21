@@ -261,9 +261,11 @@ function deleteClient(name){
 function onLeave(){
 	console.log('got message leaving from client '+socket.username);
 	console.log('removing '+socket.username+' from the room');
-	socket.leave(clients[socket.username].room);
-	sendMessageToRoom('message',socket.username+' left the room');
-	clients[socket.username].room='';
+	if(clients.length>0){
+		socket.leave(clients[socket.username].room);
+		sendMessageToRoom('message',socket.username+' left the room');
+		clients[socket.username].room='';
+	}
 }
 
 function onEndConference(){
