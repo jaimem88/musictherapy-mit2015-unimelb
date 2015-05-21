@@ -59,8 +59,7 @@ function handleIceCandidate(event,connectToUser) {
 x = 0;
 function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
-	x+=1;
-	console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: "+x);
+
 	var $newPanel= $("#panels0").clone().prop('id', 'panels'+connectToUser );;
 	$newPanel.find('.panel-title').text(connectToUser);
 	removeFromPanel($newPanel);
@@ -79,7 +78,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 		}
 	//	remoteVideo.autoplay = true;
 		remoteVideo.src = window.URL.createObjectURL(event.stream);
-		$newPanel.find('.test').append(remoteVideo);
+		$newPanel.find('.locVid').append(remoteVideo);
 	//	$newPanel.find("localVideo").src="";
 		//$newPanel.find("localVideo").src = window.URL.createObjectURL(event.stream);
 		//createVideoElement($newPanel,event.stream);
@@ -90,7 +89,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 	//	createCloseButton(divElement,connectToUser,10,10);
 	}
 	//addNameTag(divElement,connectToUser);
-	$newPanel.find('.test').append(divElement);
+	$newPanel.find('.locVid').append(divElement);
 	$("#media").append($newPanel.fadeIn());
 	remoteVideo.play();
 //	$("remoteVideo").prop('autoplay', true);
@@ -161,4 +160,9 @@ function removeFromPanel($newPanel){
 									.remove()
 							.end()
 							.appendTo("body");
+							$($newPanel).find("#callControls")
+								.find("#endConference")
+										.remove()
+								.end()
+								.appendTo("body");
 }

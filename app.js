@@ -47,7 +47,8 @@ app.set('views', __dirname + '/app/server/views');
 app.set('view engine', 'jade'); // set up jade for templating
 
 // required for passport
-app.use(session({ secret: 'mymommakesmemashmyminimandmsonamondaymorningoohah',cookie: { maxAge : 1200000 } })); // session secret
+//Stay logged in for 3 hours.
+app.use(session({ secret: 'mymommakesmemashmyminimandmsonamondaymorningoohah',cookie: { maxAge : 10800000 } })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session

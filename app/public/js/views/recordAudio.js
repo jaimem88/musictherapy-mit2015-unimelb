@@ -32,11 +32,18 @@ $mixRecordings.onclick = function() {
   var mixedFileName = prompt("File name: ", fileName);
 	socket.emit('mix recordings',mixedFileName);
 };
-
+function toggleRemoteAudio(){
+	for (var key in connectedUsers) {
+		console.log(key);
+		var curRemoteVideo = $($("#panels"+key)).find("#remoteVideo");
+		$(curRemoteVideo).prop("muted",!$(curRemoteVideo).prop("muted"));
+	}
+}
 
 //when start recording is received, then record local stream
 socket.on('start recording',function (){
 	console.log("recording local audio")
+	toggleRemoteAudio();
 	mediaStream = stream = getLocalStream();
 	recordAudio = RecordRTC(stream);
 	recordAudio.startRecording();
@@ -44,6 +51,7 @@ socket.on('start recording',function (){
 
 socket.on('stop recording',function (){
 	console.log("stop recording local audio")
+	toggleRemoteAudio();
 	recordAudio.stopRecording(function() {
 		// get audio data-URL
 		recordAudio.getDataURL(function(audioDataURL) {

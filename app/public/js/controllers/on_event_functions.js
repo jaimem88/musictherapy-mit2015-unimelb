@@ -71,7 +71,9 @@ socket.on('addToConferenceRequest', function(callerName){
 
 socket.on('created', function (room){
 	$callee.style.display = 'none';
-	$endConference.style.display = 'block';
+	if (admin=== 'true') {
+		$endConference.style.display = 'block';
+	}
 	console.log('Created room ' + room+ 'for ' + user);
 	isInitiator = true;
 });
@@ -196,6 +198,8 @@ function onCandidateMessage(message){
 
 	if (admin=== 'true') {
 		$recordingControl.style.display = 'block';
+		$endConference.style.display = 'block';
+
 	//	$startRecording.style.display = 'block';
 		//$stopRecordingAudio.style.display = 'block';
 	//	$mixRecordings.style.display ='block';

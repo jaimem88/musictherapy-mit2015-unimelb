@@ -143,7 +143,7 @@ function deleteAllConnections(){
 
 function hangupUser(hangupUser) {
 	console.log('Hanging up user '+hangupUser);
-	if(isInitiator){
+	if(isInitiator || admin=== 'true' ){
 					socket.emit('remove from room',hangupUser);
 	}
 	else{
@@ -183,14 +183,16 @@ function checkNumberOfConnections(){
 		sendMessage('leave');
 		console.log('leaving the room '+user);
 		numberOfOnlineContacts =0;
-		//$mediaSelection.style.display = "block";
+
 		if(isInitiator){
-			$endConference.style.display = 'none';
+		//	$endConference.style.display = 'none';
 			isInitiator = false;
 		}
 
 		if (admin=== 'true') {
 			$recordingControl.style.display='none'
+			$endConference.style.display = 'none';
+			isInitiator = false;
 		//	$startRecording.style.display = 'none';
 		//	$stopRecordingAudio.style.display = 'none'
 		//	$mixRecordings.style.display='none'

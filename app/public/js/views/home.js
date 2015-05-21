@@ -32,6 +32,9 @@ function startCallMode(){
 		$.getScript("js/controllers/remote_media_functions.js");
 		$.getScript("js/controllers/webRTC_API_functions.js");
 		$.getScript("js/controllers/on_event_functions.js");
+		if(admin==='true'){
+			username = username +" - Clinician";
+		}
 		socket.emit('new user',username);
 		displayContent();
 		getMedia();
