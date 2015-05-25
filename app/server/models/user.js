@@ -9,7 +9,9 @@ var userSchema = mongoose.Schema({
 	fname : { type: String, default : ""},
 	lname : { type: String, default : ""},
 	password     : {type: String, required : true},
-	admin : { type: Boolean, required: true, default: false}
+	admin : { type: Boolean, required: true, default: false},
+	resetPasswordToken : String,
+	resetPasswordExpires : Date
 });
 
 // methods ======================

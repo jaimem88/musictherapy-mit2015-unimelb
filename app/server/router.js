@@ -2,6 +2,9 @@
 var User = require('./models/user');
 var Accounts = require('./config/accounts');
 var async = require('async');
+var nodemailer = require('nodemailer');
+var crypto = require('crypto');
+
 module.exports = function(app, passport) {
 
 	//app.get('/*', function(req, res, next){
@@ -37,7 +40,7 @@ module.exports = function(app, passport) {
     app.get('/login', function(req, res) {
 
         // render the page and pass in any flash data if it exists
-        res.render('login.jade', { message: req.flash('loginMessage','Welcome!') });
+        res.render('login.jade', { message: req.flash('loginMessage') });
     });
     // process the login form
     // app.post('/login', do all our passport stuff here);
@@ -55,7 +58,7 @@ module.exports = function(app, passport) {
 	//	console.log(req.user);
 		if(req.user.admin){
         // render the page and pass in any flash data if it exists
-        	res.render('signup.jade', {user: req.user, message: req.flash('signupMessage', 'Success!') });
+        	res.render('signup.jade', {user: req.user, message: req.flash('signupMessage') });
 		}else{
 				res.redirect('/profile');
 		}
@@ -85,14 +88,118 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
-
+		//PASSWORD Manager
 		app.get('/forgotpass', function(req, res) {
 		  res.render('forgotpass.jade', {
-		    user: req.user,message: req.flash('forgotPass')
+		    user: req.user, message: req.flash('forgotPassMessage')
 		  });
 		});
+		app.post('/forgotpass', function(req, res, next) {
+			async.waterfall([
+				function(done) {
+					crypto.randomBytes(20, function(err, buf) {
+						var token = buf.toString('hex');
+						done(err, token);
+						});
+						},
+						function(token, done) {
+							User.findOne({ email: req.body.email }, function(err, user) {
+								if (!user) {
+									req.flash('forgotPassMessage', 'No account with that email address exists. Please contact a clinician.');
+									return res.redirect('/forgotpass');
+									}
 
+									user.resetPasswordToken = token;
+									user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
+									user.save(function(err) {
+										done(err, token, user);
+										});
+										});
+										},
+										function(token, user, done) {
+											var smtpTransport = nodemailer.createTransport( {
+												service: 'Gmail',
+												auth: {
+													user: 'mtherapy.unimelb@gmail.com',
+													pass: 'musictherapy2015'
+													}
+													});
+													var mailOptions = {
+														to: user.email,
+														from: 'passwordreset@demo.com',
+														subject: 'Music Therapy Password Reset',
+														text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+														'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+														'https://' + req.headers.host + '/reset/' + token + '\n\n' +
+														'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+														};
+														smtpTransport.sendMail(mailOptions, function(err) {
+															req.flash('forgotPassMessage', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+															done(err, 'done');
+															});
+															}
+															], function(err) {
+																if (err) return next(err);
+																res.redirect('/forgotpass');
+																});
+															});
+	app.get('/reset/:token', function(req, res) {
+		User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+			if (!user) {
+				req.flash('forgotPassMessage', 'Password reset token is invalid or has expired.');
+					return res.redirect('/forgotpass');
+			}
+			res.render('reset.jade', {
+				user: req.user, message: req.flash('resetMessage')
+			});
+		});
+	});
+
+	app.post('/reset/:token', function(req, res) {
+  async.waterfall([
+    function(done) {
+      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.');
+          return res.redirect('back');
+        }
+				var helper = new User();
+        user.password = helper.generateHash(req.body.password);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+
+        user.save(function(err) {
+          req.logIn(user, function(err) {
+            done(err, user);
+          });
+        });
+      });
+    },
+    function(user, done) {
+      var smtpTransport = nodemailer.createTransport( {
+        service: 'Gmail',
+        auth: {
+					user: 'mtherapy.unimelb@gmail.com',
+					pass: 'musictherapy2015'
+        }
+      });
+      var mailOptions = {
+        to: user.email,
+        from: 'passwordreset@demo.com',
+        subject: 'Your password has been changed',
+        text: 'Hello,\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        req.flash('loginMessage', 'Success! Your password has been changed.');
+        done(err);
+      });
+    }
+  ], function(err) {
+    res.redirect('/login');
+  });
+});
 };
 
 // route middleware to make sure a user is logged in

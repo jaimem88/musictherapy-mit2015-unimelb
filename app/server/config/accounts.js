@@ -10,9 +10,9 @@ module.exports = {
 			console.log(req.body);
 			if (err)
 				return err;
-			// check to see if theres already a user with that email
+			// check to see if there's already a user with that email
 			if (email) {
-		    	return req.flash('signupMessage', 'That email is already taken.');
+		    	return req.flash('error', 'That email is already taken.');
 		    } else {
 				// if there is no user with that email
 	            // create the user
@@ -40,7 +40,7 @@ module.exports = {
 
 	deleteAccount: function(req,done){
 	},
-	
+
 	updateFirstName: function(req,done){
 	},
 	updateLastName: function(req,done){

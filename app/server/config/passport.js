@@ -59,7 +59,7 @@ module.exports = function(passport) {
 				if(req.body.admin){
 					newUser.admin = true;
 				}
-				
+
 				// save the user
                 newUser.save(function(err) {
                     if (err){
@@ -110,4 +110,3 @@ module.exports = function(passport) {
 
     }));
 };
-

@@ -1,13 +1,14 @@
 extends layout
 block content
-  .container
-    if message.length>0
-      .alert.alert-info = message
-        div= message
-  .container
-    form(method='POST')
-      legend Forgot Password
-      .form-group
-        label(for='email') Email
-        input.form-control(type='text', name='email', autofocus)
-      button.btn.btn-primary(type='submit') Reset Password
+  .container-fluid
+    .col-xs-4.col-xs-offset-4
+      h1
+        span.fa.fa-unlock-alt
+        |  Forgot Password
+      if message.length>0
+        .alert.alert-success= message
+      form(method='POST')
+        .form-group
+          label(for='email') Email
+          input.form-control(type='email', name='email', autofocus)
+        button.btn.btn-primary(type='submit') Reset Password
