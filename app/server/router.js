@@ -1,6 +1,7 @@
 // app/router.js
 var User = require('./models/user');
 var Accounts = require('./config/accounts');
+var async = require('async');
 module.exports = function(app, passport) {
 
 	//app.get('/*', function(req, res, next){
@@ -18,7 +19,7 @@ module.exports = function(app, passport) {
     // INDEX PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
-        res.render('index.jade'); // load the index.jade file
+        res.render('index.jade',{ user: req.user}); // load the index.jade file
     });
     // =====================================
     // HOME PAGE (with login links) ========
@@ -36,13 +37,7 @@ module.exports = function(app, passport) {
     app.get('/login', function(req, res) {
 
         // render the page and pass in any flash data if it exists
-        res.render('login.jade', { message: req.flash('loginMessage') });
-    });
-//manage forgotten PASSWORD  HEREEEEEEEEEEEEEE
-	app.get('/forgotpass', function(req, res) {
-
-        // render the page and pass in any flash data if it exists
-        res.render('forgotpass.jade');
+        res.render('login.jade', { message: req.flash('loginMessage','Welcome!') });
     });
     // process the login form
     // app.post('/login', do all our passport stuff here);
@@ -60,7 +55,7 @@ module.exports = function(app, passport) {
 	//	console.log(req.user);
 		if(req.user.admin){
         // render the page and pass in any flash data if it exists
-        	res.render('signup.jade', { message: req.flash('signupMessage') });
+        	res.render('signup.jade', {user: req.user, message: req.flash('signupMessage', 'Success!') });
 		}else{
 				res.redirect('/profile');
 		}
@@ -90,6 +85,14 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+
+		app.get('/forgotpass', function(req, res) {
+		  res.render('forgotpass.jade', {
+		    user: req.user,message: req.flash('forgotPass')
+		  });
+		});
+
+
 };
 
 // route middleware to make sure a user is logged in

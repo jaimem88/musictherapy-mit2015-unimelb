@@ -11,15 +11,35 @@ html
 			}
 		link( rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
 		link( rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
-		.container-fluid
-			.row
-				.col-md-4
-					img(src="/img/MNSI-LogoBlue.png", align="left", height="70", width="200")
-				.col-md-4
-					img(src="/img/choir_test.jpg",align="middle", height="70", width="65%")
-				.col-md-4
-					img(src="/img/Melb_music.jpg", align="right", height="70", width="200")
 		style.
 			body{overflow-x: hidden;overflow-y: scroll;}
 	body
-		block content
+	.navbar.navbar-inverse.navbar-static-top(role='navigation')
+		.container-fluid
+			.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+				a.navbar-brand Music Therapy
+			.collapse.navbar-collapse
+				ul.nav.navbar-nav
+					if user
+						li
+							a(href='/home') Conference Mode
+						li
+							a(href='/profile') Profile
+						if (user.admin)
+							li
+								a(href='/signup') Create Account
+						li
+							a(href='/logout') Logut
+					else
+						li
+							a(href='/login') Login
+	.container-fluid
+		.row
+			.col-md-4
+				img(src="/img/MNSI-LogoBlue.png", align="left", height="70", width="200")
+			.col-md-4
+				img(src="/img/choir_test.jpg",align="middle", height="70", width="65%")
+			.col-md-4
+				img(src="/img/Melb_music.jpg", align="right", height="70", width="200")
+	block content

@@ -83,7 +83,6 @@ function handleRemoteStreamAdded(event,connectToUser) {
 		//createVideoElement($newPanel,event.stream);
 		createCloseButton(divElement,connectToUser,15,15);
 	}
-	
 	//addNameTag(divElement,connectToUser);
 	$newPanel.find('.locVid').append(divElement);
 	$("#media").append($newPanel.fadeIn());
@@ -128,11 +127,6 @@ function handleCreateOfferError(event){
 function removeFromPanel($newPanel){
 	$($newPanel)
 		.find("#localVideo")
-		.remove()
-		.end()
-		.appendTo("body");
-	$($newPanel)
-		.find(".template")
 		.remove()
 		.end()
 		.appendTo("body");

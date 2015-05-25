@@ -12,16 +12,16 @@ block content
 			form(action="/signup", method="post")
 				.form-group
 					label First Name
-					input.form-control(type="text", name="fname")
+					input.form-control(type="text", name="fname",autofocus,required)
 				.form-group
 					label Last Name
-					input.form-control(type="text", name="lname")
+					input.form-control(type="text", name="lname",required)
 				.form-group
 					label Email
-					input.form-control(type="text", name="email")
+					input.form-control(type="email", name="email",required)
 				.form-group
 					label Password
-					input.form-control(type="password", name="password")
+					input.form-control(type="password", name="password",required)
 
 				input(type="checkbox", name="admin", checked=(true===false ? "checked" : undefined))
 				strong   Admin?
