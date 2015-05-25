@@ -5,7 +5,7 @@ var mixer = require("./mixer.js")
 var rooms={};
 var clients={};
 var clientsNameArray =[];
-
+var clientCount = 0;
 module.exports = function(socket) {
 /*************************************************************************************/
 /****On event functions****/
@@ -134,10 +134,15 @@ module.exports = function(socket) {
 	});
 	//Receive all recordings
 	socket.on('myrecording',function(file){
-		console.log("recieved audio file");
+		clientCount +=1;
+		console.log(clientCount+" recieved audio file "+file.audio.count);
 		var d = new Date()
 		var fileName = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
 		writeToDisk(file.audio.dataURL, fileName+'_'+file.audio.email+'.wav');
+		if(clientCount == file.audio.count){
+			sendMessageToRoom('ready to mix', 'ready to mix');
+			clientCount = 0;
+		}
 	});
 	//on mix
 	socket.on('mix recordings',function(data){

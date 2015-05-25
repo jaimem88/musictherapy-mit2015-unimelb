@@ -80,6 +80,10 @@ block content
 								#endConference(align="right", style="display: none")
 									button.btn.btn-danger.btn-block#hangupButton(type="button", onclick="endConference()")
 										span.fa.fa-close
+		.row#RecordingPlayer
+			audio#thisPlayer(type="audio/mpeg")
+
 	script(src='/js/controllers/home_controller.js')
 	script(src='/js/views/home.js')
+	script(src='/js/views/player.js')
 	//script(src='/js/views/recordAudio.js')

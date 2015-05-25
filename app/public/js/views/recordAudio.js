@@ -1,6 +1,7 @@
 
 
 var recordAudio, recordVideo;
+var userCount = 0;
 $startRecording.onclick = function() {
 	console.log('click on start recording '+username)
 	$startRecording.disabled = true
@@ -16,10 +17,10 @@ $stopRecordingAudio.onclick = function() {
 	$startRecording.disabled = false;
 	$startRecording.style.display='none';
 	$stopRecordingAudio.disabled = true;
-	$mixRecordings.disabled = false;
+
 	socket.emit('stop recording');
 	$stopRecordingAudio.style.display='none';
-	$mixRecordings.style.display='block';
+
 };
 $mixRecordings.onclick = function() {
 	$startRecording.disabled = false;
@@ -32,8 +33,11 @@ $mixRecordings.onclick = function() {
   var mixedFileName = prompt("File name: ", fileName);
 	socket.emit('mix recordings',mixedFileName);
 };
+
 function toggleRemoteAudio(){
+
 	for (var key in connectedUsers) {
+		userCount +=1;
 		console.log(key);
 		if(key.includes("Clinician")){
 			continue;
@@ -58,16 +62,22 @@ socket.on('stop recording',function (){
 	toggleRemoteAudio();
 	recordAudio.stopRecording(function() {
 		// get audio data-URL
+		console.log(userCount)
 		recordAudio.getDataURL(function(audioDataURL) {
 			var file = {
 				audio: {
 					type: recordAudio.getBlob().type || 'audio/wav',
 					dataURL: audioDataURL,
 					user : username,
-					email : email
+					email : email,
+					count: userCount
 				}
 			};
 			socket.emit('myrecording',file )
 		});
+	});
 });
+socket.on('ready to mix',function(){
+	$mixRecordings.disabled = false;
+	$mixRecordings.style.display='block';
 });

@@ -12,8 +12,8 @@ module.exports = function(app, passport) {
 	//	next();
 //	});
 	//Test audio
-	 app.get('/audio', function(req, res) {
-        res.render('audio.jade'); // load the index.jade file
+	 app.get('/player', function(req, res) {
+        res.render('player.jade'); // load the index.jade file
     });
 		app.get('/layout', function(req, res) {
         res.render('layout.jade'); // load the index.jade file
