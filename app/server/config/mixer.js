@@ -51,16 +51,7 @@ module.exports = {
    }],function(error, c) {
       console.log(c);
     });
-    //preproc(fileName,function(){
-    //  console.log("Done with preproc")
-    //}),
-  //  mix(x,fileName,function(){
-  //    console.log("Done mixing records");
-  //  })
-
-
-  //])
-    //save files into db
+  
   }
 
 };
@@ -68,27 +59,28 @@ module.exports = {
 function puts(error, stdout, stderr) { console.log(stdout) };
 
 
-function saveRecording(fileToSave){
+function saveRecording(fileToSave,sesX,recY){
+  fPath = fileToSave.match(/(.(\/\w+)+\/)/gmi)[0];
 
-      // if there is no user with that email
-            // create the user
-            var newRecording = new Recording();
-            newRecording.user = "jimmy098@gmail.com";
-            newRecording.session = 1;
-            newRecording.recording = 1;
-            newRecording.fileName = fileToSave;
-            newRecording.recDate = Date.now() ;
-            newRecording.file.data = fs.readFileSync(fileToSave);
-            newRecording.file.contentType = 'audio/mpeg';
-            console.log("Save to database: " +fileToSave);
+  fName = fileToSave.replace(/(.(\/\w+)+\/)/gmi,"");
 
-            //newRecording.file = file;
-      newRecording.save(function(err) {
-                if (err){
-                  console.log(err)
-                  throw err;
-                }
-        console.log("new recording created!");
-                return true;
-            });
-        }
+  // if there is no user with that email
+  // create the user
+  var newRecording = new Recording();
+  newRecording.session = sesX;
+  newRecording.recording = recY;
+  newRecording.recDate = new Date();
+  newRecording.fileName = fName;
+  newRecording.filePath = fPath;
+  console.log("Save to database: " +fileToSave);
+
+  //newRecording.file = file;
+  newRecording.save(function(err) {
+    if (err){
+      console.log(err)
+      throw err;
+    }
+    console.log("new recording created!");
+    return true;
+  });
+}

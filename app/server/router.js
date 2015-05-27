@@ -15,6 +15,11 @@ module.exports = function(app, passport) {
 	 app.get('/player', function(req, res) {
         res.render('player.jade'); // load the index.jade file
     });
+		app.get('/recordings', function(req, res) {
+				res.render('recordings.jade',{
+					user: req.user
+				}); // load the index.jade file
+		});
 		app.get('/layout', function(req, res) {
         res.render('layout.jade'); // load the index.jade file
     });

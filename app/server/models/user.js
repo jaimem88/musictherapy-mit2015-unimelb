@@ -11,7 +11,15 @@ var userSchema = mongoose.Schema({
 	password     : {type: String, required : true},
 	admin : { type: Boolean, required: true, default: false},
 	resetPasswordToken : String,
-	resetPasswordExpires : Date
+	resetPasswordExpires : Date,
+	recordings: [{
+		session: Number,
+		recording: Number,
+		recDate: Date,
+		fileName: String,
+		filePath: String
+
+	}]
 });
 
 // methods ======================

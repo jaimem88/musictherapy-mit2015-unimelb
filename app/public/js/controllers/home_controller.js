@@ -45,7 +45,7 @@ function displayContacts(contacts){
 	console.log('displaying contacts onto the screen: '+ contacts);
 	for(i=0;i<numberOfOnlineContacts;i++){
 		contactString = contactString +"<button id = \"contact"+(i+1)
-				+"\" input type=\"button\" value=\""+contacts[i]
+				+"\" input type=\"button\" class=\"btn btn-success\" value=\""+contacts[i]
 				+"\" onclick = \"callUser('contact"+(i+1)
 				+"')\">"+contacts[i]+"</button>"+'<br/>';
 	}
@@ -187,8 +187,7 @@ function checkNumberOfConnections(){
 		//	$endConference.style.display = 'none';
 			isInitiator = false;
 		}
-		
-		$profile.disabled = false;
+
 		$stopCallButton.disabled = false;
 		if (admin=== 'true') {
 			$recordingControl.style.display='none'

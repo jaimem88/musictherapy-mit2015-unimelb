@@ -20,7 +20,7 @@ socket.on('addContact', function(data){
 	numberOfOnlineContacts ++;
 	var idString="contact"+numberOfOnlineContacts;
 	var newOnlineUser = "<button id = \"contact"+(numberOfOnlineContacts)
-		+"\" input type=\"button\" value=\""+data
+		+"\" input type=\"button\" class=\"btn btn-success\" value=\""+data
 		+"\" onclick = \"callUser('contact"+(numberOfOnlineContacts)
 		+"')\">"+data+"</button>"+'<br/>';
 	$contacts.innerHTML = $contacts.innerHTML + newOnlineUser;
@@ -201,7 +201,6 @@ function onCandidateMessage(message){
 		//$stopRecordingAudio.style.display = 'block';
 	//	$mixRecordings.style.display ='block';
 	}
-	$profile.disabled = true;
 	$stopCallButton.disabled = true;
 }
 
