@@ -15,11 +15,25 @@ module.exports = function(app, passport) {
 	 app.get('/player', function(req, res) {
         res.render('player.jade'); // load the index.jade file
     });
-		app.get('/recordings', function(req, res) {
-				res.render('recordings.jade',{
-					user: req.user
-				}); // load the index.jade file
+		app.get('/recordings',isLoggedIn, function(req, res) {
+
+			res.render('recordings.jade',{
+				user: req.user
+			}); // load the index.jade file*/
 		});
+		app.get('/users',isLoggedIn, function(req, res) {
+			User.find({'admin':false},'-_id fname lname email', function(err, users) {
+				jsonUsers = JSON.stringify(users);
+				res.render('users.jade',{
+					user:req.user, jUsers:jsonUsers
+				});
+
+			}).sort('fname');
+
+			/*res.render('users.jade',{
+			user: req.user
+		}); // load the index.jade file*/
+	});
 		app.get('/layout', function(req, res) {
         res.render('layout.jade'); // load the index.jade file
     });
@@ -50,11 +64,31 @@ module.exports = function(app, passport) {
     // process the login form
     // app.post('/login', do all our passport stuff here);
  // process the login form
-    app.post('/login', passport.authenticate('local-login', {
+    /*app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/home', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
-    }));
+    }));*/
+		app.post('/login', function(req, res, next){
+			passport.authenticate('local-login', function(err, user, info){
+				// This is the default destination upon successful login.
+				var redirectUrl = '/home';
+
+				if (err) { return next(err); }
+				if (!user) { return res.redirect('/'); }
+
+				// If we have previously stored a redirectUrl, use that,
+				// otherwise, use the default.
+				if (req.session.redirectUrl) {
+					redirectUrl = req.session.redirectUrl;
+					req.session.redirectUrl = null;
+				}
+				req.logIn(user, function(err){
+					if (err) { return next(err); }
+				});
+				res.redirect(redirectUrl);
+			})(req, res, next);
+		});
     // =====================================
     // SIGNUP ==============================
     // =====================================
@@ -215,5 +249,6 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
+		req.session.redirectUrl = req.url;
     res.redirect('/login');
 };

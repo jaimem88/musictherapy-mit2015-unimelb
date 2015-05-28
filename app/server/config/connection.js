@@ -1,6 +1,7 @@
 
 fs = require("fs");
 var mixer = require("./mixer.js")
+var Accounts = require("./accounts.js")
 //var recordRTC = require('recordrtc');
 var rooms={};
 var clients={};
@@ -27,7 +28,10 @@ module.exports = function(socket) {
 						sendMessageToClient(message);
 					}
 		});
-
+		socket.on('delete',function(data){
+			console.log("Delete from db "+data)
+			Accounts.deleteAccount(data);
+		})
 
 	//Validating the new user and storing the user details in the server
 

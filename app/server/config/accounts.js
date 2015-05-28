@@ -46,6 +46,9 @@ module.exports = {
 	updateLastName: function(req,done){
 	},
 	showUsers: function (req){
+	},
+	deleteAccount: function(email){
+		User.find({ email:email }).remove().exec();
 	}
 };
 

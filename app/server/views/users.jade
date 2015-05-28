@@ -1,0 +1,18 @@
+extends layout
+block scripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.js")
+  script.
+    jUsers = !{jUsers};
+    socket = io.connect("https://" + window.location.host);
+block content
+  .container
+    h1.text-info Users
+    table.table.hover.table-responsive
+      thead
+        tr
+          th First Name
+          th Last Name
+          th Email
+          th Action
+      tbody#usersTable
+  script(src='/js/views/users.js')
