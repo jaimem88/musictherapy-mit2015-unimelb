@@ -1,5 +1,6 @@
 // app/router.js
 var User = require('./models/user');
+var Recordings = require('./models/recordings');
 var Accounts = require('./config/accounts');
 var async = require('async');
 var nodemailer = require('nodemailer');
@@ -13,13 +14,18 @@ module.exports = function(app, passport) {
 //	});
 	//Test audio
 	 app.get('/player', function(req, res) {
-        res.render('player.jade'); // load the index.jade file
+        res.render('player.jade',
+			{	user:req.user}); // load the index.jade file
     });
 		app.get('/recordings',isLoggedIn, function(req, res) {
 
-			res.render('recordings.jade',{
-				user: req.user
-			}); // load the index.jade file*/
+			Recordings.find({},'-_id -__v', function(err, recs) {
+				jsonRecs = JSON.stringify(recs);
+				res.render('recordings.jade',{
+					user:req.user, jRecordings:jsonRecs
+				});
+				console.log(jsonRecs);
+			}).sort('recDate');
 		});
 		app.get('/users',isLoggedIn, function(req, res) {
 			User.find({'admin':false},'-_id fname lname email', function(err, users) {

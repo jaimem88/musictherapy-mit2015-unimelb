@@ -144,8 +144,8 @@ module.exports = function(socket) {
 		var fileName = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
 		writeToDisk(file.audio.dataURL, fileName+'_'+file.audio.email+'.wav');
 		if(clientCount == file.audio.count){
-			sendMessageToRoom('ready to mix', 'ready to mix');
 			clientCount = 0;
+			sendMessageToRoom('ready to mix', 'ready to mix');
 		}
 	});
 	//on mix
@@ -153,6 +153,18 @@ module.exports = function(socket) {
 		//console.log(data);
 		//mixer.preproc(data);
 		mixer.printFiles(data);
+	});
+	socket.on('broadcast',function(data){
+		sendMessageToRoom('broadcast',data);
+	});
+	socket.on('play',function(){
+		sendMessageToRoom('play','play');
+	});
+	socket.on('pause',function(){
+		sendMessageToRoom('pause','pause');
+	});
+	socket.on('seek',function(time){
+		sendMessageToRoom('seek',time);
 	});
 //};
 	/************************************************************************************************/

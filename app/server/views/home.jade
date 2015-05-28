@@ -27,6 +27,14 @@ block content
 				button.btn.btn-danger.btn-block#stopCallModeButton(style = "display: none" type="button", onclick="goTo(\"\/home\")")
 					span.fa.fa-stop
 					|  Stop session
+			if (user.admin)
+				.col-sm-3
+					button.btn.btn-info.btn-block#broadcastMode(style = "display:none" type="button", onclick="broadcastMode()")
+						span.fa.fa-music
+						|  Broadcast Mode
+					button.btn.btn-warning.btn-block#stopBroadcastMode(style = "display:none" type="button", onclick="stopBroadcastMode()")
+						span.fa.fa-music
+						|  Stop Broadcast Mode
 	//button.btn.btn-lg.btn-primary.btn-add-panel Add new panel
 	br
 	.container-fluid#mediaPage2(style="display: none")
@@ -38,7 +46,6 @@ block content
 					.panel-body
 						.row.embed-responsive.embed-responsive-4by3.locVid
 							video.embed-responsive-item#localVideo( autoplay="true", muted="true", style="display: none")
-
 						br
 						.row#recordingControl(style = "display: none")
 							.col-sm-12
@@ -77,10 +84,10 @@ block content
 								#endConference(align="right", style="display: none")
 									button.btn.btn-danger.btn-block#hangupButton(type="button", onclick="endConference()")
 										span.fa.fa-close
-		.row#RecordingPlayer
-			audio#thisPlayer(type="audio/mpeg")
+		.row#RecordingPlayer(style="display:none")
+			audio#thisPlayer(controls autobuffer, style="display: block", type="audio/mpeg")
 
 	script(src='/js/controllers/home_controller.js')
 	script(src='/js/views/home.js')
-	script(src='/js/views/player.js')
+	//script(src='/js/views/player.js')
 	//script(src='/js/views/recordAudio.js')

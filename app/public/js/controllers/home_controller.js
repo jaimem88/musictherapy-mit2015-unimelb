@@ -189,9 +189,11 @@ function checkNumberOfConnections(){
 		}
 
 		$stopCallButton.disabled = false;
+		$broadcastMode.disabled = false;
 		if (admin=== 'true') {
 			$recordingControl.style.display='none'
 			$endConference.style.display = 'none';
+			$broadcastMode.style.display = 'none';
 			isInitiator = false;
 		//	$startRecording.style.display = 'none';
 		//	$stopRecordingAudio.style.display = 'none'

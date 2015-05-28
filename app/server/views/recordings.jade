@@ -1,1 +1,17 @@
 extends layout
+block scripts
+  script.
+    admin = "#{user.admin}"
+    jRecordings = !{jRecordings};
+    console.log(jRecordings);
+block content
+  .container
+    h1.text-info Recordings
+    table.table.table-hover.table-responsive
+      thead
+        tr
+          th Date
+          th Recording
+          th Controls
+      tbody#recordingsTable
+  script(src='/js/views/recordings.js')

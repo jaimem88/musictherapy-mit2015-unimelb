@@ -9,5 +9,5 @@ html
 	body
 		.container
 			.row#RecordingPlayer
-				audio#thisPlayer(controls ="", style="display: block", type="audio/mpeg")
+				audio#thisPlayer(controls autobuffer, style="display: block", type="audio/mpeg")
 	script(src='/js/views/player.js')

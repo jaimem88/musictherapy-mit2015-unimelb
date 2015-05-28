@@ -3,6 +3,7 @@
 
 var $startCallButton = document.getElementById('startCallModeButton');
 var $stopCallButton = document.getElementById('stopCallModeButton');
+var $broadcastMode = document.getElementById('broadcastMode');
 
 var $videoWindow = document.getElementById('localVideo');
 var $startRecording = document.getElementById('recordAudio');
@@ -30,6 +31,7 @@ function startCallMode(){
 	console.log("loading script");
 	socket = io.connect("https://" + window.location.host);
 	 	$.getScript("js/views/recordAudio.js");
+		$.getScript("js/views/player.js");
 		$.getScript("js/controllers/remote_media_functions.js");
 		$.getScript("js/controllers/webRTC_API_functions.js");
 		$.getScript("js/controllers/on_event_functions.js");
@@ -50,7 +52,23 @@ function stopCallMode(){
 
 	window.location.reload(true);
 }
+function broadcastMode(){
+	document.getElementById("broadcastMode").style.display = "none";
+	document.getElementById("stopBroadcastMode").style.display = "block";
+	document.getElementById("RecordingPlayer").style.display = "block";
+	file = "thatbasscompMixed.mp3";
+	playFile("thatbasscompMixed.mp3");
+	toggleRemoteAudio();
+	socket.emit('broadcast',file);
+}
+function stopBroadcastMode(){
+	document.getElementById("stopBroadcastMode").style.display = "none";
+	document.getElementById("broadcastMode").style.display = "block";
+	document.getElementById("RecordingPlayer").style.display = "none";
+	stopPlaying();
+	toggleRemoteAudio();
 
+}
 //Display initial home
 
 function displayContent(){
