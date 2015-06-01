@@ -12,11 +12,6 @@ module.exports = function(app, passport) {
 	//	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	//	next();
 //	});
-	//Test audio
-	 app.get('/player', function(req, res) {
-        res.render('player.jade',
-			{	user:req.user}); // load the index.jade file
-    });
 		app.get('/recordings',isLoggedIn, function(req, res) {
 
 			Recordings.find({},'-_id -__v', function(err, recs) {

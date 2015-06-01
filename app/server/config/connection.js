@@ -1,7 +1,8 @@
 
 fs = require("fs");
-var mixer = require("./mixer.js")
-var Accounts = require("./accounts.js")
+var mixer = require("./mixer.js");
+var Accounts = require("./accounts.js");
+var Recordings = require('../models/recordings');
 //var recordRTC = require('recordrtc');
 var rooms={};
 var clients={};
@@ -154,8 +155,18 @@ module.exports = function(socket) {
 		//mixer.preproc(data);
 		mixer.printFiles(data);
 	});
-	socket.on('broadcast',function(data){
-		sendMessageToRoom('broadcast',data);
+	socket.on('broadcast',function(){
+		Recordings.find({},'-_id -__v' , function(err, recs) {
+			jsonRecs = JSON.stringify(recs);
+			console.log(jsonRecs);
+			sendMessageToRoom('broadcast',recs);
+		}).sort('recDate');
+	});
+	socket.on('file to play',function(file){
+		sendMessageToRoom('file to play',file);
+	});
+	socket.on('stop broadcast',function(){
+		sendMessageToRoom('stop broadcast','stop broadcast');
 	});
 	socket.on('play',function(){
 		sendMessageToRoom('play','play');

@@ -86,6 +86,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 	//addNameTag(divElement,connectToUser);
 	$newPanel.find('.locVid').append(divElement);
 	$("#media").append($newPanel.fadeIn());
+	remoteVideo.muted = false;
 	remoteVideo.play();
 //	$("remoteVideo").prop('autoplay', true);
 //	$media.appendChild(divElement);

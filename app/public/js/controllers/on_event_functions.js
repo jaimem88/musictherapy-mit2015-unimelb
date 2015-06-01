@@ -192,8 +192,9 @@ function onCandidateMessage(message){
 	});
 	connectedUsers[message.connectTo].addIceCandidate(candidate);
 	//call initiated
-
+	$CurrentMode.innerHTML = "Call mode";
 	if (admin=== 'true') {
+
 		$recordingControl.style.display = 'block';
 		$broadcastMode.style.display = 'block';
 		$endConference.style.display = 'block';
@@ -210,8 +211,3 @@ function onCandidateMessage(message){
 window.onbeforeunload = function(e){
 	sendMessage('goodbye');
 }
-
-socket.on('broadcast',function(file){
-	console.log("broadcast mode "+file);
-	playFile(file);
-});

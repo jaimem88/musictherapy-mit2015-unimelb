@@ -13,6 +13,8 @@ block content
 	.container-fluid
 		h1
 			center Welcome #{user.fname}!
+		h4
+			center.text-info#currentMode
 		.row
 			.col-sm-3.col-sm-push-9
 				#mediaPage(style="display: none")
@@ -28,7 +30,7 @@ block content
 					span.fa.fa-stop
 					|  Stop session
 			if (user.admin)
-				.col-sm-3
+				.col-sm-3.col-sm-pull-3
 					button.btn.btn-info.btn-block#broadcastMode(style = "display:none" type="button", onclick="broadcastMode()")
 						span.fa.fa-music
 						|  Broadcast Mode
@@ -85,7 +87,14 @@ block content
 									button.btn.btn-danger.btn-block#hangupButton(type="button", onclick="endConference()")
 										span.fa.fa-close
 		.row#RecordingPlayer(style="display:none")
-			audio#thisPlayer(controls autobuffer, style="display: block", type="audio/mpeg")
+			.row
+				.col-xs-4
+						#selector.textStyle
+							label.text-info(for="option") Select recording to play:
+							select.form-control#values(onchange="sendSongToPlay(this.value)")
+			.row
+				.col-xs-4
+					audio#thisPlayer(controls autobuffer, style="display: block", type="audio/mpeg")
 
 	script(src='/js/controllers/home_controller.js')
 	script(src='/js/views/home.js')

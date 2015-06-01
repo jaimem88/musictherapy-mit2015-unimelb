@@ -4,7 +4,7 @@
 var $startCallButton = document.getElementById('startCallModeButton');
 var $stopCallButton = document.getElementById('stopCallModeButton');
 var $broadcastMode = document.getElementById('broadcastMode');
-
+var $CurrentMode = document.getElementById('currentMode');
 var $videoWindow = document.getElementById('localVideo');
 var $startRecording = document.getElementById('recordAudio');
 var $stopRecordingAudio = document.getElementById('stop-recording-audio');
@@ -52,21 +52,25 @@ function stopCallMode(){
 
 	window.location.reload(true);
 }
+//Display content of broadcast mode
 function broadcastMode(){
+
 	document.getElementById("broadcastMode").style.display = "none";
 	document.getElementById("stopBroadcastMode").style.display = "block";
 	document.getElementById("RecordingPlayer").style.display = "block";
-	file = "thatbasscompMixed.mp3";
-	playFile("thatbasscompMixed.mp3");
-	toggleRemoteAudio();
-	socket.emit('broadcast',file);
+	$endConference.disabled =true;
+	$startRecording.disabled = true;
+	socket.emit('broadcast');
 }
 function stopBroadcastMode(){
+
+	$endConference.disabled =false;
 	document.getElementById("stopBroadcastMode").style.display = "none";
 	document.getElementById("broadcastMode").style.display = "block";
 	document.getElementById("RecordingPlayer").style.display = "none";
+	$startRecording.disabled = false;
+	socket.emit('stop broadcast');
 	stopPlaying();
-	toggleRemoteAudio();
 
 }
 //Display initial home
@@ -77,9 +81,29 @@ function displayContent(){
 	document.getElementById("mediaPage2").style.display = "block";
 	document.getElementById("callControls").style.display = "block";
 	console.log(" admin? "+admin)
-
+	$CurrentMode.innerHTML = "Waiting for call...";
 	$startCallButton.style.display = 'none';
 	$stopCallButton.style.display = "block";
 	$videoWindow.style.display = "block";
 
+}
+
+function toggleRemoteAudio(bMode){
+	console.log("toggleremoteaudio "+ bMode);
+	bMode = (typeof bMode === 'undefined') ? false : bMode;
+	console.log("toggleremoteaudio "+ bMode);
+	for (var key in connectedUsers) {
+		userCount =connectedUsers.length;
+		if(key.includes("Clinician") && !bMode){
+			continue;
+		}
+		var remVid = document.getElementById('panels'+key).childNodes[0].childNodes[1].childNodes[0].childNodes[0];
+
+		console.log(remVid.muted);
+		if (remVid.muted){
+			remVid.muted = false;
+		}else{
+			remVid.muted = true;
+		}
+	}
 }

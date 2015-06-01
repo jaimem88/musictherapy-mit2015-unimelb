@@ -3,7 +3,9 @@
 var recordAudio, recordVideo;
 var userCount = 0;
 $startRecording.onclick = function() {
+
 	console.log('click on start recording '+username)
+	$endConference.disabled =true;
 	$startRecording.disabled = true
 	$stopRecordingAudio.disabled = false;
 	$mixRecordings.disabled = true;
@@ -15,10 +17,11 @@ $startRecording.onclick = function() {
 
 
 $stopRecordingAudio.onclick = function() {
+
 	$startRecording.disabled = false;
 	$startRecording.style.display='none';
 	$stopRecordingAudio.disabled = true;
-
+	$endConference.disabled =false;
 	socket.emit('stop recording');
 	$stopRecordingAudio.style.display='none';
 	$broadcastMode.disabled = false;
@@ -36,21 +39,9 @@ $mixRecordings.onclick = function() {
 	socket.emit('mix recordings',mixedFileName);
 };
 
-function toggleRemoteAudio(){
-	for (var key in connectedUsers) {
-		userCount =connectedUsers.length;
-		console.log(key);
-		if(key.includes("Clinician")){
-			continue;
-		}
-		var curRemoteVideo = $($("#panels"+key)).find("#remoteVideo");
-		console.log(curRemoteVideo);
-		$(curRemoteVideo).prop("muted",!$(curRemoteVideo).prop("muted"));
-	}
-}
-
 //when start recording is received, then record local stream
 socket.on('start recording',function (){
+	$CurrentMode.innerHTML = "Recording mode";
 	console.log("recording local audio")
 	toggleRemoteAudio();
 	mediaStream = stream = getLocalStream();
@@ -59,6 +50,7 @@ socket.on('start recording',function (){
 });
 
 socket.on('stop recording',function (){
+	$CurrentMode.innerHTML = "Call mode";
 	console.log("stop recording local audio")
 	toggleRemoteAudio();
 	recordAudio.stopRecording(function() {
