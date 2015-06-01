@@ -150,8 +150,8 @@ socket.on('message', function (message){
 	}else if (message.type === 'candidate') {
 		onCandidateMessage(message);
 	}else if(message === 'endOfConference'){
+		$CurrentMode.innerHTML = "Waiting for call...";
 		deleteAllConnections();
-
 	}
 });
 

@@ -192,13 +192,13 @@ function checkNumberOfConnections(){
 
 		if (admin=== 'true') {
 			$recordingControl.style.display='none'
+			$recordingPlayer.style.display='none';
 			$endConference.style.display = 'none';
 			$broadcastMode.disabled = false;
 			$broadcastMode.style.display = 'none';
+			$stopBroadcastMode.style.display = 'none';
 			isInitiator = false;
-		//	$startRecording.style.display = 'none';
-		//	$stopRecordingAudio.style.display = 'none'
-		//	$mixRecordings.style.display='none'
+
 		}
 	}
 }

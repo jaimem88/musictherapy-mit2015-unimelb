@@ -4,12 +4,14 @@
 var $startCallButton = document.getElementById('startCallModeButton');
 var $stopCallButton = document.getElementById('stopCallModeButton');
 var $broadcastMode = document.getElementById('broadcastMode');
+var $stopBroadcastMode = document.getElementById("stopBroadcastMode");
 var $CurrentMode = document.getElementById('currentMode');
 var $videoWindow = document.getElementById('localVideo');
 var $startRecording = document.getElementById('recordAudio');
 var $stopRecordingAudio = document.getElementById('stop-recording-audio');
 var $mixRecordings = document.getElementById('mix-recordings');
 var $recordingControl = document.getElementById('recordingControl');
+var $recordingPlayer=  document.getElementById('RecordingPlayer');
 
 var callMode = false;
 var script = document.createElement('script');
@@ -55,9 +57,9 @@ function stopCallMode(){
 //Display content of broadcast mode
 function broadcastMode(){
 
-	document.getElementById("broadcastMode").style.display = "none";
-	document.getElementById("stopBroadcastMode").style.display = "block";
-	document.getElementById("RecordingPlayer").style.display = "block";
+	$broadcastMode.style.display = "none";
+	$stopBroadcastMode.style.display = "block";
+	$recordingPlayer.style.display = "block";
 	$endConference.disabled =true;
 	$startRecording.disabled = true;
 	socket.emit('broadcast');

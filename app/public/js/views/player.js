@@ -36,12 +36,14 @@ thisAudio.addEventListener('seeked', function(){
 });
 
 socket.on('pause',function(){
+  toggleRemoteAudio(true);
   if(admin==='false'){
     console.log('pause'+admin);
     thisAudio.pause();
   }
 });
 socket.on('play',function(){
+  toggleRemoteAudio(true);
   if(admin==='false'){
     console.log('play');
     thisAudio.play();
@@ -84,7 +86,6 @@ function sendSongToPlay(file){
 //When broadcast mode is received, mute all remote videos.
 socket.on('broadcast',function(recs){
   $CurrentMode.innerHTML = "Broadcast mode";
-	toggleRemoteAudio(true);
 	if(admin==='true'){
 		$selValues = document.getElementById('values');
 
@@ -95,10 +96,9 @@ socket.on('file to play', function(file){
 	playFile(file);
 })
 //When stop broadcast is received, unmute remote videos.
-
 socket.on('stop broadcast',function(){
   $CurrentMode.innerHTML = "Call mode";
 	console.log("stop broadcast mode");
-	toggleRemoteAudio(true);
+
 	stopPlaying();
 });
