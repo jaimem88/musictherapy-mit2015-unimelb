@@ -1,9 +1,9 @@
 #!/bin/sh
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install curl git sox libsox-fmt-mp3
+sudo apt-get -y upgrade
+sudo apt-get -y install curl git sox libsox-fmt-mp3
 #sudo apt-get install nodejs
-sudo apt-get install npm
+sudo apt-get -y install npm
 #Upgrade to latest nodejs version
 sudo npm cache clean -f
 sudo npm install -g n
