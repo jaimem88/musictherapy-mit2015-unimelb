@@ -20,11 +20,6 @@ sudo npm install
 sudo npm install -g forever
 #sudo forever start app.js
 #Manual Configuration
-echo "type the following commands to setup DB:"
-echo "mongo"
-echo "use MusicTherapy"
-echo "db.users.insert({fname:"admin", lname: "admin", email: "admin", password: "admin", admin:true})"
-echo "exit"
-
+mongorestore mongoBackUp/6-15-2015-BackUp/
 #start server
-sudo forever start app.js
+sudo forever start app.js -o output.log -e error.log

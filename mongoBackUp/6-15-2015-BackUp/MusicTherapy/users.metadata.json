@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":NumberInt(1),"key":{"_id":NumberInt(1)},"name":"_id_","ns":"MusicTherapy.users"},{"v":NumberInt(1),"unique":true,"key":{"email":NumberInt(1)},"name":"email_1","ns":"MusicTherapy.users","background":true,"safe":null}]}
