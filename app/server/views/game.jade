@@ -1,0 +1,28 @@
+
+head
+  meta(charset="utf-8")
+  meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+  title Unity WebGL Player | Space Shooter
+  link(rel="stylesheet", href="/WebGL/TemplateData/style.css")
+  link(rel="shortcut icon", href="/WebGL/TemplateData/favicon.ico")
+  script(src="/WebGL/TemplateData/UnityProgress.js")
+body
+  p
+    | HELLOOO
+  p.header
+    span Unity WebGL Player |
+    | Space Shooter
+  .template-wrap.clear
+    canvas#canvas.emscripten(oncontextmenu="event.preventDefault()", height="900px", width="600px")
+    .logo
+    .fullscreen
+      img(src="/WebGL/TemplateData/fullscreen.png", width="38", height="38", alt="Fullscreen", title="Fullscreen", onclick="SetFullscreen(1);")
+    .title Space Shooter
+  p.footer
+    | &#171; created with
+    a(href="http://unity3d.com/", title="Go to unity3d.com") Unity
+    | &#187;
+  script(src="/WebGL/Module.js")
+  script(src="/WebGL/Release/UnityConfig.js")
+  script(src="/WebGL/Release/fileloader.js")
+  script(src="/WebGL/Loader.js")
