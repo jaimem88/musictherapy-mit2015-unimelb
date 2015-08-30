@@ -12,7 +12,7 @@ module.exports = function(app, passport) {
 	//	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	//	next();
 //	});
-		app.get('/game'/*,isLoggedIn*/, function(req, res) {
+		app.get('/game',isLoggedIn, function(req, res) {
 
 			res.render('game.jade',{user:req.user});
 		});

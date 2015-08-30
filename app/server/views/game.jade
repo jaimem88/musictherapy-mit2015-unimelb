@@ -1,14 +1,20 @@
-
-head
+extends layout
+block scripts
   meta(charset="utf-8")
   meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
   title Unity WebGL Player | Space Shooter
   link(rel="stylesheet", href="/WebGL/TemplateData/style.css")
   link(rel="shortcut icon", href="/WebGL/TemplateData/favicon.ico")
   script(src="/WebGL/TemplateData/UnityProgress.js")
-body
+  script.
+    username = "#{user.fname}"
+
+block content
+  .container-fluid
+    h1
+      center Welcome #{user.fname}!
   p
-    | HELLOOO
+    | Hello  #{user.fname}
   p.header
     span Unity WebGL Player |
     | Space Shooter
