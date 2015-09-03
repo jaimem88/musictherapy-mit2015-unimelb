@@ -16,10 +16,10 @@ module.exports = function(app, passport) {
 
 			res.render('webvr/cubes.jade',{user:req.user});
 		});
-		app.get('/threejs',isLoggedIn, function(req, res) {
+	/*	app.get('/threejs',isLoggedIn, function(req, res) {
 
 			res.render('webvr/threejs.jade',{user:req.user});
-		});
+		});*/
 		app.get('/polarsea',isLoggedIn, function(req, res) {
 
 			res.render('webvr/polarsea.jade',{user:req.user});
