@@ -3,14 +3,19 @@ html
 	head
 		title Music Therapy singing session!
 		block scripts
+		link( rel="shortcut icon" href="favicon.ico")
 		script(src="//code.jquery.com/jquery-1.11.2.min.js")
 		script(src="//code.jquery.com/jquery-migrate-1.2.1.min.js")
+		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
 		script.
 			function goTo(page){
 				window.location.href=page
 			}
-		link( rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
-		link( rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+			$(document).ready(function () {
+				$('.dropdown-toggle').dropdown();
+				});
+		link( rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+		link( rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
 		style.
 			body{overflow-x: hidden;overflow-y: scroll;}
 	body
@@ -30,6 +35,15 @@ html
 							a(href='/recordings') Recordings
 						li
 							a(href='/game') Game Test
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle="dropdown" )
+								| WebVR Examples
+								span.fa.fa-caret-down.fa-3
+							ul.dropdown-menu
+								li
+									a(href='/polarsea') Polar Sea
+								li
+									a(href='/cubes') Cubes
 						if (user.admin)
 							li
 								a(href='/users') Users

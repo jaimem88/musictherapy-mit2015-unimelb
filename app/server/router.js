@@ -12,6 +12,18 @@ module.exports = function(app, passport) {
 	//	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	//	next();
 //	});
+		app.get('/cubes',isLoggedIn, function(req, res) {
+
+			res.render('webvr/cubes.jade',{user:req.user});
+		});
+		app.get('/threejs',isLoggedIn, function(req, res) {
+
+			res.render('webvr/threejs.jade',{user:req.user});
+		});
+		app.get('/polarsea',isLoggedIn, function(req, res) {
+
+			res.render('webvr/polarsea.jade',{user:req.user});
+		});
 		app.get('/game',isLoggedIn, function(req, res) {
 
 			res.render('game.jade',{user:req.user});

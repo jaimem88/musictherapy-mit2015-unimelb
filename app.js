@@ -45,6 +45,9 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 app.set('views', __dirname + '/app/server/views');
 app.set('view engine', 'jade'); // set up jade for templating
+app.engine('jade', require('jade').__express);
+// Render html
+app.engine('.html', require('jade').renderFile);
 
 // required for passport
 //Stay logged in for 3 hours.
@@ -74,10 +77,10 @@ io.sockets.on('connection', function (socket){
 	require(__dirname + '/app/server/config/connection')(socket);
 });
 
-// Redirect from http port 8080 to https
+// Redirect from http port 80 to https 443
 var http = require('http');
 http.createServer(function (req, res) {
 	console.log("Location "+ "https://" + req.headers['port'] +" "+req.url )
 	res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
   res.end();
-}).listen(8080);
+}).listen(80);
