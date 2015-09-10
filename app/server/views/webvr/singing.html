@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<title>Singing in VR</title>
+
+
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			.menu {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+			}
+			.mystats{
+				position:fixed;
+				bottom: 20px;
+				left: 20px;
+			}
+			.button {
+				display: inline-block;
+				padding: 8px;
+				color: #FFF;
+				background-color: #555;
+				opacity: 0.9;
+			}
+
+			.button.enabled {
+				background-color: rgb(18, 36, 70);
+			}
+
+			.button:hover {
+				cursor: pointer;
+				background-color: rgb(18, 36, 70);
+			}
+
+			.button.error {
+				pointer-events: none;
+				background-color: red;
+			}
+		</style>
+	</head>
+
+	<body>
+			<!--
+		<div class="button mouse-look">Enable Mouse Look</div>
+		<div class="button full-screen">Start VR Mode</div>
+
+
+
+		three.js 3d library
+		-->
+		<script src="/WebVR/singingRoom/js/lib/three.min.js"></script>
+		<script src="/WebVR/singingRoom/js/lib/stats.min.js"></script>
+
+		<!--
+		library for fast quaternion rotation
+	-->
+		<script src="/WebVR/singingRoom/js/lib/gl-matrix.js"></script>
+
+		<!--
+		VRControls.js acquires positional information from connected VR devices and applies the transformations to a three.js camera object.
+		 -->
+		<script src="/WebVR/singingRoom/js/vr/PhoneVR.js"></script>
+		<script src="/WebVR/singingRoom/js/vr/MouseControls.js"></script>
+		<script src="/WebVR/singingRoom/js/vr/VRControlsSinging.js"></script>
+
+		<!--
+		VREffect.js handles stereo camera setup and rendering.
+		-->
+		<script src="/WebVR/singingRoom/js/vr/VREffect.js"></script>
+
+	  <script src="/WebVR/singingRoom/js/singingroom.js"></script>
+
+	</body>
+</html>

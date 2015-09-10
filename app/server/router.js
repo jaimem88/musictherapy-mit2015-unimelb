@@ -13,16 +13,17 @@ module.exports = function(app, passport) {
 	//	next();
 //	});
 
+		//SINGING ROOM
 
+		app.get('/singingVR',/*isLoggedIn,*/ function(req, res) {
 
-		 app.get('/monkeys1',isLoggedIn, function(req, res) {
+			res.render('webvr/singing.jade',{user:req.user});
+		});
+//WEBVR examples
+		 app.get('/monkeys',isLoggedIn, function(req, res) {
 
-                        res.render('webvr/monkeys1.jade',{user:req.user});
-                });
-		 app.get('/monkeys2',isLoggedIn, function(req, res) {
-
-                        res.render('webvr/monkeys2.jade',{user:req.user});
-                });
+			 res.render('webvr/monkeys.jade',{user:req.user});
+     });
 
 		app.get('/cubes',isLoggedIn, function(req, res) {
 
