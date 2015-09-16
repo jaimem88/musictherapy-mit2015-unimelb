@@ -32,6 +32,7 @@ function startCallMode(){
 	console.log(username);
 	console.log("loading script");
 	socket = io.connect("https://" + window.location.host);
+    //socket = io('/connections');
 	 	$.getScript("js/views/recordAudio.js");
 		$.getScript("js/views/player.js");
 		$.getScript("js/controllers/remote_media_functions.js");

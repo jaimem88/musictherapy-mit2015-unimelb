@@ -1,4 +1,15 @@
 extends ../layout
+block scripts
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.js")
+  script(src="https://cdn.webrtc-experiment.com/RecordRTC.js")
+  script(src='/js/controllers/lib/adapter.js')
+  script(src='/js/controllers/Opus.js')
+  script(src='/js/controllers/get_media_functions.js')
+  script.
+    username = "#{user.fname}"
+    email = "#{user.email}"
+    admin = "#{user.admin}"
+  script(src='/WebVR/singingRoom/js/vr_socketio_messages.js')
 block content
   br
   include singing.html

@@ -179,7 +179,7 @@ function animate() {
   effect.render(scene, camera);
   requestAnimationFrame(animate);
 }
-
+animate();
 //listen for click
 function onclick() {
   var selected = (currSelected) % 6 + 1;

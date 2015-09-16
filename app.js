@@ -23,7 +23,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var fs 			 = require('fs');
-
+var connectCounter= 0;
 //Database config
 var configDB = require( __dirname + '/app/server/config/database.js');
 
@@ -73,10 +73,18 @@ server.listen(port,function(){
 	console.log('HTTPS server listening on port ' + port);
 });
 io.sockets.on('connection', function (socket){
-	console.log("new client connected");
+	console.log("new client connected to socket ", socket.id);
 	require(__dirname + '/app/server/config/connection')(socket);
 });
 
+var vr_connections = io  .of('/vr_connections');
+vr_connections.on('connection', function (socket) {
+		connectCounter++;
+		console.log("new VR client connected ", socket.id);
+		require(__dirname + '/app/server/config/vr_connection')(socket);
+});
+
+vr_connections.on('disconnect', function() { connectCounter--; });
 // Redirect from http port 80 to https 443
 var http = require('http');
 http.createServer(function (req, res) {

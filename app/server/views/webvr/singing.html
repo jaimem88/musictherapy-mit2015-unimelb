@@ -54,12 +54,16 @@
 			<!--
 		three.js 3d library
 		-->
-		<script src="/WebVR/singingRoom/js/lib/three.min.js"></script>
+		<script src="/WebVR/monkeys/js/lib/three.min.js"></script>
 		<script src="/WebVR/singingRoom/js/lib/stats.min.js"></script>
 		<!--
 		library for fast quaternion rotation
 	-->
 		<script src="/WebVR/singingRoom/js/lib/gl-matrix.js"></script>
+		<!--
+		VREffect.js handles stereo camera setup and rendering.
+		-->
+		<script src="/WebVR/singingRoom/js/vr/VREffect.js"></script>
 
 		<!--
 		VRControls.js acquires positional information from connected VR devices and applies the transformations to a three.js camera object.
@@ -68,10 +72,9 @@
 		<script src="/WebVR/singingRoom/js/vr/MouseControls.js"></script>
 		<script src="/WebVR/singingRoom/js/vr/VRControlsSinging.js"></script>
 
-		<!--
-		VREffect.js handles stereo camera setup and rendering.
-		-->
-		<script src="/WebVR/singingRoom/js/vr/VREffect.js"></script>
+
+
+
 		<p id="errorMessage" style ="displaye:none"></p>
 		<video id="monitor" autoplay width="160" height="120" style="visibility: hidden; float:left; display:none;"></video>
 		<canvas id="videoImage" width="160" height="120" style="visibility: hidden; float:left; display:none;"></canvas>

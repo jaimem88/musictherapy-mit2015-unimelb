@@ -12,7 +12,7 @@ module.exports = function(socket) {
 /*************************************************************************************/
 /****On event functions****/
 
-		socket.on('message', function (message) {
+		socket.on('vr_message', function (message) {
 			console.log('Got message: ', message);
 			if (message === 'goodbye'){
 				onGoodbye();
@@ -32,27 +32,35 @@ module.exports = function(socket) {
 		socket.on('delete',function(data){
 			console.log("Delete from db "+data)
 			Accounts.deleteAccount(data);
-		})
+		});
 
-	//Validating the new user and storing the user details in the server
 
-		socket.on('new user',function(newUser,callback){
-		//	Users.findOne({fname:newUser},{contacts:1}).exec( function(err,jsonContacts){
-			//	if(jsonContacts){
-		  //	console.log("username",newUser);
-					socket.username = newUser;
+		socket.on('vr_new_user',function(newUser,callback){
 
+					console.log("username",newUser);
 					//store the new user details in server
+					socket.username = newUser;
 					clientsNameArray.push(socket.username);
 					createClientObject(newUser,socket);
-					sendOnlineContacts(clientsNameArray,newUser);
-					//callback(true);
-				//}
-				//else{
-				//	console.log('user not in db');
-				//	callback(false);
-				//}
-			//});
+
+
+          vrRoom='vr_room_1'
+				//	clientsNameArray+=[newUser]
+				/*	if(clients[socket.username].room ==''){
+						clients[socket.username].socket.join(vrRoom);
+						clients[	socket.username].room = vrRoom;
+						console.log('New user created room: '+ vrRoom);
+						//io.sockets.in(clients[newUser].socketID).emit('vr_created',vrRoom);
+						socket.emit('vr_created',vrRoom);
+					}
+					else{*/
+						socket.join(vrRoom);
+						clients[socket.username].room = vrRoom;
+						clients[socket.username].socket.join(vrRoom);
+						console.log('New user joined room: '+ vrRoom);
+						socket.emit('vr_joined',clientsNameArray);
+			//		}
+
 		});
 
 	//Send a connect request or add to conference request to the callee according to callee's room status

@@ -15,7 +15,7 @@ module.exports = function(app, passport) {
 
 		//SINGING ROOM
 
-		app.get('/singingVR',/*isLoggedIn,*/ function(req, res) {
+		app.get('/singingVR',isLoggedIn, function(req, res) {
 
 			res.render('webvr/singing.jade',{user:req.user});
 		});
