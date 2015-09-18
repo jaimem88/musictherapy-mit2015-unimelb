@@ -8,132 +8,56 @@ var rooms={};
 var clients={};
 var clientsNameArray =[];
 var clientCount = 0;
-module.exports = function(socket) {
+var vrRoom= 'vr_room_1';
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
+module.exports = function(socket,namespace) {
 /*************************************************************************************/
 /****On event functions****/
 
-		socket.on('vr_message', function (message) {
-			console.log('Got message: ', message);
-			if (message === 'goodbye'){
-				onGoodbye();
-			}
-			else
-				if(message === 'leave'){
-					onLeave();
-				}
-				else
-					if(message === 'endConference'){
-						onEndConference();
-					}
-					else{
-						sendMessageToClient(message);
-					}
-		});
-		socket.on('delete',function(data){
-			console.log("Delete from db "+data)
-			Accounts.deleteAccount(data);
-		});
+	socket.on('vr_message', function (message) {
+		console.log('Got vr_message: ', message);
+		if (message === 'goodbye'){
+			onGoodbye();
+		}else if(message === 'leave'){
+			onLeave();
+		}else if(message === 'endConference'){
+			onEndConference();
+		}else{
+			sendMessageToClient(message);
+		}
+	});
+
+	socket.on('vr_new_user',function(newUser){
+		socket.username = newUser;
+		socket.join(vrRoom);
+		console.log('vr_new_user', newUser);
+		//store the new user details in server
+		clientsNameArray.push(newUser);
+		createClientObject(newUser,socket,vrRoom);
+		sendOnlineContacts(clientsNameArray,newUser);
+		// send message to room
+		//vr_connections.in(vrRoom).emit('vr_joined',newUser);
+		sendMessageToRoom('vr_joined',newUser);
+	});
+
+	socket.on('vr_webrtc_connection',function(user){
+			console.log('attempt webrtc connection here with', user);
 
 
-		socket.on('vr_new_user',function(newUser,callback){
-
-					console.log("username",newUser);
-					//store the new user details in server
-					socket.username = newUser;
-					clientsNameArray.push(socket.username);
-					createClientObject(newUser,socket);
-
-
-          vrRoom='vr_room_1'
-				//	clientsNameArray+=[newUser]
-				/*	if(clients[socket.username].room ==''){
-						clients[socket.username].socket.join(vrRoom);
-						clients[	socket.username].room = vrRoom;
-						console.log('New user created room: '+ vrRoom);
-						//io.sockets.in(clients[newUser].socketID).emit('vr_created',vrRoom);
-						socket.emit('vr_created',vrRoom);
-					}
-					else{*/
-						socket.join(vrRoom);
-						clients[socket.username].room = vrRoom;
-						clients[socket.username].socket.join(vrRoom);
-						console.log('New user joined room: '+ vrRoom);
-						socket.emit('vr_joined',clientsNameArray);
-			//		}
-
-		});
-
-	//Send a connect request or add to conference request to the callee according to callee's room status
-
-		socket.on('connectToUser', function(contactSelected){
-			console.log('connect request from : '+socket.username+' to '+contactSelected);
-			if(clients[contactSelected].room === ''){
-				console.log("sending connect request to  "+ contactSelected);
-				io.sockets.in(clients[contactSelected].socketID).emit('connectRequest', socket.username);
-			}
-			else{
-				console.log("sending add to conference request to  "+ contactSelected);
-				io.sockets.in(clients[contactSelected].socketID).emit('addToConferenceRequest', socket.username);
-			}
-		});
-
-	//Triggered when the client accepts a call from the initiator,
-	//When the initiator starts a call the first time,Create a room for the initiator
-	//and then add callee to the room.
-	//When the initiator tries to add more users into the conference,
-	//join the callee to initiator's existing room
-
-		socket.on('accept',function(callerName){
-			console.log('client accepted the call');
-			console.log('allocating rooms');
-
-			var room;
-			if(clients[callerName].room ==''){
-				room = 'room1';
-				createRoomForInitiator(callerName,room);
-			}
-			else{
-				room = clients[callerName].room;
-			}
-			joinExistingRoom(socket,room);
-			console.log('callee joined existing room: '+room);
-			socket.emit('joined',room);
-			sendMessageToRoom('user joined',socket.username);
-
-		});
-
-	//When the initiator accepts a user into the conference,
-	//join the user to an existing room
-
-		socket.on('acceptIntoConference',function(callerName){
-			var room = clients[socket.username].room ;
-			console.log('initiator accepted the call');
-			console.log('joining'+callerName+'into the room: '+room);
-			joinExistingRoom(clients[callerName].socket,room);
-			//clients[callerName].socket.join(room);
-			//clients[callerName].room = room;
-			sendMessageToRoom('user joined',callerName);
-			io.sockets.in(clients[callerName].socketID).emit('addedToConference',clients[callerName].room );
-		});
-
-
-	//On getting reject message from callee, send the message to the caller
-
-		socket.on('reject',function(name){
-			console.log('got reject message from callee,sending it to caller');
-			io.sockets.in(clients[name].socketID).emit('reject',socket.username);
-		});
-
-	//On hangup event send hangup message to the hangupUser
-
-		socket.on('hangup',function(hangupUser){
-			console.log('send hangup message to client:'+hangupUser);
-			io.sockets.in(clients[hangupUser].socketID).emit('hangup',socket.username);
-		});
+	});
 
 	//On receiving remove request from initiator,
 	//remove the user from the room and inform others to remove the user as well
-
 		socket.on('remove from room',function(hangupUser){
 			sendMessageToRoom('remove',hangupUser);
 		});
@@ -241,8 +165,8 @@ function updateStatus(contactsOnline,newUser){
 			if(contactsOnline[i] in clients){
 				console.log('client found, updating contact list in client:'+contactsOnline[i]);
 				console.log("the new user is:"+newUser);
-				io.sockets.in(clients[contactsOnline[i]].socketID).emit('addContact',newUser);
-				console.log("CLIENTS SENT");
+				io.sockets.in(vrRoom).emit('addContact',newUser);
+			//	io.sockets.in(clients[contactsOnline[i]].socketID).emit('addContact',newUser);
 				updated= true;
 			}else{
 				console.log('checking next contact');
@@ -254,19 +178,7 @@ function updateStatus(contactsOnline,newUser){
 		console.log('client array:' +clientsNameArray);
 	}
 }
-//Creating a room for the initiator of the conference
-function createRoomForInitiator(name,room){
-	//room = 'room1';
-	clients[name].socket.join(room);
-	clients[name].room = 'room1';
-	console.log('caller created room: '+ room);
-	io.sockets.in(clients[name].socketID).emit('created',room);
-}
-//Client joining an existing room and updating the room details in the client array
-function joinExistingRoom(socket,room){
-	socket.join(room);
-	clients[socket.username].room = room;
-}
+
 //On receiving goodbye message from client,
 //inform the other room members to update their connected users array
 //and  also delete the client from clients array in the server
@@ -274,6 +186,10 @@ function onGoodbye(){
 	console.log('got message goodbye from client');
 	informRoomMembers(socket.username);
 	deleteClient(socket.username);
+	//delete from client array
+	console.log("clientsNameArray before: ",clientsNameArray)
+	clientsNameArray.remove(socket.username);
+	console.log("clientsNameArray after: ",clientsNameArray)
 	console.log('informing deletion to others');
 	socket.broadcast.emit('deleteContact',socket.username);
 }
@@ -303,6 +219,7 @@ function onLeave(){
 		socket.leave(clients[socket.username].room);
 		sendMessageToRoom('message',socket.username+' left the room');
 		clients[socket.username].room='';
+		clientsNameArray =[];
 	}
 }
 
@@ -312,28 +229,27 @@ function onEndConference(){
 }
 //Sending a message to the whole room
 function sendMessageToRoom(messageTag,message){
-	console.log('sending message to room:'+ messageTag);
-	//socket.broadcast.to(clients[socket.username].room).emit(messageTag,message);
-	io.sockets.in(clients[socket.username].room).emit(messageTag,message);
+	console.log('sending message to room: '+ messageTag);
+	namespace.in(vrRoom).emit(messageTag, message);
 }
 //Sending a message to the client specified
 function sendMessageToClient(message){
 	var sendToClient = message.connectTo;
 	message.connectTo = socket.username;
-	console.log('sending message to client '+ sendToClient);
-	io.sockets.in(clients[sendToClient].socketID).emit('message',message);
+	console.log('sending message to client '+ sendToClient,clients[sendToClient].socketID);
+  clients[sendToClient].socket.emit('vr_message',message);
 }
 	/*************************************************************************************/
 	/****Managing the Client Array****/
 
 	//This function stores the information about the clients
 
-	function createClientObject(newUser,socket){
+	function createClientObject(newUser,socket,room){
 		var clientObj = {};
 
 		clientObj.socket= socket;
 		clientObj.socketID= socket.id;
-		clientObj.room = '';
+		clientObj.room = room;
 
 		clients[newUser] = clientObj;
 	}
@@ -342,5 +258,6 @@ function sendMessageToClient(message){
 
 	function formClientsNameArray(){
 		clientsNameArray = Object.keys(clients);
+		console.log('formClients() ',clientsNameArray);
 	}
 };

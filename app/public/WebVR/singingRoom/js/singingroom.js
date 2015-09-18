@@ -10,7 +10,30 @@ var controls;
 var mouseLookButton, fullScreenButton;
 var mouse = new THREE.Vector2(), INTERSECTED;
 
+// HTML ELEMENTS
+var $localVideo;
+
+//webRTC
+var pc=[];
+var userID=0;
+var room = 'room1';
+var connectedUsers={};
+var numberOfOnlineContacts;
+var sdpConstraints = {'mandatory': {
+	'OfferToReceiveAudio':true,
+	'OfferToReceiveVideo':true }};
+
 function init() {
+  //Load scripts
+  $localVideo = document.getElementById( 'localVideo' );
+  $.getScript("js/views/recordAudio.js");
+  $.getScript("js/views/player.js");
+  $.getScript("js/controllers/remote_media_functions.js");
+  $.getScript("js/controllers/webRTC_API_functions.js");
+	$.getScript("js/controllers/on_event_functions.js");
+  //$.getScript("js/controllers/on_event_functions.js")
+  //Load webcam
+  getMedia();
 
   container = document.createElement( 'div' );
   container.style.position = 'relative';
@@ -62,7 +85,7 @@ function init() {
   ///////////
   // VIDEO //
   ///////////
-  video = document.getElementById( 'monitor' );
+  video = document.getElementById( 'localVideo' );
 
   videoImage = document.getElementById( 'videoImage' );
   videoImageContext = videoImage.getContext( '2d' );

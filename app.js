@@ -77,11 +77,11 @@ io.sockets.on('connection', function (socket){
 	require(__dirname + '/app/server/config/connection')(socket);
 });
 
-var vr_connections = io  .of('/vr_connections');
+var vr_connections = io.of('/vr_connections');
 vr_connections.on('connection', function (socket) {
 		connectCounter++;
 		console.log("new VR client connected ", socket.id);
-		require(__dirname + '/app/server/config/vr_connection')(socket);
+		require(__dirname + '/app/server/config/vr_connection')(socket,vr_connections);
 });
 
 vr_connections.on('disconnect', function() { connectCounter--; });

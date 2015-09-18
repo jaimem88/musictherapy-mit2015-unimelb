@@ -95,7 +95,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 //Sending an offer to the peer user
 
 function sendOffer(connectToUser) {
-	console.log('Sending offer to peer');
+	console.log('Sending offer to peer :',connectToUser );
 	connectedUsers[connectToUser].createOffer(function(sdp){
 		setLocalAndSendMessage(sdp,connectToUser,'offer')},handleCreateOfferError);
 }
