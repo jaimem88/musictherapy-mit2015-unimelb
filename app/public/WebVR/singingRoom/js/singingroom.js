@@ -1,16 +1,23 @@
 //VR Space for Singing Lessons
 var container, stats;
-var camera, scene, renderer;
+var camera, scene, raycaster, renderer;
 var vrEffect;
 var vrControls;
+var INTERSECTED;
+var radius = 100, theta = 0;
+var crosshair;var container, stats;
+//
 var mouseControls;
 var headControls;
 var controls;
+var vrMode = false;
 //Buttons
+var mouseLook;
 var mouseLookButton, fullScreenButton;
-var mouse = new THREE.Vector2(), projector, INTERSECTED;
+var mouse = new THREE.Vector2();
 //clickable
 var objects = [];
+var objectNames = {};
 // HTML ELEMENTS
 var $localVideo;
 
@@ -40,35 +47,73 @@ function init() {
   container.style.position = 'relative';
   document.body.appendChild( container );
 
-  camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 1000 );
-  camera.position.x = 0;
-  camera.position.z = 0;
-  //  scene.add( cubeCamera )
-  scene = new THREE.Scene();
-  scene.add(camera);
-  //  camera.position.set(0,150,400);
-  camera.lookAt(scene.position);
-  //	videoImage = document.getElementById( 'videoImage' );
-	// projector for clicks
-	projector = new THREE.Projector();
+	camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 10000 );
+
+	scene = new THREE.Scene();
+	//amera.lookAt(scene.position);
+	crosshair = new THREE.Mesh(
+		new THREE.RingGeometry( 0.5, 1, 32 ),
+		new THREE.MeshBasicMaterial( {
+			color: 0x00bb00,
+			transparent: true,
+			opacity: 0.5
+		} )
+	);
+	scene.add( crosshair );
+	var light = new THREE.DirectionalLight( 0xffffff, 1 );
+	light.position.set( 1, 1, 1 ).normalize();
+	scene.add( light );
+
+var floorTexture = new THREE.ImageUtils.loadTexture( '/img/wooden_floor.jpg' );
+floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
+var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+floor.position.y = -100;
+floor.rotation.x = Math.PI/2;
+scene.add(floor);
+
+var geometryLateral = new THREE.BoxGeometry(1, 80, 40);
+var westWall = new THREE.Mesh(geometryLateral, floorMaterial);
+scene.add(westWall);
+westWall.position.set(-45,0,-80);
+westWall.rotation.set(Math.PI/2,0,Math.PI/9);
+var eastWall = new THREE.Mesh(geometryLateral, floorMaterial);
+scene.add(eastWall);
+eastWall.position.set(45,0,-80);
+eastWall.rotation.set(Math.PI/2,0,-Math.PI/9);
+var backGeo = new THREE.BoxGeometry(40, 80, 1);
+var northtWall = new THREE.Mesh(backGeo, floorMaterial);
+scene.add(northtWall);
+northtWall.position.set(0,0,-100)
+//northtWall.rotation.x = Math.PI/2;
+//northtWall.rotation.y = Math.PI/2;
+northtWall.rotation.z = Math.PI/2;
+
+// SKYBOX/FOG
+var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x9999ff, side: THREE.BackSide } );
+var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+ scene.add(skyBox);
+
+
   //New gemoetry for the cube
-  var geometry = new THREE.BoxGeometry(100 , 100, 20 );
+  var geometry = new THREE.BoxGeometry(2 , 2, 1 );
   //Material to fill the cube, in this case a color.
   var material = new THREE.MeshBasicMaterial( { color: 0x00ff0f } );
   // fill the geo with material so that it renders a cube
   var cube = new THREE.Mesh( geometry, material );
+	console.log(cube.uuid);
+	objectNames[cube.uuid] = 'cube';
 	objects.push(cube);
   scene.add( cube );
-  cube.position.set(100,200,-100);
+  cube.position.set(2,0,-10);
 
-  //var light = new THREE.PointLight(0xfff0ff);
-  //light.position.set(0,250,0);
-  //scene.add(light);
+	raycaster = new THREE.Raycaster();
 
-  renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
-  renderer.setClearColor(0xffffff,1);
-  controls = new THREE.VRControls(camera);
-  container.appendChild( renderer.domElement );
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+
   buttons();
   vrEffect = new THREE.VREffect(renderer, VREffectLoaded);
 
@@ -80,11 +125,16 @@ function init() {
     }
   }
   vrEffect.setSize(window.innerWidth, window.innerHeight);
+	renderer.setClearColor( 0xf0f0f0 );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.sortObjects = false;
 
+
+  container.appendChild( renderer.domElement );
   container.addEventListener( 'mousemove', onDocumentMouseMove, false );
   window.addEventListener( 'resize', onWindowResize, false );
 	document.addEventListener("keydown", onkey, true);
-	container.addEventListener('mousedown',onDocumentMouseDown,false);
+
 
   ///////////
   // VIDEO //
@@ -103,14 +153,28 @@ function init() {
   var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
   // the geometry on which the movie will be displayed;
   // 		movie image will be scaled to fit these dimensions.
-  var movieGeometry = new THREE.PlaneBufferGeometry( 100, 100, 20, 1 );
+  var movieGeometry = new THREE.PlaneBufferGeometry( 2, 2, 1, 1 );
   var localVideoScreen = new THREE.Mesh( movieGeometry, movieMaterial );
-  localVideoScreen.position.set(-100,200,-100);
-	objects.push(localVideoScreen);
-  scene.add(localVideoScreen);
-  camera.position.set(0,200,100);
-  //	camera.lookAt(localVideoScreen.position);
+  localVideoScreen.position.set(-2,0,-10);
 
+	objects.push(localVideoScreen);
+	objectNames[localVideoScreen.uuid] = 'video';
+  scene.add(localVideoScreen);
+
+
+	var name = 'text '+username;
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext("2d");
+	    ctx.font="20px Georgia";
+	    ctx.fillText(name,10,50);
+
+	var texture = new THREE.Texture(canvas);
+	    texture.needsUpdate = true; //just to make sure it's all up to date.
+
+	var label = new THREE.Mesh(new THREE.PlaneGeometry, new THREE.MeshBasicMaterial({map:texture}));
+	label.position.set(0,0,-10);
+	scene.add(label);
+	objects.push(label);
   vrEffect.render(scene, camera);
 
 }
@@ -123,17 +187,6 @@ function onDocumentMouseDown(event) {
 		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     var vector = new THREE.Vector3(mouse.x,
                                    mouse.y, 0.5);
-    projector.unprojectVector(vector, camera);
-
-    var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
-
-    // /var intersects = raycaster.intersectObjects(objects,true);
-		var intersects = raycaster.intersectObjects(scene.children);
-    if (intersects.length > 0) {
-			  console.log( "hit: ", intersects[0].object.uuid );
-				alert( "hit: "+ intersects[0].object.uuid );
-	    }
-
 }
 function animate() {
   //Update local Camera
@@ -143,14 +196,47 @@ function animate() {
     if ( videoTexture )
     videoTexture.needsUpdate = true;
   }
-
-  headControls.update();
+	for (k in objects){
+		objects[k].lookAt(camera.position);
+	}
+	requestAnimationFrame( animate );
+	render();
   stats.update();
-
-  vrEffect.render( scene, camera );
-  requestAnimationFrame( animate );
 }
+
  animate();
+
+ function render() {
+
+	 // find intersections
+	 raycaster.setFromCamera( { x: 0, y: 0 }, camera );
+	 var intersects = raycaster.intersectObjects( objects );
+
+	 if ( intersects.length > 0 && !mouseLook) {
+		 currentInt  = intersects[ 0 ].object ;
+		 if ( INTERSECTED !=currentInt  ) {
+			 	console.log("interesected: ",objectNames[currentInt.uuid]);
+		 }
+	 } else {
+		 INTERSECTED = null;
+	 }
+  	headControls.update();
+
+	 crosshair.quaternion.copy( camera.quaternion );
+	 crosshair.position.set( 0, 0, 0 );
+	 if ( INTERSECTED ) {
+
+		 crosshair.translateZ(
+			 -scene.position.distanceTo( INTERSECTED.position ) +
+			 INTERSECTED.geometry.boundingSphere.radius + 5
+		 );
+
+	 }
+	 else {
+		 crosshair.translateZ(-40);
+	 }
+	 vrEffect.render( scene, camera );
+ }
 
 //helpers
 function buttons(){
@@ -168,10 +254,11 @@ function buttons(){
   menu.appendChild(fullScreenButton);
 
 
-  var mouseLook = false;
+	mouseLook = false;
 
   fullScreenButton.onclick = function() {
     vrEffect.setFullScreen( true );
+		vrMode = true;
   };
 
   vrControls = new THREE.VRControls(camera);
@@ -202,10 +289,12 @@ function buttons(){
 
 }
 function onWindowResize() {
+	console.log('window resize');
+	checkControls();
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	vrEffect.setSize( window.innerWidth, window.innerHeight );
 
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  vrEffect.setSize( window.innerWidth, window.innerHeight );
 }
 function onDocumentMouseMove( event ) {
   event.preventDefault();
@@ -217,9 +306,10 @@ function onkey(event) {
   event.preventDefault();
 
   if (event.keyCode == 90) { // z
-    controls.zeroSensor(); //zero rotation
+    headControls.zeroSensor(); //zero rotation
   } else if (event.keyCode == 70 || event.keyCode == 13) { //f or enter
     vrEffect.setFullScreen(true); //fullscreen
+		vrMode = true;
   }
 
 };
@@ -229,4 +319,16 @@ function onkey(event) {
 
 window.onbeforeunload = function(e){
 	sendMessage('goodbye');
+}
+
+
+
+function checkControls() {
+
+    if (vrMode) {
+				vrMode = false;
+       console.log('enter vrMode ');
+    } else {
+         console.log('exit vrMode ');
+    }
 }
