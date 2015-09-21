@@ -8,8 +8,9 @@ var headControls;
 var controls;
 //Buttons
 var mouseLookButton, fullScreenButton;
-var mouse = new THREE.Vector2(), INTERSECTED;
-
+var mouse = new THREE.Vector2(), projector, INTERSECTED;
+//clickable
+var objects = [];
 // HTML ELEMENTS
 var $localVideo;
 
@@ -30,7 +31,7 @@ function init() {
   $.getScript("js/views/player.js");
   $.getScript("js/controllers/remote_media_functions.js");
   $.getScript("js/controllers/webRTC_API_functions.js");
-	$.getScript("js/controllers/on_event_functions.js");
+	$.getScript("WebVR/singingRoom/js/on_vr_events.js");
   //$.getScript("js/controllers/on_event_functions.js")
   //Load webcam
   getMedia();
@@ -48,15 +49,17 @@ function init() {
   //  camera.position.set(0,150,400);
   camera.lookAt(scene.position);
   //	videoImage = document.getElementById( 'videoImage' );
-
+	// projector for clicks
+	projector = new THREE.Projector();
   //New gemoetry for the cube
   var geometry = new THREE.BoxGeometry(100 , 100, 20 );
   //Material to fill the cube, in this case a color.
   var material = new THREE.MeshBasicMaterial( { color: 0x00ff0f } );
   // fill the geo with material so that it renders a cube
   var cube = new THREE.Mesh( geometry, material );
+	objects.push(cube);
   scene.add( cube );
-  cube.position.set(200,200,-100);
+  cube.position.set(100,200,-100);
 
   //var light = new THREE.PointLight(0xfff0ff);
   //light.position.set(0,250,0);
@@ -78,9 +81,10 @@ function init() {
   }
   vrEffect.setSize(window.innerWidth, window.innerHeight);
 
-  document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+  container.addEventListener( 'mousemove', onDocumentMouseMove, false );
   window.addEventListener( 'resize', onWindowResize, false );
-
+	document.addEventListener("keydown", onkey, true);
+	container.addEventListener('mousedown',onDocumentMouseDown,false);
 
   ///////////
   // VIDEO //
@@ -101,10 +105,9 @@ function init() {
   // 		movie image will be scaled to fit these dimensions.
   var movieGeometry = new THREE.PlaneBufferGeometry( 100, 100, 20, 1 );
   var localVideoScreen = new THREE.Mesh( movieGeometry, movieMaterial );
-  localVideoScreen.position.set(-200,200,-100);
+  localVideoScreen.position.set(-100,200,-100);
+	objects.push(localVideoScreen);
   scene.add(localVideoScreen);
-
-
   camera.position.set(0,200,100);
   //	camera.lookAt(localVideoScreen.position);
 
@@ -112,7 +115,26 @@ function init() {
 
 }
 init();
+/****************************** CLICK START **********************************/
+function onDocumentMouseDown(event) {
+   	console.log('clicky');
+    //event.preventDefault();
+		mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    var vector = new THREE.Vector3(mouse.x,
+                                   mouse.y, 0.5);
+    projector.unprojectVector(vector, camera);
 
+    var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+
+    // /var intersects = raycaster.intersectObjects(objects,true);
+		var intersects = raycaster.intersectObjects(scene.children);
+    if (intersects.length > 0) {
+			  console.log( "hit: ", intersects[0].object.uuid );
+				alert( "hit: "+ intersects[0].object.uuid );
+	    }
+
+}
 function animate() {
   //Update local Camera
   if ( video.readyState === video.HAVE_ENOUGH_DATA )
@@ -202,7 +224,6 @@ function onkey(event) {
 
 };
 
-window.addEventListener("keydown", onkey, true);
 
 //Informing the server about the client ending the session
 

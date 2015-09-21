@@ -46,22 +46,53 @@
   		deleteAllConnections();
   	}
   });
-function sendMessage(message){
-		console.log('Client sending vr_message: ', message);
-		socket.emit('vr_message', message);
-}
-//Storing the peer connection details of the connected users
 
-function storeConnectedUsers(user,pc){
-	connectedUsers[user] = pc;
-	console.log('user stored in array');
-	console.log('connected users are:'+JSON.stringify(connectedUsers));
-}
+  var numberOfOnlineContacts;
+  //On receiving contact list from server,
+  //display it on the screen and store the length of the contact list
 
-//Deleting the peer connections of all the connected users
+  socket.on('contacts', function(data){
+  	console.log('received contacts from server');
+  	numberOfOnlineContacts = data.length;
+  	//displayContacts(data);
 
-function deleteAllConnections(){
-	for (var key in connectedUsers) {
-		stop(key);
-	}
-}
+  });
+
+  //On receiving a new online contact from the server,
+  //append a new button to the contact list on the screen
+
+  socket.on('addContact', function(data){
+  	console.log('received new online contact from server:'+data);
+  	numberOfOnlineContacts ++;
+  	/*	$contacts.innerHTML = $contacts.innerHTML + newOnlineUser;
+  	console.log($contacts.innerHTML);*/
+  });
+
+  //On receiving delete contact from server,
+  //delete the user button from the contact list
+
+  socket.on('deleteContact',function(deleteName){
+  	console.log('recevied deleteContact: ', deleteName);
+  });
+
+
+  //On getting a disconnect request from other user,
+  //stop that user's corresponding peer connection
+
+  socket.on('hangup', function (hangupUser){
+  	console.log('hangup request from user '+hangupUser);
+  	stop(hangupUser);
+  });
+
+  //On receiving remove peer instruction from initiator, stop the connection with the peer
+  //The peer himself will delete all connections with his room members
+
+  socket.on('remove', function (hangupUser){
+  	console.log('got remove user request from server');
+  	if(hangupUser===username){
+  		deleteAllConnections();
+  	}
+  	else{
+  		stop(hangupUser);
+  	}
+  });
