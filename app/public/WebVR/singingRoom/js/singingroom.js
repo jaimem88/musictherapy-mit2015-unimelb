@@ -73,19 +73,19 @@ floor.position.y = -100;
 floor.rotation.x = Math.PI/2;
 scene.add(floor);
 
-var geometryLateral = new THREE.BoxGeometry(1, 80, 40);
+var geometryLateral = new THREE.BoxGeometry(1, 1000, 100);
 var westWall = new THREE.Mesh(geometryLateral, floorMaterial);
 scene.add(westWall);
-westWall.position.set(-45,0,-80);
+westWall.position.set(-100,0,-40);
 westWall.rotation.set(Math.PI/2,0,Math.PI/9);
 var eastWall = new THREE.Mesh(geometryLateral, floorMaterial);
 scene.add(eastWall);
-eastWall.position.set(45,0,-80);
+eastWall.position.set(100,0,-40);
 eastWall.rotation.set(Math.PI/2,0,-Math.PI/9);
-var backGeo = new THREE.BoxGeometry(40, 80, 1);
+var backGeo = new THREE.BoxGeometry(100, 80, 1);
 var northtWall = new THREE.Mesh(backGeo, floorMaterial);
 scene.add(northtWall);
-northtWall.position.set(0,0,-100)
+northtWall.position.set(0,0,-200)
 //northtWall.rotation.x = Math.PI/2;
 //northtWall.rotation.y = Math.PI/2;
 northtWall.rotation.z = Math.PI/2;
