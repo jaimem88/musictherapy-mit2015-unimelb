@@ -73,19 +73,19 @@ floor.position.y = -100;
 floor.rotation.x = Math.PI/2;
 scene.add(floor);
 
-var geometryLateral = new THREE.BoxGeometry(1, 1000, 100);
+var geometryLateral = new THREE.BoxGeometry(1, 500, 200);
 var westWall = new THREE.Mesh(geometryLateral, floorMaterial);
 scene.add(westWall);
-westWall.position.set(-100,0,-40);
-westWall.rotation.set(Math.PI/2,0,Math.PI/9);
+westWall.position.set(-200,0,-80);
+westWall.rotation.set(Math.PI/2,0,Math.PI);
 var eastWall = new THREE.Mesh(geometryLateral, floorMaterial);
 scene.add(eastWall);
-eastWall.position.set(100,0,-40);
-eastWall.rotation.set(Math.PI/2,0,-Math.PI/9);
-var backGeo = new THREE.BoxGeometry(100, 80, 1);
+eastWall.position.set(200,0,-80);
+eastWall.rotation.set(Math.PI/2,0,-Math.PI);
+var backGeo = new THREE.BoxGeometry(250, 500, 1);
 var northtWall = new THREE.Mesh(backGeo, floorMaterial);
 scene.add(northtWall);
-northtWall.position.set(0,0,-200)
+northtWall.position.set(0,0,-400)
 //northtWall.rotation.x = Math.PI/2;
 //northtWall.rotation.y = Math.PI/2;
 northtWall.rotation.z = Math.PI/2;
@@ -107,7 +107,31 @@ var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
 	objectNames[cube.uuid] = 'cube';
 	objects.push(cube);
   scene.add( cube );
-  cube.position.set(2,0,-10);
+  cube.position.set(2,0,-5);
+	///////////
+	// VIDEO //
+	///////////
+	video = document.getElementById( 'localVideo' );
+
+	videoImage = document.getElementById( 'videoImage' );
+	videoImageContext = videoImage.getContext( '2d' );
+	// background color if no video present
+	videoImageContext.fillStyle = '#000000';
+	videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
+	videoTexture = new THREE.Texture( videoImage );
+	videoTexture.minFilter = THREE.LinearFilter;
+	videoTexture.magFilter = THREE.LinearFilter;
+
+	var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
+	// the geometry on which the movie will be displayed;
+	// 		movie image will be scaled to fit these dimensions.
+	var movieGeometry = new THREE.PlaneBufferGeometry( 2, 2, 1, 1 );
+	var localVideoScreen = new THREE.Mesh( movieGeometry, movieMaterial );
+	localVideoScreen.position.set(-2,0,-5);
+
+	objects.push(localVideoScreen);
+	objectNames[localVideoScreen.uuid] = 'video';
+	scene.add(localVideoScreen);
 
 	raycaster = new THREE.Raycaster();
 
@@ -136,30 +160,6 @@ var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
 	document.addEventListener("keydown", onkey, true);
 
 
-  ///////////
-  // VIDEO //
-  ///////////
-  video = document.getElementById( 'localVideo' );
-
-  videoImage = document.getElementById( 'videoImage' );
-  videoImageContext = videoImage.getContext( '2d' );
-  // background color if no video present
-  videoImageContext.fillStyle = '#000000';
-  videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
-  videoTexture = new THREE.Texture( videoImage );
-  videoTexture.minFilter = THREE.LinearFilter;
-  videoTexture.magFilter = THREE.LinearFilter;
-
-  var movieMaterial = new THREE.MeshBasicMaterial( { map: videoTexture, overdraw: true, side:THREE.DoubleSide } );
-  // the geometry on which the movie will be displayed;
-  // 		movie image will be scaled to fit these dimensions.
-  var movieGeometry = new THREE.PlaneBufferGeometry( 2, 2, 1, 1 );
-  var localVideoScreen = new THREE.Mesh( movieGeometry, movieMaterial );
-  localVideoScreen.position.set(-2,0,-10);
-
-	objects.push(localVideoScreen);
-	objectNames[localVideoScreen.uuid] = 'video';
-  scene.add(localVideoScreen);
 
 
 	var name = 'text '+username;
@@ -249,6 +249,12 @@ function buttons(){
   fullScreenButton = document.createElement( 'div' );
   fullScreenButton.setAttribute('class','button mouse-look');
   fullScreenButton.innerHTML = 'Start VR Mode';
+	if ( navigator.getVRDevices === undefined ) {
+
+		fullScreenButton.innerHTML = 'Your browser doesn\'t support WebVR';
+		fullScreenButton.classList.add('error');
+
+	}
 
   menu.appendChild(mouseLookButton);
   menu.appendChild(fullScreenButton);
