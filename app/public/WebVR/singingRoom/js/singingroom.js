@@ -111,7 +111,7 @@ var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
 	///////////
 	// VIDEO //
 	///////////
-	video = document.getElementById( 'localVideo' );
+	localVideo = document.getElementById( 'localVideo' );
 
 	videoImage = document.getElementById( 'videoImage' );
 	videoImageContext = videoImage.getContext( '2d' );
@@ -130,7 +130,7 @@ var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
 	localVideoScreen.position.set(-2,0,-5);
 
 	objects.push(localVideoScreen);
-	objectNames[localVideoScreen.uuid] = 'video';
+	objectNames[localVideoScreen.uuid] = 'localVideoScreen';
 	scene.add(localVideoScreen);
 
 	raycaster = new THREE.Raycaster();
@@ -190,9 +190,9 @@ function onDocumentMouseDown(event) {
 }
 function animate() {
   //Update local Camera
-  if ( video.readyState === video.HAVE_ENOUGH_DATA )
+  if ( localVideo.readyState === localVideo.HAVE_ENOUGH_DATA )
   {
-    videoImageContext.drawImage( video, 0, 0, videoImage.width, videoImage.height );
+    videoImageContext.drawImage( localVideo, 0, 0, videoImage.width, videoImage.height );
     if ( videoTexture )
     videoTexture.needsUpdate = true;
   }

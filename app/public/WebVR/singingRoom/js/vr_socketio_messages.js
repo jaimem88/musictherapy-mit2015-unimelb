@@ -30,6 +30,9 @@
     }
   });
 
+  socket.on('vr_remote_added',function(remoteId){
+    addRemoteVRVideo(remoteId);
+  });
 
   //Client response to other messages from server
 

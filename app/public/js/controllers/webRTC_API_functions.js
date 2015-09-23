@@ -59,7 +59,8 @@ function handleIceCandidate(event,connectToUser) {
 x = 0;
 function handleRemoteStreamAdded(event,connectToUser) {
 	console.log('Remote stream added.');
-	var $newPanel= $("#panels0").clone().prop('id', 'panels'+connectToUser );;
+	remoteId = 'panels'+connectToUser ;
+	var $newPanel= $("#panels0").clone().prop('id', remoteId );;
 	$newPanel.find('.panel-title').text(connectToUser);
 	removeFromPanel($newPanel);
 	divElement = document.createElement('div');
@@ -88,6 +89,7 @@ function handleRemoteStreamAdded(event,connectToUser) {
 	$("#media").append($newPanel.fadeIn());
 	remoteVideo.muted = false;
 	remoteVideo.play();
+	socket.emit('vr_remote_added',remoteId);
 //	$("remoteVideo").prop('autoplay', true);
 //	$media.appendChild(divElement);
 }

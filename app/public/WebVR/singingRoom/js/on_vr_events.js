@@ -33,7 +33,8 @@ function onOfferMessage(message){
 	connectedUsers[connectToUser].setRemoteDescription(new RTCSessionDescription(message.sdp));
 	sendAnswer(connectToUser);
 	connectedUsers[connectToUser].onaddstream = function(event){
-		handleRemoteStreamAdded(event,connectToUser)};
+		handleRemoteStreamAdded(event,connectToUser)
+	};
 }
 
 //On receiving answer from a peer,
@@ -58,16 +59,6 @@ function onCandidateMessage(message){
 	});
 	connectedUsers[message.connectTo].addIceCandidate(candidate);
 
-  /*//call initiated
-	$CurrentMode.innerHTML = "Call mode";
-	if (admin=== 'true') {
-
-		$recordingControl.style.display = 'block';
-		$broadcastMode.style.display = 'block';
-		$endConference.style.display = 'block';
-	}
-	$stopCallButton.disabled = true;
-  */
 }
 
 //Informing the server about the client ending the session
