@@ -33,7 +33,7 @@ function onOfferMessage(message){
 	connectedUsers[connectToUser].setRemoteDescription(new RTCSessionDescription(message.sdp));
 	sendAnswer(connectToUser);
 	connectedUsers[connectToUser].onaddstream = function(event){
-		handleRemoteStreamAdded(event,connectToUser)
+		handleRemoteStreamAdded(event,connectToUser,true);
 	};
 }
 
@@ -45,7 +45,7 @@ function onAnswerMessage(message){
 	console.log('got answer from:'+connectToUser);
 	connectedUsers[connectToUser].setRemoteDescription(new RTCSessionDescription(message.sdp));
 	connectedUsers[connectToUser].onaddstream = function(event){
-		handleRemoteStreamAdded(event,connectToUser)};
+		handleRemoteStreamAdded(event,connectToUser,true)};
 }
 //On receiving candidate information from server,
 //add the ICE candidates to the corresponding peer connection

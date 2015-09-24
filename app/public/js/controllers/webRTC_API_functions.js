@@ -57,41 +57,40 @@ function handleIceCandidate(event,connectToUser) {
 //Detecting the presence of remote audio/video stream and
 //calling the respective display functions to display the remote media content
 x = 0;
-function handleRemoteStreamAdded(event,connectToUser) {
+function handleRemoteStreamAdded(event,connectToUser,remote) {
+	if (remote === 'undefined'){
+		remote = false;
+	}
 	console.log('Remote stream added.');
 	remoteId = 'panels'+connectToUser ;
 	var $newPanel= $("#panels0").clone().prop('id', remoteId );;
 	$newPanel.find('.panel-title').text(connectToUser);
 	removeFromPanel($newPanel);
 	divElement = document.createElement('div');
-	//createHTMLDivision(divElement,connectToUser);
-	//console.log('div element id in webRTC:'+divElement.id);
 	if(hasVideo(event.stream)){
 		var remoteVideo = document.createElement('video');
-		//	remoteVideo.width = 320;
-		//	remoteVideo.height = 240;
 		remoteVideo.id = "remoteVideo";
 		remoteVideo.class = "embed-responsive-item"
 		remoteVideo.autoplay= "true";
 		if (admin=== 'true') {
 			remoteVideo.controls = true;
 		}
-	//	remoteVideo.autoplay = true;
+
 		remoteVideo.src = window.URL.createObjectURL(event.stream);
 		$newPanel.find('.locVid').append(remoteVideo);
-	//	$newPanel.find("localVideo").src="";
-		//$newPanel.find("localVideo").src = window.URL.createObjectURL(event.stream);
-		//createVideoElement($newPanel,event.stream);
 		createCloseButton(divElement,connectToUser,15,15);
 	}
 	//addNameTag(divElement,connectToUser);
 	$newPanel.find('.locVid').append(divElement);
 	$("#media").append($newPanel.fadeIn());
+	if (remote){
+		document.getElementById(remoteId).style.display='none';
+	}
+
 	remoteVideo.muted = false;
 	remoteVideo.play();
 	socket.emit('vr_remote_added',remoteId);
-//	$("remoteVideo").prop('autoplay', true);
-//	$media.appendChild(divElement);
+
 }
 
 //Sending an offer to the peer user

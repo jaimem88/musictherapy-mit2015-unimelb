@@ -56,7 +56,9 @@ module.exports = function(socket,namespace) {
 
 	});
   socket.on('vr_remote_added',function(remoteId){
-    sendMessageToRoom('vr_remote_added',remoteId);
+
+    socket.emit('vr_remote_added', remoteId);
+  //  sendMessageToRoom('vr_remote_added',remoteId);
   })
 	//On receiving remove request from initiator,
 	//remove the user from the room and inform others to remove the user as well
