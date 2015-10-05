@@ -85,17 +85,25 @@
   socket.on('hangup', function (hangupUser){
   	console.log('hangup request from user '+hangupUser);
   	stop(hangupUser);
+
   });
 
   //On receiving remove peer instruction from initiator, stop the connection with the peer
   //The peer himself will delete all connections with his room members
 
   socket.on('remove', function (hangupUser){
-  	console.log('got remove user request from server');
+  	console.log('got remove user request from server',hangupUser);
   	if(hangupUser===username){
   		deleteAllConnections();
+      objects=[];
   	}
   	else{
   		stop(hangupUser);
+      for(obj of objects){
+        if(obj.name == 'panels'+hangupUser){
+          console.log("REMOVE", obj.name);
+          removeEntity(obj);
+        }
+      }
   	}
   });

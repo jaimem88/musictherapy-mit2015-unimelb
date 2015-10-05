@@ -4,15 +4,21 @@ function addRemoteVRVideo(remoteId){
   var tmp = objects.length-1;
   x = objects[tmp].position.x +4;
   console.log('addRemote ',x);
- var remVid =  newVideo3DObject(remoteId,remoteId+'VideoImage',x,0,-5);
+ var remVid =  newVideo3DObject(remoteId,remoteId+'VideoImage',x,0,-5,remoteId);
   // console.log("addRemoteVRVideo2 ",remVid);
    remote = true;
  scene.add(remVid);
 }
 
 
-function removeEntity(object) {
-    var selectedObject = scene.getObjectByName(object.name);
-    scene.remove( selectedObject );
+function removeEntity(obj) {
+    console.log("REMOVE_ENT",obj.name)
+    var i = objects.indexOf(obj);
+    if (i > -1) {
+      objects.splice(i, 1);
+    }
+    console.log("REMOVE_ENT1",scene.length);
+    scene.remove( obj );
+    console.log("REMOVE_ENT2",scene.length);
     animate();
 }

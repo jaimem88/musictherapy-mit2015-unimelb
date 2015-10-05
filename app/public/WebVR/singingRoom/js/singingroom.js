@@ -181,7 +181,7 @@ function animate() {
 	 raycaster.setFromCamera( { x: 0, y: 0 }, camera );
 	 var intersects = raycaster.intersectObjects( objects );
 
-	 if ( intersects.length > 0 && !mouseLook) {
+	 if ( intersects.length > 0 && mouseLook) {
 		 currentInt  = intersects[ 0 ].object ;
 		 if ( INTERSECTED !=currentInt  ) {
 			 	console.log("interesected: ",objectNames[currentInt.uuid]);
@@ -357,7 +357,7 @@ function createVideoObject(videoDiv,videoImg,vidImgCtx,vidTexture){
 	console.log('createVideoObject: ', videoObj);
 	videoObjects.push(videoObj);
 }
-function newVideo3DObject(videoId,videoImageId,posx,posy,posz){
+function newVideo3DObject(videoId,videoImageId,posx,posy,posz,name){
 	///////////
 	// VIDEO //
 	///////////
@@ -392,6 +392,10 @@ function newVideo3DObject(videoId,videoImageId,posx,posy,posz){
 	// 		movie image will be scaled to fit these dimensions.
 	var movieGeometry = new THREE.PlaneBufferGeometry( 2, 2, 1, 1 );
 	var videoScreen = new THREE.Mesh( movieGeometry, movieMaterial );
+	if (name === undefined){
+			name = username
+	}
+	videoScreen.name = name;
 //	videoScreen.position.set(-2,0,-5);
 	videoScreen.position.set(posx,posy,posz);
 
@@ -400,6 +404,7 @@ function newVideo3DObject(videoId,videoImageId,posx,posy,posz){
 	//Push into intersectable ovjects
 	objects.push(videoScreen);
 	objectNames[videoScreen.uuid] = videoId+'Screen';
+	console.log("VIDEOSCREEN",videoScreen.name);
 	return videoScreen;
 
 }
