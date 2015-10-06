@@ -32,7 +32,14 @@ var numberOfOnlineContacts;
 var sdpConstraints = {'mandatory': {
 	'OfferToReceiveAudio':true,
 	'OfferToReceiveVideo':true }};
-
+	var socket;
+function connectToVrRoom(){
+	console.log('connectToVrRoom1');
+	socket = io('/vr_connections');
+		if(admin==='true'){
+			username = username +" - Clinician";
+		}
+}
 function init() {
   //Load scripts
   $localVideo = document.getElementById( 'localVideo' );
@@ -40,11 +47,14 @@ function init() {
   $.getScript("js/views/player.js");
   $.getScript("js/controllers/remote_media_functions.js");
   $.getScript("js/controllers/webRTC_API_functions.js");
-	$.getScript("WebVR/singingRoom/js/on_vr_events.js");
-	$.getScript("WebVR/singingRoom/js/remote_3d_objects.js");
+	$.getScript("WebVR/singingRoom/js/vr_socketio_messages.js");
+	$.getScript("WebVR/singingRoom/js/on_vr_events.js",
+		$.getScript("WebVR/singingRoom/js/remote_3d_objects.js",
+			getMedia(connectToVrRoom)));
+
   //$.getScript("js/controllers/on_event_functions.js")
   //Load webcam
-  getMedia();
+
 
   container = document.createElement( 'div' );
   container.style.position = 'relative';

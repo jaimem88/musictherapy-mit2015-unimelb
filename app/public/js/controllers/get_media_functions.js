@@ -14,10 +14,11 @@
 		};
 //Getting the user media from the sources
 
-		function getMedia()
+		function getMedia(done)
 		{
 			getUserMedia(	constraints, handleUserMedia, handleUserMediaError);
 			console.log('Getting user media with constraints', constraints);
+			done();
 		}
 //Returning true if video element is present in the media stream
 

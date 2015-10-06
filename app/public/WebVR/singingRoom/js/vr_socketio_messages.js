@@ -6,14 +6,10 @@
     $.getScript("js/controllers/webRTC_API_functions.js");
     $.getScript("js/controllers/on_event_functions.js");*/
 
-  socket = io('/vr_connections');
-    if(admin==='true'){
-      username = username +" - Clinician";
-  }
-
     //  displayContent();
     //getMedia();
   socket.on('connect',function (){
+      console.log('on.connect')
     console.log('new connection to server!', username,'|');
     socket.emit('vr_new_user',username);
 
@@ -103,6 +99,11 @@
         if(obj.name == 'panels'+hangupUser){
           console.log("REMOVE", obj.name);
           removeEntity(obj);
+          var panel = document.getElementById("panels"+hangupUser);
+          var canvas = document.getElementById("panels"+hangupUser+"VideoImage");
+
+          document.body.removeChild(panel);
+          document.body.removeChild(canvas);
         }
       }
   	}
