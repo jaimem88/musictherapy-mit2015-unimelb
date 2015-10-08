@@ -34,6 +34,12 @@ module.exports = function(socket) {
 			Accounts.deleteAccount(data);
 		})
 
+		socket.on('new_peer',function(newUser){
+			console.log('SERVER', 'Receieved new PeerConnection',newUser);
+			socket.broadcast.emit('new_peer',newUser)
+			//sendMessageToRoom('new_peer',newUser);
+		});
+
 	//Validating the new user and storing the user details in the server
 
 		socket.on('new user',function(newUser,callback){

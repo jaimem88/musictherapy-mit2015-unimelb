@@ -13,7 +13,7 @@ Last Modified:	April 22
 // get all the tools we need
 var express  = require('express');
 var app      = express();
-var port     = process.env.PORT || 443;
+var port     = process.env.PORT || 80;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -23,6 +23,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var fs 			 = require('fs');
+
+var ExpressPeerServer = require('peer').ExpressPeerServer;
+
 var connectCounter= 0;
 //Database config
 var configDB = require( __dirname + '/app/server/config/database.js');
@@ -64,14 +67,15 @@ app.use(express.static(__dirname + '/app/public'));
 //console.log('Server listening on port ' + port);
 
 //socket io connection
-var server = require('https').createServer(sslOptions,app);
-io = require('socket.io').listen(server);
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 //io.set('match origin protocol', true);
 
 // launch ======================================================================
 server.listen(port,function(){
-	console.log('HTTPS server listening on port ' + port);
+	console.log('HTTP server listening on port ' + port);
 });
+
 io.sockets.on('connection', function (socket){
 	console.log("new client connected to socket ", socket.id);
 	require(__dirname + '/app/server/config/connection')(socket);
@@ -86,9 +90,21 @@ vr_connections.on('connection', function (socket) {
 
 vr_connections.on('disconnect', function() { connectCounter--; });
 // Redirect from http port 80 to https 443
-var http = require('http');
+/*var http = require('http');
 http.createServer(function (req, res) {
 	console.log("Location "+ "https://" + req.headers['port'] +" "+req.url )
 	res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
   res.end();
 }).listen(80);
+*/
+//PeerJS Server
+var pOpts = {
+    debug: true
+//		sslkey: fs.readFileSync('./ssl/server.key'),
+	//	sslcert: fs.readFileSync('./ssl/server.crt')
+	}
+	var pserver = require('http').createServer(app);
+
+	app.use('/pjs', ExpressPeerServer(pserver, pOpts));
+
+	pserver.listen(9000);

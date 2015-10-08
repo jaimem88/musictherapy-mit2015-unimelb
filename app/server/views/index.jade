@@ -6,7 +6,12 @@ block content
 				h1
 					|  Welcome to singing session!
 				script.
-					setTimeout('window.location.href="/login"', 1000)
+					u = `#{user}`
+					if( u == undefined){
+						setTimeout('window.location.href="/login"', 1000)
+					}else{
+						setTimeout('window.location.href="/home"', 1000)
+					}
 				h6
 					p If you are not automatically redirected please
 						a(href="/login") click here

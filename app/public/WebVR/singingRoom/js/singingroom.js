@@ -1,4 +1,5 @@
 //VR Space for Singing Lessons
+var localStream;
 var container, stats;
 var camera, scene, raycaster, renderer;
 var vrEffect;

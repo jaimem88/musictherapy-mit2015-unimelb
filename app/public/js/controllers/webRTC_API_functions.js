@@ -106,7 +106,7 @@ function sendOffer(connectToUser) {
 function sendAnswer(connectToUser) {
 	console.log('Sending answer to peer.');
 	connectedUsers[connectToUser].createAnswer(function (sdp){
-	setLocalAndSendMessage(sdp,connectToUser,'answer')}, null, sdpConstraints);
+	setLocalAndSendMessage(sdp,connectToUser,'answer')}, handleCreateAnswerError, sdpConstraints);
 }
 
 //Selecting the audio codec then setting session description and sending it to the signalling server
@@ -125,6 +125,9 @@ function setLocalAndSendMessage(sessionDescription,connectToUser,messageType) {
 
 function handleCreateOfferError(event){
 	console.log('createOffer() error: ', e);
+}
+function handleCreateAnswerError(event){
+	console.log('createAnswer() error: ', e);
 }
 function removeFromPanel($newPanel){
 	$($newPanel)

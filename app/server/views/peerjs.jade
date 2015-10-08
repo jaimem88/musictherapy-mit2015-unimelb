@@ -1,0 +1,10 @@
+extends layout
+block content
+  script.
+    username = "#{user.fname}"
+    email = "#{user.email}"
+    admin = "#{user.admin}"
+  br
+  .container-fluid
+    .row
+      include peerjs.html

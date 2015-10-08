@@ -43,7 +43,7 @@ function startCallMode(){
 		}
 		socket.emit('new user',username);
 		displayContent();
-		getMedia();
+		getMedia(function (){console.log('loaded')});
 		callMode = true;
 
 }

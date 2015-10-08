@@ -12,7 +12,10 @@ module.exports = function(app, passport) {
 	//	res.setHeader('Last-Modified', (new Date()).toUTCString());
 	//	next();
 //	});
+		app.get('/peerJS',isLoggedIn, function(req, res) {
 
+			res.render('peerjs.jade',{user:req.user});
+		});
 		//SINGING ROOM
 
 		app.get('/singingVR',isLoggedIn, function(req, res) {
