@@ -2,6 +2,7 @@
 var apiKey = 'jcohyuv7dh9nqaor';
 var $localVideo = document.getElementById('localVideo');
 var $remoteVideo = document.getElementById('remoteVideo1');
+// Compatibility shim
 
 var peer_config =
 {'iceServers':
@@ -20,18 +21,19 @@ var peer_config =
 
 window.onload = function() {
   //Get user media after window has loaded
-  socket = io.connect("http://" + window.location.host);
+  socket = io.connect("https://" + window.location.host);
   console.log("LOADED");
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
   getMedia(init);
   $localVideo.style.display = 'block';
 function init(){
   var peer= new Peer(username,{host: window.location.hostname,
-                  port: 9000,
+                  port: 443,
                   key: 'peerjs',
                   debug: 3,
                   config:peer_config,
-                  secure: false,
-                  path: 'pjs'
+                  secure: true,
+                  path: '/api'
                   },
     function(e){
       console.log("failed?",e)
@@ -48,21 +50,27 @@ function init(){
       console.log(username,' calling ',id);
       call = peer.call(id,
       localStream);
-
+      call.on('stream', function(stream) {
+        console.log("receiving stream",stream);
+        // `stream` is the MediaStream of the remote peer.
+        // Here you'd add it to an HTML video/canvas element.
+        $remoteVideo.src = window.URL.createObjectURL(stream);
+        $remoteVideo.style.display = 'block';
+      });
     }
   });
-
+  peer.on('error', function(err) { console.log("ERROR: ",err) });
   peer.on('call', function(call) {
     // Answer the call, providing our mediaStream
 
     call.answer(localStream);
     call.on('stream', function(stream) {
+      console.log("receiving stream",stream);
       // `stream` is the MediaStream of the remote peer.
       // Here you'd add it to an HTML video/canvas element.
       $remoteVideo.src = window.URL.createObjectURL(stream);
       $remoteVideo.style.display = 'block';
     });
-
   });
 
 }
