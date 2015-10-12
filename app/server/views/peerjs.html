@@ -5,18 +5,16 @@
 		<title>Singing in VR</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.min.js"></script>
+		<script src="https://skyway.io/dist/0.3/peer.js"></script>-->
+		<script src="/js/controllers/lib/peer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.js"></script>
-	<!--	<script src='/js/controllers/lib/adapter.js'></script>-->
-    <script src='/js/controllers/get_media_functions.js'></script>
   </style>
 	</head>
 	<body>
 	  <video id="localVideo" autoplay="true" muted="true" style="display: none;" class="embed-responsive-item" ></video>
 	  <video id="remoteVideo1" autoplay="true" muted="true" style="display: none;" class="embed-responsive-item" ></video>
-	  <video id="remoteVideo2" autoplay="true" muted="true" style="display: none;" class="embed-responsive-item" ></video>
-	  <video id="remoteVideo3" autoplay="true" muted="true" style="display: none;" class="embed-responsive-item" ></video>
-	  <script src="/js/controllers/peerjs.js"></script>
+	  <script src="/js/controllers/peer_connection.js"></script>
 
 	</body>
 </html>

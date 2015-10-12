@@ -16,7 +16,7 @@
 
 		function getMedia(done)
 		{
-			navigator.getUserMedia(	constraints, handleUserMedia, handleUserMediaError);
+			getUserMedia(	constraints, handleUserMedia, handleUserMediaError);
 			console.log('Getting user media with constraints', constraints);
 			done();
 		}
