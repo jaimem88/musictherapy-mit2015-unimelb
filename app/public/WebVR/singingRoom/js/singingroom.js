@@ -47,7 +47,7 @@ function init() {
   $.getScript("js/views/recordAudio.js");
   $.getScript("js/views/player.js");
   $.getScript("js/controllers/remote_media_functions.js");
-  $.getScript("js/controllers/webRTC_API_functions.js");
+  $.getScript("js/controllers/peer_connection.js");
 	$.getScript("WebVR/singingRoom/js/vr_socketio_messages.js");
 	$.getScript("WebVR/singingRoom/js/on_vr_events.js",
 		$.getScript("WebVR/singingRoom/js/remote_3d_objects.js",

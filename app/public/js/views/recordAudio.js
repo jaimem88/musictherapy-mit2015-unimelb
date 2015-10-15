@@ -45,7 +45,11 @@ socket.on('start recording',function (){
 	console.log("recording local audio")
 	toggleRemoteAudio();
 	mediaStream = stream = getLocalStream();
-	recordAudio = RecordRTC(stream);
+	console.log('stream', stream)
+	recordAudio = RecordRTC(stream, {
+                    type: 'audio',
+                    recorderType: StereoAudioRecorder
+                });
 	recordAudio.startRecording();
 });
 

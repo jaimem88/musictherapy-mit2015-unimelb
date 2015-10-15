@@ -67,8 +67,8 @@ app.use(express.static(__dirname + '/app/public'));
 //console.log('Server listening on port ' + port);
 
 //socket io connection
-var server = require('https').Server(sslOptions,app);
-var io = require('socket.io')(server);
+var server = require('https').createServer(sslOptions,app);
+io = require('socket.io').listen(server);
 //io.set('match origin protocol', true);
 
 // launch ======================================================================

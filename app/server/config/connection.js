@@ -222,6 +222,7 @@ function sendOnlineContacts(contactsArray,newUser){
 	console.log(contactsOnline);
 	//contactsOnline = clientsNameArray.filter(isItMe(newUser));
 	//emit contacts who are online to the new user
+	//endMessageToRoom('contacts',contactsOnline);
 	io.sockets.in(socket.id).emit('contacts',contactsOnline);
 	console.log('sent online contacts to client:'+contactsOnline);
 	//update new user online status to existing online users
