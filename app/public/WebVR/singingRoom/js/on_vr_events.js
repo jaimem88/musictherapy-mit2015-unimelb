@@ -21,44 +21,68 @@ function deleteAllConnections(){
 		stop(key);
 	}
 }
-//On receiving offer from a peer,increment the userID, create a separate peer connection,
-//send answer message to the server,
-//store the remote description and display the remote media stream
+function handleRemoteStreamAdded(stream,connectToUser,remote) {
+	if (remote === 'undefined'){
+		remote = false;
+	}
+	console.log('Remote stream added.');
+	remoteId = 'panels'+connectToUser ;
+	var $newPanel= $("#panels0").clone().prop('id', remoteId );;
+	$newPanel.find('.panel-title').text(connectToUser);
+	removeFromPanel($newPanel);
+	divElement = document.createElement('div');
+	if(hasVideo(stream)){
+		var remoteVideo = document.createElement('video');
+		remoteVideo.id = "remoteVideo";
+		remoteVideo.class = "embed-responsive-item"
+		remoteVideo.autoplay= "true";
+		if (admin=== 'true') {
+			remoteVideo.controls = true;
+		}
 
-function onOfferMessage(message){
-	var connectToUser = message.connectTo;
-	console.log('got offer from:'+ connectToUser);
-	userID ++;
-	createPeerConnection(connectToUser);
-	connectedUsers[connectToUser].setRemoteDescription(new RTCSessionDescription(message.sdp));
-	sendAnswer(connectToUser);
-	connectedUsers[connectToUser].onaddstream = function(event){
-		handleRemoteStreamAdded(event,connectToUser,true);
-	};
+		remoteVideo.src = window.URL.createObjectURL(stream);
+		$newPanel.find('.locVid').append(remoteVideo);
+		//createCloseButton(divElement,connectToUser,15,15);
+	}
+	//addNameTag(divElement,connectToUser);
+	$newPanel.find('.locVid').append(divElement);
+	$("#media").append($newPanel.fadeIn());
+	if (remote){
+		document.getElementById(remoteId).style.display='none';
+	}
+
+	remoteVideo.muted = false;
+	remoteVideo.play();
+	socket.emit('vr_remote_added',remoteId);
+
 }
 
-//On receiving answer from a peer,
-//set the remote description and display the remote media stream
-
-function onAnswerMessage(message){
-	var connectToUser = message.connectTo;
-	console.log('got answer from:'+connectToUser);
-	connectedUsers[connectToUser].setRemoteDescription(new RTCSessionDescription(message.sdp));
-	connectedUsers[connectToUser].onaddstream = function(event){
-		handleRemoteStreamAdded(event,connectToUser,true)};
-}
-//On receiving candidate information from server,
-//add the ICE candidates to the corresponding peer connection
-
-function onCandidateMessage(message){
-	console.log('got candidate');
-	var candidate = new RTCIceCandidate(
-	{
-		sdpMLineIndex: message.label,
-		candidate: message.candidate
-	});
-	connectedUsers[message.connectTo].addIceCandidate(candidate);
-
+function removeFromPanel($newPanel){
+	$($newPanel)
+		.find("#localVideo")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel)
+		.find("#recordAudio")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel)
+		.find("#mix-recordings")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel)
+		.find("#stop-recording-audio")
+		.remove()
+		.end()
+		.appendTo("body");
+	$($newPanel).find("#callControls")
+		.find("#endConference")
+		.remove()
+		.end()
+		.appendTo("body");
 }
 
 //Informing the server about the client ending the session

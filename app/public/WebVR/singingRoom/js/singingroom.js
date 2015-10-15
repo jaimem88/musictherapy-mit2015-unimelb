@@ -30,10 +30,8 @@ var userID=0;
 var room = 'room1';
 var connectedUsers={};
 var numberOfOnlineContacts;
-var sdpConstraints = {'mandatory': {
-	'OfferToReceiveAudio':true,
-	'OfferToReceiveVideo':true }};
-	var socket;
+//var socket;
+
 function connectToVrRoom(){
 	console.log('connectToVrRoom1');
 	socket = io('/vr_connections');
@@ -41,17 +39,28 @@ function connectToVrRoom(){
 			username = username +" - Clinician";
 		}
 }
+
+function hasVideo(stream){
+	if(stream.getVideoTracks().length)
+		return true;
+	else
+		return false;
+}
+init();
+animate();
 function init() {
   //Load scripts
   $localVideo = document.getElementById( 'localVideo' );
   $.getScript("js/views/recordAudio.js");
   $.getScript("js/views/player.js");
   $.getScript("js/controllers/remote_media_functions.js");
-  $.getScript("js/controllers/peer_connection.js");
-	$.getScript("WebVR/singingRoom/js/vr_socketio_messages.js");
-	$.getScript("WebVR/singingRoom/js/on_vr_events.js",
-		$.getScript("WebVR/singingRoom/js/remote_3d_objects.js",
-			getMedia(connectToVrRoom)));
+  $.getScript("js/controllers/peer_connection.js",
+		$.getScript("WebVR/singingRoom/js/vr_socketio_messages.js",
+			$.getScript("WebVR/singingRoom/js/on_vr_events.js",
+				$.getScript("WebVR/singingRoom/js/remote_3d_objects.js",
+						getMedia(connectToVrRoom)))));
+
+
 
   //$.getScript("js/controllers/on_event_functions.js")
   //Load webcam
@@ -169,9 +178,8 @@ var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
 	label.position.set(0,0,-10);
 	scene.add(label);
   vrEffect.render(scene, camera);
-
 }
-init();
+
 function animate() {
   //Update webcam images
 	updateVideoSources();
@@ -184,7 +192,7 @@ function animate() {
   stats.update();
 }
 
- animate();
+
 
  function render() {
 
@@ -312,6 +320,8 @@ function onkey(event) {
 //Informing the server about the client ending the session
 
 window.onbeforeunload = function(e){
+	console.log('byebye');
+	peer.disconnect();
 	sendMessage('goodbye');
 }
 

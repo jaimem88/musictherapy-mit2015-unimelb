@@ -11,6 +11,7 @@
   socket.on('connect',function (){
       console.log('on.connect')
     console.log('new connection to server!', username,'|');
+    createPeer();
     socket.emit('vr_new_user',username);
 
   });
@@ -20,10 +21,16 @@
       	userID ++;
       storeConnectedUsers(username,pc);
       console.log("Joined room ",newUser);
-      createPeerConnection(newUser);
-      sendOffer(newUser);
-      socket.emit('vr_webrtc_connection',username);
+
+    //  createPeerConnection(newUser);
+      //sendOffer(newUser);
+    //  socket.emit('vr_webrtc_connection',username);
     }
+  });
+  //Initiate call
+  socket.on('new_peer',function(id){
+    console.log("NEW PEEER", id,username);
+    callPeer(id);
   });
 
   socket.on('vr_remote_added',function(remoteId){

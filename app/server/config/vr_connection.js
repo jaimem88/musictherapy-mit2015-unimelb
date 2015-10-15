@@ -49,7 +49,11 @@ module.exports = function(socket,namespace) {
 		//vr_connections.in(vrRoom).emit('vr_joined',newUser);
 		sendMessageToRoom('vr_joined',newUser);
 	});
-
+  socket.on('new_peer',function(newUser){
+    console.log('SERVER', 'Receieved new PeerConnection',newUser);
+    socket.broadcast.emit('new_peer',newUser)
+    //sendMessageToRoom('new_peer',newUser);
+  });
 	socket.on('vr_webrtc_connection',function(user){
 			console.log('attempt webrtc connection here with', user);
 
