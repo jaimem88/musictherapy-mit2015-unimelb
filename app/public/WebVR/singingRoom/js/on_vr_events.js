@@ -84,9 +84,3 @@ function removeFromPanel($newPanel){
 		.end()
 		.appendTo("body");
 }
-
-//Informing the server about the client ending the session
-
-window.onbeforeunload = function(e){
-	sendMessage('goodbye');
-}

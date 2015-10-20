@@ -44,10 +44,11 @@ function createPeer(){
   peer.on('call', function (incomingCall) {
     console.log('received call',incomingCall);
     window.currentCall = incomingCall;
+        console.log('sent stream1',window.localStream);
     incomingCall.answer(window.localStream);
-    console.log('sent stream',window.localStream);
+    console.log('sent stream2',window.localStream);
     incomingCall.on('stream', function (remoteStream) {
-      handleRemoteStreamAdded(remoteStream,incomingCall.peer.id,true);
+      handleRemoteStreamAdded(remoteStream,incomingCall.peer,true);
     });
   });
 
@@ -61,8 +62,9 @@ function callPeer(id){
   userId = id
   if (id != username){
     console.log(username,' calling ',id);
-      userId = userId.replace(' - Clinician','');
+      //userId = userId.replace(' - Clinician','');
     outgoingCall = peer.call(userId, window.localStream);
+
   }
   outgoingCall.on('stream', function (remoteStream) {
     console.log("caller received stream",remoteStream)

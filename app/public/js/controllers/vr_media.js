@@ -1,3 +1,4 @@
+
 var constraints  = {
 	  video: {
 	    mandatory: {
@@ -18,12 +19,14 @@ function getMedia(done){
    // get audio/video
    navigator.getUserMedia(constraints, function (stream) {
        //display video
-       $localVideo = document.getElementById("localVideo");
-       $localVideo.src = URL.createObjectURL(stream);
-       $localVideo.style.display = 'block';
-       window.localStream = stream;
+      $localVideo = document.getElementById("localVideo");
+      $localVideo.src = URL.createObjectURL(stream);
+      $localVideo.style.display = 'block';
+      window.localStream = stream;
+			console.log('getMedia() localStream ',window.localStream);
+			done();
        //init();
      }, function (error) { console.log(error); }
    );
-   done();
+
 }

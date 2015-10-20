@@ -51,7 +51,7 @@ module.exports = function(socket,namespace) {
 	});
   socket.on('new_peer',function(newUser){
     console.log('SERVER', 'Receieved new PeerConnection',newUser);
-    socket.broadcast.emit('new_peer',newUser)
+    socket.broadcast.emit('new_peer',newUser);
     //sendMessageToRoom('new_peer',newUser);
   });
 	socket.on('vr_webrtc_connection',function(user){

@@ -4,6 +4,7 @@ function addRemoteVRVideo(remoteId){
   var tmp = objects.length-1;
   x = objects[tmp].position.x +4;
   console.log('addRemote ',x);
+  console.log('addRemote ',remoteId);
  var remVid =  newVideo3DObject(remoteId,remoteId+'VideoImage',x,0,-5,remoteId);
   // console.log("addRemoteVRVideo2 ",remVid);
    remote = true;

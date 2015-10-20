@@ -1,5 +1,5 @@
 //VR Space for Singing Lessons
-var localStream;
+
 var container, stats;
 var camera, scene, raycaster, renderer;
 var vrEffect;
@@ -36,7 +36,7 @@ function connectToVrRoom(){
 	console.log('connectToVrRoom1');
 	socket = io('/vr_connections');
 		if(admin==='true'){
-			username = username +" - Clinician";
+			username = username +"-Clinician";
 		}
 }
 
@@ -46,8 +46,13 @@ function hasVideo(stream){
 	else
 		return false;
 }
-init();
-animate();
+getMedia(function(){
+	console.log('gotMedia',window.localStream);
+	init();
+	animate();
+});
+
+
 function init() {
   //Load scripts
   $localVideo = document.getElementById( 'localVideo' );
@@ -57,8 +62,8 @@ function init() {
   $.getScript("js/controllers/peer_connection.js",
 		$.getScript("WebVR/singingRoom/js/vr_socketio_messages.js",
 			$.getScript("WebVR/singingRoom/js/on_vr_events.js",
-				$.getScript("WebVR/singingRoom/js/remote_3d_objects.js",
-						getMedia(connectToVrRoom)))));
+				$.getScript("WebVR/singingRoom/js/remote_3d_objects.js",connectToVrRoom
+			))));
 
 
 

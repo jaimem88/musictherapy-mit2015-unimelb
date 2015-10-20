@@ -29,7 +29,7 @@
   });
   //Initiate call
   socket.on('new_peer',function(id){
-    console.log("NEW PEEER", id,username);
+    console.log("NEW PEER", id,username);
     callPeer(id);
   });
 

@@ -61,7 +61,7 @@ function handleRemoteStreamAdded(event,connectToUser,remote) {
 	if (remote === 'undefined'){
 		remote = false;
 	}
-	console.log('Remote stream added.');
+	console.log('Remote stream added.',connectToUser);
 	remoteId = 'panels'+connectToUser ;
 	var $newPanel= $("#panels0").clone().prop('id', remoteId );;
 	$newPanel.find('.panel-title').text(connectToUser);
